@@ -5,14 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3df27155-475d-414e-a907-ed7775a725ea" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/model/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/model/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/model/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/model/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/repository/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/repository/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/controller/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/dto/PostDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/dto/PostDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/repository/PostRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/service/interfaces/ICommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/service/interfaces/ICommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/service/PostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/service/interfaces/IPostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/service/interfaces/IPostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pekilla/service/interfaces/IService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pekilla/service/interfaces/IService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/pekilla/controller/PostControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/pekilla/controller/PostControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/pekilla/service/PostServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/pekilla/service/PostServiceTest.java" afterDir="false" />
     </list>
@@ -24,6 +28,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -42,6 +47,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JUnit.PostControllerTest.deletePost_DeletionOfAPost_ShouldBeOK.executor": "Run",
+    "JUnit.PostServiceTest.createOrUpdate_with_null_dto (1).executor": "Run",
+    "JUnit.PostServiceTest.createOrUpdate_with_null_dto.executor": "Run",
+    "JUnit.PostServiceTest.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -56,6 +64,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -77,6 +86,56 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PostServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pekilla" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pekilla.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.pekilla.service" />
+      <option name="MAIN_CLASS_NAME" value="com.pekilla.service.PostServiceTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-Dport=9108 -Durl=&quot;jdbc:mariadb://localhost:3306/pekilla&quot; -Duser=&quot;test&quot; -Dpwd=&quot;1234&quot;" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostServiceTest.createOrUpdate_with_null_dto (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pekilla" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pekilla.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.pekilla.service" />
+      <option name="MAIN_CLASS_NAME" value="com.pekilla.service.PostServiceTest" />
+      <option name="METHOD_NAME" value="createOrUpdate_with_null_dto" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostServiceTest.createOrUpdate_with_null_dto" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pekilla" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pekilla.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.pekilla.service" />
+      <option name="MAIN_CLASS_NAME" value="com.pekilla.service.PostServiceTest" />
+      <option name="METHOD_NAME" value="createOrUpdate_with_null_dto" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-Dport=9108 -Durl=&quot;jdbc:mariadb://localhost:3306/pekilla&quot; -Duser=&quot;test&quot; -Dpwd=&quot;1234&quot;" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PekillaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="pekilla" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pekilla.PekillaApplication" />
@@ -86,11 +145,17 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.PostServiceTest.createOrUpdate_with_null_dto (1)" />
+      <item itemvalue="JUnit.PostServiceTest" />
+      <item itemvalue="JUnit.PostServiceTest.createOrUpdate_with_null_dto" />
       <item itemvalue="JUnit.PostControllerTest.deletePost_DeletionOfAPost_ShouldBeOK" />
       <item itemvalue="Spring Boot.PekillaApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PostServiceTest" />
+        <item itemvalue="JUnit.PostServiceTest.createOrUpdate_with_null_dto (1)" />
+        <item itemvalue="JUnit.PostServiceTest.createOrUpdate_with_null_dto" />
         <item itemvalue="JUnit.PostControllerTest.deletePost_DeletionOfAPost_ShouldBeOK" />
       </list>
     </recent_temporary>
@@ -113,7 +178,7 @@
       <updated>1719095879813</updated>
       <workItem from="1719095880867" duration="6069000" />
       <workItem from="1719173591427" duration="173000" />
-      <workItem from="1719173771408" duration="2497000" />
+      <workItem from="1719173771408" duration="8417000" />
     </task>
     <servers />
   </component>

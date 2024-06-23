@@ -7,6 +7,4 @@ public interface IService<T> {
     String delete(long id); 
 
     String update(long id, T ent);
-    
-    
 }

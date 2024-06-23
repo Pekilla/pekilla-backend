@@ -1,12 +1,12 @@
 package com.pekilla.dto;
 
+import com.pekilla.enums.Category;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Builder
-@Data
-public class PostDTO {
-    
-    private String title;
-    private String content;
+public record PostDTO(Long id, String title, String content, List<String> tags, Category category) {
+
 }

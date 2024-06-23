@@ -1,6 +1,7 @@
 package com.pekilla.controller;
 
 import com.pekilla.dto.PostDTO;
+import com.pekilla.enums.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,4 @@ public class PostController {
             return ResponseEntity.badRequest().body("This post cannot be deleted | " + e.getMessage());
         }
     }
-    
-    
-
 }

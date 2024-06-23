@@ -1,5 +1,6 @@
 package com.pekilla.controller;
 
+import com.pekilla.dto.PostDTO;
 import com.pekilla.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ class PostControllerTest {
 
     @Test
     void createPost() {
+        postService.create(PostDTO.builder().build());
     }
 
     @Test
@@ -39,5 +41,9 @@ class PostControllerTest {
         when(postService.delete(1)).thenReturn("Post deleted successfully");
         this.mockMvc.perform(delete("/posts/1"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void createPost_CreationOfAPost_ShouldBeBadRequest() throws Exception {
     }
 }

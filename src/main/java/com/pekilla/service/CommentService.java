@@ -36,7 +36,7 @@ public class CommentService implements ICommentService {
 
     @Override
     public String create(CommentInfoDTO comment) {
-        return "The comment was successfully published";
+        return "";
     }
 
     @Override
