@@ -1,5 +1,6 @@
 package com.pekilla.model;
 
+import com.pekilla.enums.Category;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +33,8 @@ public class Post {
     
     @Column(nullable = false, length = 500)
     private String content;
+
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
