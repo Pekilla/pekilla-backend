@@ -1,6 +1,6 @@
 package com.pekilla.dto;
 
-public class UserDTO {
+public class UserInfoDTO {
     
     private String username;
     private String password;

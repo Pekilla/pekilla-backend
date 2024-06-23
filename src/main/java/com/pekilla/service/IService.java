@@ -7,13 +7,13 @@ public interface IService<T> {
     ResponseEntity<T> getById(long id);
     
     // Title of Post / Name of User
-    ResponseEntity<T> getByName(String name);
+    T getByName(String name);
 
-    ResponseEntity<String> create(T ent);
+    String create(T ent);
     
-    ResponseEntity<String> delete(long id); 
+    String delete(long id); 
 
-    ResponseEntity<String> update(long id, T ent);
+    String update(long id, T ent);
     
     
 }

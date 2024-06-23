@@ -3,39 +3,40 @@ package com.pekilla.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.pekilla.dto.UserDTO;
+import com.pekilla.dto.UserInfoDTO;
 
 @Service
-public class UserService implements IService<UserDTO>{
+public class UserService implements IService<UserInfoDTO>{
 
     @Override
-    public ResponseEntity<UserDTO> getById(long id) {
+    public ResponseEntity<UserInfoDTO> getById(long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getById'");
     }
 
     @Override
-    public ResponseEntity<UserDTO> getByName(String name) {
+    public UserInfoDTO getByName(String name) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getByName'");
     }
 
     @Override
-    public ResponseEntity<String> create(UserDTO ent) {
+    public String create(UserInfoDTO ent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'create'");
     }
 
     @Override
-    public ResponseEntity<String> delete(long id) {
+    public String delete(long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
     @Override
-    public ResponseEntity<String> update(long id, UserDTO ent) {
+    public String update(long id, UserInfoDTO ent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
+
     
 }
