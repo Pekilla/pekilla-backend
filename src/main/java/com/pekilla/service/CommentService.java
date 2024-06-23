@@ -1,8 +1,10 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.CommentInfoDTO;
-import com.pekilla.dto.UpdateCommentDTO;
+import com.pekilla.model.Comment;
 import com.pekilla.repository.CommentRepository;
+import com.pekilla.repository.PostRepository;
+import com.pekilla.repository.UserRepository;
 import com.pekilla.service.interfaces.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,15 @@ import java.util.List;
 @Service
 public class CommentService implements ICommentService {
 
-    @Autowired private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
+    public CommentService(CommentRepository commentRepository, UserRepository userRepository, PostRepository postRepository) {
+        this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
+        this.postRepository = postRepository;
+    }
 
     @Override
     public CommentInfoDTO getById(Long id) {
@@ -26,8 +35,8 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public String create(UpdateCommentDTO ent) {
-        return "";
+    public String create(CommentInfoDTO comment) {
+        return "The comment was successfully published";
     }
 
     @Override
@@ -36,7 +45,7 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public String update(long id, UpdateCommentDTO ent) {
+    public String update(long id, CommentInfoDTO ent) {
         return "";
     }
 }
