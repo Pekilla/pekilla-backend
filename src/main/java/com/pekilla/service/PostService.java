@@ -38,7 +38,4 @@ public class PostService implements IService<PostDTO> {
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
-   
-
-    
 }

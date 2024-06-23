@@ -7,5 +7,4 @@ public enum Category {
     ANIME,       // 2
     DRAWING,     // 3
     PROGRAMMING, // 4
-
 }

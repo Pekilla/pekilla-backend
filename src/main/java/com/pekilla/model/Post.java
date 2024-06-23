@@ -34,6 +34,7 @@ public class Post {
     @Column(nullable = false, length = 500)
     private String content;
 
+
     private Category category;
 
     @ManyToOne
