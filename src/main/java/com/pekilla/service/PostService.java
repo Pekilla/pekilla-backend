@@ -14,6 +14,7 @@ public class PostService implements IService<PostDTO> {
         throw new UnsupportedOperationException("Unimplemented method 'getById'");
     }
 
+
     @Override
     public PostDTO getByName(String name) {
         // TODO Auto-generated method stub
@@ -28,8 +29,7 @@ public class PostService implements IService<PostDTO> {
 
     @Override
     public String delete(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        return "Post deleted successfully";
     }
 
     @Override

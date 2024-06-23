@@ -1,15 +1,11 @@
 package com.pekilla.controller;
 
+import com.pekilla.dto.PostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.pekilla.service.PostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -20,14 +16,25 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public String getPostById(@PathVariable long postId) {
-        return new String();
+        return null;
     }
 
     @PostMapping("/create")
-    public String createPost(@RequestParam String title, @RequestParam String content) {
-        //TODO: process POST request
-        
-        return null;
+    public ResponseEntity<String> createPost(@RequestBody PostDTO postDTO) {
+        try {
+            return ResponseEntity.ok(postService.create(postDTO));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Post cannot be created | " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable long postId) {
+        try {
+            return ResponseEntity.ok(postService.delete(postId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("This post cannot be deleted | " + e.getMessage());
+        }
     }
     
     
