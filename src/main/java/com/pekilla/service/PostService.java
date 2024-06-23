@@ -1,30 +1,17 @@
 package com.pekilla.service;
 
-import org.springframework.http.ResponseEntity;
+import com.pekilla.model.Post;
+import com.pekilla.service.interfaces.IPostService;
 import org.springframework.stereotype.Service;
 
 import com.pekilla.dto.PostDTO;
 
 @Service
-public class PostService implements IService<PostDTO> {
-
-    @Override
-    public ResponseEntity<PostDTO> getById(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
-    }
-
-
-    @Override
-    public PostDTO getByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
-    }
+public class PostService implements IPostService {
 
     @Override
     public String create(PostDTO ent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        return "";
     }
 
     @Override
@@ -34,8 +21,16 @@ public class PostService implements IService<PostDTO> {
 
     @Override
     public String update(long id, PostDTO ent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        return "";
     }
 
+    @Override
+    public Post getPostById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Post getPostByTitle(String title) {
+        return null;
+    }
 }

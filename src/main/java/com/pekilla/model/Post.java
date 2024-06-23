@@ -1,13 +1,7 @@
 package com.pekilla.model;
 
 import com.pekilla.enums.Category;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +28,7 @@ public class Post {
     @Column(nullable = false, length = 500)
     private String content;
 
-
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @ManyToOne

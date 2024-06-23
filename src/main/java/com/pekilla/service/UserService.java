@@ -1,42 +1,42 @@
 package com.pekilla.service;
 
-import org.springframework.http.ResponseEntity;
+import com.pekilla.model.User;
+import com.pekilla.service.interfaces.IUserService;
 import org.springframework.stereotype.Service;
 
 import com.pekilla.dto.UserInfoDTO;
 
 @Service
-public class UserService implements IService<UserInfoDTO>{
+public class UserService implements IUserService {
+
 
     @Override
-    public ResponseEntity<UserInfoDTO> getById(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+    public User getUserByEmail(String email) {
+        return null;
     }
 
     @Override
-    public UserInfoDTO getByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
+    public User getUserByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return null;
     }
 
     @Override
     public String create(UserInfoDTO ent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        return "";
     }
 
     @Override
     public String delete(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        return "";
     }
 
     @Override
     public String update(long id, UserInfoDTO ent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        return "";
     }
-
-    
 }
