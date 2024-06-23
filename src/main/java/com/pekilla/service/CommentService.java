@@ -6,7 +6,6 @@ import com.pekilla.repository.CommentRepository;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
 import com.pekilla.service.interfaces.ICommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +30,8 @@ public class CommentService implements ICommentService {
 
     @Override
     public List<CommentInfoDTO> getAllCommentInPost(long postId) {
-        return commentRepository.findAllByPostId(postId);
+        //return commentRepository.findAllByPostId(postId);
+        return null;
     }
 
     @Override

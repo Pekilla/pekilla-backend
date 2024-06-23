@@ -16,12 +16,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Post {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long postId;
-
+public class Post extends ForumTable {
     @Column(nullable = false)
     private String title;
     
@@ -32,9 +27,6 @@ public class Post {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(nullable = false)
     private User originalPoster;
-
-    @Column(name = "visibility")
-    private boolean isActive;
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.pekilla.model.Post;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post,Long> {
+public interface PostRepository extends JpaRepository<Post, Long> {
     
 }

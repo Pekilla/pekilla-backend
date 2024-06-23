@@ -1,6 +1,7 @@
 package com.pekilla.service.interfaces;
 
 import com.pekilla.dto.CommentInfoDTO;
+import com.pekilla.model.Comment;
 
 import java.util.List;
 
