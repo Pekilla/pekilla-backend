@@ -20,7 +20,7 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/{commentId}")
-    public ResponseEntity<CommentInfoDTO> getComment(@PathVariable long commentId) {
+    public ResponseEntity<Comment> getComment(@PathVariable long commentId) {
         try {
             return ResponseEntity.ok(commentService.getById(commentId));
         } catch (Exception e ) {
@@ -29,7 +29,7 @@ public class CommentController {
     }
 
     @GetMapping("/post/{postId}/all")
-    public ResponseEntity<List<CommentInfoDTO>> getAllCommentsInPost(@PathVariable long postId) {
+    public ResponseEntity<List<Comment>> getAllCommentsInPost(@PathVariable long postId) {
         try {
             return ResponseEntity.ok(commentService.getAllCommentInPost(postId));
         } catch (Exception e) {
