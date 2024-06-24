@@ -1,32 +1,25 @@
 package com.pekilla.service;
 
-import com.pekilla.enums.Category;
-import com.pekilla.exception.type.CategoryNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
-import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
 import com.pekilla.service.interfaces.IPostService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import com.pekilla.dto.PostDTO;
-
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.validation.annotation.Validated;
 
 @Service
-public class PostService implements IPostService {
-
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private UserRepository userRepository;
+@RequiredArgsConstructor
+@Validated
+public class PostServiceImpl implements IPostService {
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Override
     public String create(PostDTO ent) {
@@ -44,7 +37,7 @@ public class PostService implements IPostService {
         return "";
     }
 
-    public boolean createOrUpdate(@NotNull PostDTO ent, Long userId) throws RuntimeException {
+    public boolean createOrUpdate(@Valid @NotNull PostDTO ent, Long userId) throws RuntimeException {
         // Check if title exists
         postRepository
             .findOneByCategoryAndTitle(ent.category(), ent.title())
