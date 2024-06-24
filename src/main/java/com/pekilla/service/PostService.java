@@ -7,6 +7,7 @@ import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import com.pekilla.dto.PostDTO;
@@ -14,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Service
 @Validated
-public class PostService implements IPostService {
+public class PostService implements IService<PostDTO> {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
@@ -26,12 +27,6 @@ public class PostService implements IPostService {
     public boolean isTitleInCategory(String title, Category category) {
         return postRepository.findOneByCategoryAndTitle(category, title).isPresent();
     }
-public class PostService implements IService<PostDTO> {
-
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
     public String create(PostDTO ent) {
