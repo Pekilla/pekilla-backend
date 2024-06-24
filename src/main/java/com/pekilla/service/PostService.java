@@ -7,8 +7,6 @@ import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
-import com.pekilla.service.interfaces.IPostService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import com.pekilla.dto.PostDTO;
@@ -28,6 +26,12 @@ public class PostService implements IPostService {
     public boolean isTitleInCategory(String title, Category category) {
         return postRepository.findOneByCategoryAndTitle(category, title).isPresent();
     }
+public class PostService implements IService<PostDTO> {
+
+    @Autowired
+    private PostRepository postRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public String create(PostDTO ent) {
@@ -35,14 +39,14 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public String delete(long id) {
-        postRepository.deleteById(id);
-        return "Post deleted successfully";
+    public String update(long id, PostDTO ent) {
+        return "";
     }
 
     @Override
-    public String update(long id, PostDTO ent) {
-        return "";
+    public String delete(long id) {
+        postRepository.deleteById(id);
+        return "Post deleted successfully";
     }
 
     public boolean createOrUpdate(@Valid @NotNull PostDTO ent, Long userId) throws RuntimeException {
@@ -71,12 +75,10 @@ public class PostService implements IPostService {
         return true;
     }
 
-    @Override
     public Post getPostById(Long id) {
         return null;
     }
 
-    @Override
     public Post getPostByTitle(String title) {
         return null;
     }

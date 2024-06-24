@@ -1,4 +1,6 @@
 target/
+.idea/
+env.properties
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -16,5 +18,5 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# Added
 src/main/resources/
-.idea

@@ -1,17 +1,18 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.CommentInfoDTO;
+import com.pekilla.exception.type.CommentNotFoundException;
+import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.model.Comment;
 import com.pekilla.repository.CommentRepository;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
-import com.pekilla.service.interfaces.ICommentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CommentService implements ICommentService {
+public class CommentService implements IService<CommentInfoDTO> {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
@@ -23,15 +24,14 @@ public class CommentService implements ICommentService {
         this.postRepository = postRepository;
     }
 
-    @Override
-    public CommentInfoDTO getById(Long id) {
-        return null;
+    public Comment getById(Long id) {
+        return commentRepository.findOneById(id)
+                .orElseThrow(CommentNotFoundException::new);
     }
 
-    @Override
-    public List<CommentInfoDTO> getAllCommentInPost(long postId) {
-        //return commentRepository.findAllByPostId(postId);
-        return null;
+    public List<Comment> getAllCommentInPost(long postId) {
+        return commentRepository.findAllByPostId(postId)
+                .orElseThrow(PostNotFoundException::new);
     }
 
     @Override

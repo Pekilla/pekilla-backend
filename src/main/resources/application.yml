@@ -1,10 +1,10 @@
 server:
-  port: ${port}
+  port: ${PORT}
 spring:
   datasource:
-    url: ${url}
-    username: ${user}
-    password: ${pwd}
+    url: ${URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,3 +16,5 @@ spring:
   output:
     ansi:
       enabled: always
+  config:
+    import: file:env.properties

@@ -1,4 +1,4 @@
-package com.pekilla.service.interfaces;
+package com.pekilla.service;
 
 import org.springframework.stereotype.Service;
 
