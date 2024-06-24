@@ -2,7 +2,9 @@ package com.pekilla.model;
 
 import com.pekilla.enums.Category;
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,16 +19,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Post extends ForumTable {
-    @Column(nullable = false)
+    @NotBlank
     private String title;
-    
-    @Column(nullable = false, length = 500)
+
+    @NotBlank
+    @Size(min = 10, max = 500)
     private String content;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(nullable = false)
     private User originalPoster;
 }

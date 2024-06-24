@@ -1,5 +1,6 @@
 package com.pekilla.service;
 
+import com.pekilla.enums.Category;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.exception.type.UserNotFoundException;
@@ -9,17 +10,24 @@ import com.pekilla.repository.UserRepository;
 import com.pekilla.service.interfaces.IPostService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.pekilla.dto.PostDTO;
 import org.springframework.validation.annotation.Validated;
 
 @Service
-@RequiredArgsConstructor
 @Validated
-public class PostServiceImpl implements IPostService {
+public class PostService implements IPostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
+    }
+
+    public boolean isTitleInCategory(String title, Category category) {
+        return postRepository.findOneByCategoryAndTitle(category, title).isPresent();
+    }
 
     @Override
     public String create(PostDTO ent) {
@@ -39,10 +47,9 @@ public class PostServiceImpl implements IPostService {
 
     public boolean createOrUpdate(@Valid @NotNull PostDTO ent, Long userId) throws RuntimeException {
         // Check if title exists
-        postRepository
-            .findOneByCategoryAndTitle(ent.category(), ent.title())
-            .orElseThrow(() -> new PostUniqueTitleException(ent.title(), ent.category().toString())
-        );
+        if(isTitleInCategory(ent.title(), ent.category())) {
+            throw new PostUniqueTitleException(ent.title(), ent.category().toString());
+        }
 
         // Get post to update / or create new Post
         Post post = (ent.id() == null ? new Post() : postRepository.findOneById(ent.id()).orElseThrow(PostNotFoundException::new));

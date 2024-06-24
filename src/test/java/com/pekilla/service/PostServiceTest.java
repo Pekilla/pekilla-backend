@@ -1,42 +1,46 @@
 package com.pekilla.service;
 
+import com.pekilla.dto.PostDTO;
 import com.pekilla.enums.Category;
+import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.model.Post;
 import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
-import com.pekilla.service.interfaces.IPostService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import jakarta.validation.ConstraintViolationException;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.validation.annotation.Validated;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class IPostServiceTest {
-    @Autowired
-    PostRepository postRepository;
-
+class PostServiceTest {
     @Container
     @ServiceConnection
     static MySQLContainer<?> mySql = new MySQLContainer<>("mysql:latest");
 
-    @Autowired
-    private UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final PostService postService;
 
     @Autowired
-    private IPostService postService;
+    public PostServiceTest(PostRepository postRepository, UserRepository userRepository) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
+        this.postService = new PostService(postRepository, userRepository);
+    }
 
     @BeforeAll
-    static void setUp() {
+    static void setUpDatabase() {
         mySql.start();
     }
 
@@ -45,34 +49,34 @@ class IPostServiceTest {
         mySql.stop();
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
+    @Validated
     void createOrUpdate_with_null_dto() {
-        //assertThrows(ConstraintViolationException.class, () -> postService.createOrUpdate(null, null));
+        assertThrows(ConstraintViolationException.class, () -> postService.createOrUpdate(null, null));
     }
 
     @Test
     void createOrUpdate_with_title_exists() {
-        User orignalPoster = userRepository.save(User.builder().password("asdfasdfasdfsadf").username("Jack GPT").build());
+        // (Setup) Save a user
+        User originalPoster = userRepository.save(User.builder().password("asdfasdfasdfsadf").username("Jack GPT").build());
 
-        String conflictTitle = postRepository.save(
-            Post.builder()
-                .title("asdf")
-                .content("fasdfasdfasdfasdfasdfasdfsadf")
-                .category(Category.ANIME)
-                .originalPoster(orignalPoster)
-                .build()
-        ).getTitle();
+        // (Setup) Save a post and get is title.
+        Post conflictPost = postRepository.save(
+            new Post("Crash the test", "fasdfasdfasdfasdfasdfasdfsadf", Category.PROGRAMMING, originalPoster)
+        );
 
-        /*postService.createOrUpdate(
-            PostDTO.builder()
-                .title(conflictTitle)
-                .content("Testing the title")
-                .category(Category.ANIME)
-                .build(), orignalPoster.getId());*/
+        // (Test)
+        assertThrows(
+            PostUniqueTitleException.class,
+            () -> postService.createOrUpdate(
+                PostDTO.builder()
+                    .title(conflictPost.getTitle())
+                    .content("Testing the title")
+                    .category(conflictPost.getCategory())
+                    .build(),
+                originalPoster.getId()
+            )
+        );
     }
 
     @Test

@@ -1,5 +1,8 @@
 package com.pekilla.service.interfaces;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface IService<T> {
     
     String create(T ent);
