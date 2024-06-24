@@ -8,5 +8,4 @@ import com.pekilla.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, IRepository<User, Long> {
 
-    
 }

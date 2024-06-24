@@ -1,6 +1,7 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.CommentInfoDTO;
+import com.pekilla.exception.type.CommentNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.model.Comment;
 import com.pekilla.repository.CommentRepository;
@@ -24,11 +25,13 @@ public class CommentService implements IService<CommentInfoDTO> {
     }
 
     public Comment getById(Long id) {
-        return null;
+        return commentRepository.findOneById(id)
+                .orElseThrow(CommentNotFoundException::new);
     }
 
     public List<Comment> getAllCommentInPost(long postId) {
-        return commentRepository.findAllByPostId(postId).orElseThrow(PostNotFoundException::new);
+        return commentRepository.findAllByPostId(postId)
+                .orElseThrow(PostNotFoundException::new);
     }
 
     @Override

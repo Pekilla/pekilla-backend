@@ -2,7 +2,6 @@ package com.pekilla.dto;
 
 import com.pekilla.enums.Category;
 import lombok.Builder;
-import lombok.Data;
 
 import java.util.List;
 
