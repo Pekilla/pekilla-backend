@@ -5,13 +5,12 @@ import com.pekilla.model.Comment;
 import com.pekilla.repository.CommentRepository;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
-import com.pekilla.service.interfaces.ICommentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CommentService implements ICommentService {
+public class CommentService implements IService<CommentInfoDTO> {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
@@ -23,13 +22,11 @@ public class CommentService implements ICommentService {
         this.postRepository = postRepository;
     }
 
-    @Override
-    public CommentInfoDTO getById(Long id) {
+    public Comment getById(Long id) {
         return null;
     }
 
-    @Override
-    public List<CommentInfoDTO> getAllCommentInPost(long postId) {
+    public List<Comment> getAllCommentInPost(long postId) {
         //return commentRepository.findAllByPostId(postId);
         return null;
     }
