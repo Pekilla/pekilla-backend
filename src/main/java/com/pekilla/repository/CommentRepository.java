@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Long>, IRepository<Comment,Long> {
+public interface CommentRepository extends IRepository<Comment>, JpaRepository<Comment,Long>  {
     Optional<List<Comment>> findAllByPostId(long postId);
 }

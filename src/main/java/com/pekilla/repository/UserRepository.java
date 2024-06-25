@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.pekilla.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, IRepository<User, Long> {
+public interface UserRepository extends IRepository<User>, JpaRepository<User, Long> {
 
 }

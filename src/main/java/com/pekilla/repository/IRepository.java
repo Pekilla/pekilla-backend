@@ -1,9 +1,8 @@
 package com.pekilla.repository;
 
-import org.springframework.stereotype.Service;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-public interface IRepository<T, ID> {
-    Optional<T> findOneById(ID id);
+public interface IRepository<T> {
+    Optional<T> findOneById(long id);
 }

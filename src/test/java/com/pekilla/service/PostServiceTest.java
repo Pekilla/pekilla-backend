@@ -6,6 +6,7 @@ import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.model.Post;
 import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
+import com.pekilla.repository.TagRepository;
 import com.pekilla.repository.UserRepository;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.*;
@@ -23,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Validated
 class PostServiceTest {
     @Container
     @ServiceConnection
@@ -31,12 +33,14 @@ class PostServiceTest {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PostService postService;
+    private final TagRepository tagRepository;
 
     @Autowired
-    public PostServiceTest(PostRepository postRepository, UserRepository userRepository) {
+    public PostServiceTest(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
-        this.postService = new PostService(postRepository, userRepository);
+        this.tagRepository = tagRepository;
+        this.postService = new PostService(postRepository, userRepository, tagRepository);
     }
 
     @BeforeAll
@@ -50,7 +54,6 @@ class PostServiceTest {
     }
 
     @Test
-    @Validated
     void createOrUpdate_with_null_dto() {
         assertThrows(ConstraintViolationException.class, () -> postService.createOrUpdate(null, null));
     }
@@ -62,7 +65,7 @@ class PostServiceTest {
 
         // (Setup) Save a post and get is title.
         Post conflictPost = postRepository.save(
-            new Post("Crash the test", "fasdfasdfasdfasdfasdfasdfsadf", Category.PROGRAMMING, originalPoster)
+            new Post("Crash the test", "fasdfasdfasdfasdfasdfasdfsadf", Category.PROGRAMMING, originalPoster, null)
         );
 
         // (Test)

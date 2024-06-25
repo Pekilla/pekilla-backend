@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Builder
 @NoArgsConstructor
@@ -33,4 +35,8 @@ public class Post extends ForumTable {
     @NotNull
     @ManyToOne
     private User originalPoster;
+
+    @ManyToMany
+    @JoinTable(name = "rel_post_tag")
+    private List<Tag> tags;
 }

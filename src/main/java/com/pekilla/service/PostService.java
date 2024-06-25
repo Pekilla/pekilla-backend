@@ -5,7 +5,10 @@ import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
+import com.pekilla.model.Tag;
+import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
+import com.pekilla.repository.TagRepository;
 import com.pekilla.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -18,10 +21,12 @@ import org.springframework.validation.annotation.Validated;
 public class PostService implements IService<PostDTO> {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final TagRepository tagRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.tagRepository = tagRepository;
     }
 
     public boolean isTitleInCategory(String title, Category category) {
@@ -44,23 +49,34 @@ public class PostService implements IService<PostDTO> {
         return "Post deleted successfully";
     }
 
-    public boolean createOrUpdate(@Valid @NotNull PostDTO ent, Long userId) throws RuntimeException {
+    public Tag getTagFromContent(String content) {
+        return tagRepository
+            .findOneByContent(content)
+            .orElseGet(() -> tagRepository.save(new Tag(content)));
+    }
+
+    public boolean createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) throws RuntimeException {
         // Check if title exists
-        if(isTitleInCategory(ent.title(), ent.category())) {
-            throw new PostUniqueTitleException(ent.title(), ent.category().toString());
+        if(isTitleInCategory(postDto.title(), postDto.category())) {
+            throw new PostUniqueTitleException(postDto.title(), postDto.category().toString());
         }
 
         // Get post to update / or create new Post
-        Post post = (ent.id() == null ? new Post() : postRepository.findOneById(ent.id()).orElseThrow(PostNotFoundException::new));
+        Post post = (postDto.id() == null ? new Post() : postRepository.findOneById(postDto.id()).orElseThrow(PostNotFoundException::new));
 
-        post.setTitle(ent.title());
-        post.setContent(ent.content());
+        post.setTitle(postDto.title());
+        post.setContent(postDto.content());
 
-        // NEED TO HANDLE TAGS
+        post.setTags(
+            postDto.tags()
+                .stream()
+                .map(this::getTagFromContent)
+                .toList()
+        );
 
         // if new Post
-        if(ent.id() == null) {
-            post.setCategory(ent.category());
+        if(postDto.id() == null) {
+            post.setCategory(postDto.category());
             post.setOriginalPoster(
                 userRepository.findOneById(userId).orElseThrow(UserNotFoundException::new)
             );
