@@ -6,60 +6,43 @@ import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.model.Post;
 import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
-import com.pekilla.repository.TagRepository;
 import com.pekilla.repository.UserRepository;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.validation.annotation.Validated;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Testcontainers
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Validated
 class PostServiceTest {
     @Container
     @ServiceConnection
     static MySQLContainer<?> mySql = new MySQLContainer<>("mysql:latest");
 
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
-    private final PostService postService;
-    private final TagRepository tagRepository;
+    @Autowired
+    private PostRepository postRepository;
 
     @Autowired
-    public PostServiceTest(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository) {
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
-        this.tagRepository = tagRepository;
-        this.postService = new PostService(postRepository, userRepository, tagRepository);
-    }
+    private UserRepository userRepository;
 
-    @BeforeAll
-    static void setUpDatabase() {
-        mySql.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        mySql.stop();
-    }
+    @Autowired
+    private PostService postService;
 
     @Test
-    void createOrUpdate_with_null_dto() {
+    void createOrUpdate_CreationOfAPost_ShouldThrowsConstraintViolationException() {
         assertThrows(ConstraintViolationException.class, () -> postService.createOrUpdate(null, null));
     }
 
     @Test
-    void createOrUpdate_with_title_exists() {
+    void createOrUpdate_CreationOfAPost_ShouldThrowsPostUniqueTitleException() {
         // (Setup) Save a user
         User originalPoster = userRepository.save(User.builder().password("asdfasdfasdfsadf").username("Jack GPT").build());
 
@@ -76,17 +59,10 @@ class PostServiceTest {
                     .title(conflictPost.getTitle())
                     .content("Testing the title")
                     .category(conflictPost.getCategory())
+                    .tags(List.of("c++", "c", "java"))
                     .build(),
                 originalPoster.getId()
             )
         );
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void update() {
     }
 }

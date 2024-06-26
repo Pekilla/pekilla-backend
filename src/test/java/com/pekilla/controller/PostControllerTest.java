@@ -3,6 +3,7 @@ package com.pekilla.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pekilla.dto.PostDTO;
 import com.pekilla.enums.Category;
+import com.pekilla.exception.GlobalExceptionHandler;
 import com.pekilla.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PostController.class)
+@WebMvcTest(value = {GlobalExceptionHandler.class, PostController.class})
 class PostControllerTest {
     /*
      * Referring to the convention,
