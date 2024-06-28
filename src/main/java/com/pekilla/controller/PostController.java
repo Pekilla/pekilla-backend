@@ -1,24 +1,20 @@
 package com.pekilla.controller;
 
 import com.pekilla.dto.PostDTO;
-import com.pekilla.model.Post;
-import org.hibernate.annotations.DialectOverride;
+import com.pekilla.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Version;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.pekilla.service.PostService;
 
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/post")
+@RequiredArgsConstructor
 public class PostController {
-    
-    @Autowired
-    private PostService postService;
+    private final PostService postService;
 
     @GetMapping("/{postId}")
     public String getPostById(@PathVariable long postId) {
@@ -26,9 +22,8 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Boolean> createPost(@RequestBody PostDTO postDTO, @RequestParam Long userId) throws RuntimeException {
-        boolean b = postService.createOrUpdate(postDTO, userId);
-        return new ResponseEntity<>(b, HttpStatus.OK);
+    public ResponseEntity<Boolean> createPost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
+        return new ResponseEntity<>(postService.createOrUpdate(postDTO, userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{postId}")

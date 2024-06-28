@@ -1,9 +1,8 @@
 package com.pekilla.service;
 
+import com.pekilla.dto.UserInfoDTO;
 import com.pekilla.model.User;
 import org.springframework.stereotype.Service;
-
-import com.pekilla.dto.UserInfoDTO;
 
 @Service
 public class UserService implements IService<UserInfoDTO> {

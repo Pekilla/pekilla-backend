@@ -9,9 +9,11 @@ import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
 import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PostServiceTest extends TestContainerConfig {

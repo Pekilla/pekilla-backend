@@ -1,19 +1,18 @@
 package com.pekilla.service;
 
+import com.pekilla.dto.PostDTO;
 import com.pekilla.enums.Category;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
-import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.TagRepository;
 import com.pekilla.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
-import com.pekilla.dto.PostDTO;
 import org.springframework.validation.annotation.Validated;
 
 @Service
@@ -55,7 +54,7 @@ public class PostService implements IService<PostDTO> {
             .orElseGet(() -> tagRepository.save(new Tag(content)));
     }
 
-    public boolean createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) throws RuntimeException {
+    public boolean createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) {
         // Check if title exists
         if(isTitleInCategory(postDto.title(), postDto.category())) {
             throw new PostUniqueTitleException(postDto.title(), postDto.category().toString());

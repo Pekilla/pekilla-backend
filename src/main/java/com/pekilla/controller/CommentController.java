@@ -1,6 +1,5 @@
 package com.pekilla.controller;
 
-import com.pekilla.dto.CommentInfoDTO;
 import com.pekilla.model.Comment;
 import com.pekilla.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;

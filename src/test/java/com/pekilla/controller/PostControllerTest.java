@@ -3,21 +3,20 @@ package com.pekilla.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pekilla.dto.PostDTO;
 import com.pekilla.enums.Category;
-import com.pekilla.exception.GlobalExceptionHandler;
 import com.pekilla.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = PostController.class)
-class PostControllerTest {
+@WebMvcTest(PostController.class)
+class PostControllerTest{
     /*
      * Referring to the convention,
      * every test should be named like that
@@ -42,11 +41,11 @@ class PostControllerTest {
 
     @Test
     void createPost_CreationOfAPostShouldBeOK() throws Exception {
-        var postDto = new PostDTO(null, "How to make the compiler...", "When the compiler...", List.of("c", "cpp", "java"), Category.PROGRAMMING);
+        var postDto = new PostDTO(10L, "How to make the compiler...", "When the compiler...", List.of("c", "cpp", "java"), Category.PROGRAMMING);
 
         this.mockMvc.perform(
             post("/post/create")
-                .param("userId", "1023142431234")
+                .param("userId", "1")
                 .contentType("application/json")
                 .content(new ObjectMapper().writeValueAsString(postDto))
             )
