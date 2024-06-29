@@ -1,11 +1,19 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.UserInfoDTO;
+import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.User;
+import com.pekilla.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements IService<UserInfoDTO> {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public User getUserByEmail(String email) {
         return null;
@@ -16,7 +24,8 @@ public class UserService implements IService<UserInfoDTO> {
     }
 
     public User getUserById(Long id) {
-        return null;
+        return userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @Override

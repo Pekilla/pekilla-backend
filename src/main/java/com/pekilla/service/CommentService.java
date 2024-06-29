@@ -4,25 +4,23 @@ import com.pekilla.dto.CommentInfoDTO;
 import com.pekilla.exception.type.CommentNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.model.Comment;
+import com.pekilla.model.Post;
+import com.pekilla.model.User;
 import com.pekilla.repository.CommentRepository;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService implements IService<CommentInfoDTO> {
 
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
-    private final PostRepository postRepository;
-
-    public CommentService(CommentRepository commentRepository, UserRepository userRepository, PostRepository postRepository) {
-        this.commentRepository = commentRepository;
-        this.userRepository = userRepository;
-        this.postRepository = postRepository;
-    }
+    private final UserService userService;
+    private final PostService postService;
 
     public Comment getById(Long id) {
         return commentRepository.findOneById(id)
@@ -36,7 +34,15 @@ public class CommentService implements IService<CommentInfoDTO> {
 
     @Override
     public String create(CommentInfoDTO comment) {
-        return "";
+        Post post = postService.getPostById(comment.postId());
+        User user = userService.getUserById(comment.userId());
+        commentRepository.save(Comment
+                .builder()
+                    .message(comment.message())
+                    .author(user)
+                    .post(post)
+                .build());
+        return "Comment has been published on the post";
     }
 
     @Override
