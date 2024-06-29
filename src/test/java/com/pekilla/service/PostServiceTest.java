@@ -47,7 +47,6 @@ class PostServiceTest extends TestContainerConfig {
             () -> postService.createOrUpdate(
                 PostDTO.builder()
                     .title(conflictPost.getTitle())
-                    .content("Testing the title")
                     .category(conflictPost.getCategory())
                     .tags(List.of("c++", "c", "java"))
                     .build(),
