@@ -1,14 +1,12 @@
 package com.pekilla.controller;
 
+import com.pekilla.dto.CommentInfoDTO;
 import com.pekilla.model.Comment;
 import com.pekilla.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +33,11 @@ public class CommentController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+
+    @PostMapping("/post/{postId}/add")
+    public ResponseEntity<String> addComment(CommentInfoDTO dto) {
+        return ResponseEntity.ok(commentService.create(dto));
     }
 }

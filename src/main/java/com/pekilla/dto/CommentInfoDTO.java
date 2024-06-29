@@ -1,13 +1,13 @@
 package com.pekilla.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
-@Data
-public class CommentInfoDTO {
+public record CommentInfoDTO (
+        @NotBlank
+        String message,
 
-    private String message;
-    private long postId;
-    private long userId;
-}
+        long postId,
+        long userId)
+{ }

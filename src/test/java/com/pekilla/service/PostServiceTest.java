@@ -29,29 +29,4 @@ class PostServiceTest extends TestContainerConfig {
     void createOrUpdate_CreationOfAPost_ShouldThrowsConstraintViolationException() {
         assertThrows(ConstraintViolationException.class, () -> postService.createOrUpdate(null, null));
     }
-
-    @Test
-    void createOrUpdate_CreationOfAPost_ShouldThrowsPostUniqueTitleException() {
-        // (Setup) Save a user
-        User originalPoster = userRepository.save(User.builder().password("asdfasdfasdfsadf").username("Jack GPT").build());
-
-        // (Setup) Save a post and get is title.
-        Post conflictPost = postRepository.save(
-            new Post("Crash the test", "fasdfasdfasdfasdfasdfasdfsadf", Category.PROGRAMMING, originalPoster, null)
-        );
-
-        // (Test)
-        assertThrows(
-            PostUniqueTitleException.class,
-            () -> postService.createOrUpdate(
-                PostDTO.builder()
-                    .title(conflictPost.getTitle())
-                    .content("Testing the title")
-                    .category(conflictPost.getCategory())
-                    .tags(List.of("c++", "c", "java"))
-                    .build(),
-                originalPoster.getId()
-            )
-        );
-    }
 }

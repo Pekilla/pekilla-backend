@@ -10,25 +10,22 @@ import com.pekilla.repository.TagRepository;
 import com.pekilla.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 @Validated
 public class PostService implements IService<PostDTO> {
+
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
     public List<PostDTO> getAllPosts() {
         return postRepository.findAll().stream().map(PostDTO::fromPost).toList();
-    }
-
-    public PostService(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository) {
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
-        this.tagRepository = tagRepository;
     }
 
     @Override
@@ -80,7 +77,8 @@ public class PostService implements IService<PostDTO> {
     }
 
     public Post getPostById(Long id) {
-        return null;
+        return postRepository.findOneById(id)
+                .orElseThrow(PostNotFoundException::new);
     }
 
     public Post getPostByTitle(String title) {
