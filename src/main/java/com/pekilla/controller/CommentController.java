@@ -2,6 +2,7 @@ package com.pekilla.controller;
 
 import com.pekilla.model.Comment;
 import com.pekilla.service.CommentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/comment")
+@RequiredArgsConstructor
 public class CommentController {
 
-    @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @GetMapping("/{commentId}")
     public ResponseEntity<Comment> getComment(@PathVariable long commentId) {

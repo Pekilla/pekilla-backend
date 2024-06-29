@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @CrossOrigin("${ALLOWED_URL}")
 @RestController
@@ -16,13 +18,18 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
 
+    @GetMapping("/all")
+    public List<PostDTO> getAllPosts() {
+        return postService.getAllPosts();
+    }
+
     @GetMapping("/{postId}")
     public String getPostById(@PathVariable long postId) {
         return null;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Boolean> createPost(PostDTO postDTO, @RequestParam Long userId) {
+    public ResponseEntity<Boolean> createPost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
         return new ResponseEntity<>(postService.createOrUpdate(postDTO, userId), HttpStatus.OK);
     }
 

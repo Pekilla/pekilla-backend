@@ -1,9 +1,7 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.PostDTO;
-import com.pekilla.enums.Category;
 import com.pekilla.exception.type.PostNotFoundException;
-import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
@@ -14,6 +12,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import java.util.List;
 
 @Service
 @Validated
@@ -22,14 +21,14 @@ public class PostService implements IService<PostDTO> {
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
+    public List<PostDTO> getAllPosts() {
+        return postRepository.findAll().stream().map(PostDTO::fromPost).toList();
+    }
+
     public PostService(PostRepository postRepository, UserRepository userRepository, TagRepository tagRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.tagRepository = tagRepository;
-    }
-
-    public boolean isTitleInCategory(String title, Category category) {
-        return postRepository.findOneByCategoryAndTitle(category, title).isPresent();
     }
 
     @Override
@@ -55,11 +54,6 @@ public class PostService implements IService<PostDTO> {
     }
 
     public boolean createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) {
-        // Check if title exists
-        if(isTitleInCategory(postDto.title(), postDto.category())) {
-            throw new PostUniqueTitleException(postDto.title(), postDto.category().toString());
-        }
-
         // Get post to update / or create new Post
         Post post = (postDto.id() == null ? new Post() : postRepository.findOneById(postDto.id()).orElseThrow(PostNotFoundException::new));
 

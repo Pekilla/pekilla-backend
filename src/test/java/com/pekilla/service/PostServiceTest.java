@@ -3,7 +3,6 @@ package com.pekilla.service;
 import com.pekilla.TestContainerConfig;
 import com.pekilla.dto.PostDTO;
 import com.pekilla.enums.Category;
-import com.pekilla.exception.type.PostUniqueTitleException;
 import com.pekilla.model.Post;
 import com.pekilla.model.User;
 import com.pekilla.repository.PostRepository;
