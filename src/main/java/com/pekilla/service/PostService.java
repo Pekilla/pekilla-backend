@@ -64,7 +64,7 @@ public class PostService implements IService<PostDTO> {
         Post post = (postDto.id() == null ? new Post() : postRepository.findOneById(postDto.id()).orElseThrow(PostNotFoundException::new));
 
         post.setTitle(postDto.title());
-        post.setContent(postDto.content());
+        post.setDescription(postDto.description());
 
         post.setTags(
             postDto.tags()

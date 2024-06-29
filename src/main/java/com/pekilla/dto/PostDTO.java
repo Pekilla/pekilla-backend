@@ -1,24 +1,23 @@
 package com.pekilla.dto;
 
 import com.pekilla.enums.Category;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-
 import java.util.List;
 
 @Builder
 public record PostDTO(
     Long id,
 
-    @NotNull
+    @NotBlank
     String title,
 
-    @NotNull
-    String content,
+    @NotBlank
+    String description,
 
     List<String> tags,
 
-    @NotNull
+    @NotBlank
     Category category
 ) {
 

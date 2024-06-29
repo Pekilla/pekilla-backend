@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin("*")
+@CrossOrigin("${ALLOWED_URL}")
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -22,9 +22,15 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Boolean> createPost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
+    public ResponseEntity<Boolean> createPost(PostDTO postDTO, @RequestParam Long userId) {
         return new ResponseEntity<>(postService.createOrUpdate(postDTO, userId), HttpStatus.OK);
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<Boolean> updatePost(PostDTO postDTO, @RequestParam Long userId) {
+        return this.createPost(postDTO, userId);
+    }
+
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable long postId) {

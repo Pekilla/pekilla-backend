@@ -24,9 +24,9 @@ public class Post extends ForumTable implements PostConstraint {
     private String title;
 
     @Size(min = CONTENT_MIN_LENGTH, max = CONTENT_MAX_LENGTH, message = CONTENT_LENGTH_ERROR)
-    @Check(constraints = "LENGTH(content) >= "+CONTENT_MIN_LENGTH)
+    @Check(constraints = "LENGTH(description) >= "+CONTENT_MIN_LENGTH)
     @NotBlank
-    private String content;
+    private String description;
 
     @NotNull
     @Enumerated(EnumType.STRING)
