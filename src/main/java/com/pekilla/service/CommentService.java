@@ -26,9 +26,15 @@ public class CommentService implements IService<CommentInfoDTO> {
     private final UserService userService;
     private final PostService postService;
 
-    public Comment getById(Long id) {
-        return commentRepository.findOneById(id)
+    public CommentInfoDTO getById(Long id) {
+        Comment comment = commentRepository.findOneById(id)
                 .orElseThrow(CommentNotFoundException::new);
+        return CommentInfoDTO
+                .builder()
+                    .message(comment.getMessage())
+                    .postId(comment.getPost().getId())
+                    .userId(comment.getAuthor().getId())
+                .build();
     }
 
     public List<Comment> getAllCommentInPost(long postId) {

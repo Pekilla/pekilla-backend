@@ -18,7 +18,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/{commentId}")
-    public ResponseEntity<Comment> getComment(@PathVariable long commentId) {
+    public ResponseEntity<CommentInfoDTO> getComment(@PathVariable long commentId) {
         try {
             return ResponseEntity.ok(commentService.getById(commentId));
         } catch (Exception e ) {
