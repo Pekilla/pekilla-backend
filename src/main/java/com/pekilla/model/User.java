@@ -16,6 +16,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+@ToString
 public class User extends ForumTable {
     @Size(max = 30)
     @NotBlank

@@ -11,6 +11,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Tag extends ForumTable {
     @NotBlank
     @Column(unique = true)

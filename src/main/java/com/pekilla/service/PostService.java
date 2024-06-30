@@ -14,7 +14,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +55,7 @@ public class PostService implements IService<PostDTO> {
             .orElseGet(() -> tagRepository.save(new Tag(content)));
     }
 
-    public boolean createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) {
+    public PostViewDTO createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) {
         // Get post to update / or create new Post
         Post post = (postDto.getId() == null ? new Post() : postRepository.findOneById(postDto.getId()).orElseThrow(PostNotFoundException::new));
 
@@ -62,24 +66,23 @@ public class PostService implements IService<PostDTO> {
             postDto.getTags()
                 .stream()
                 .map(this::getTagFromContent)
-                .toList()
+                .collect(Collectors.toSet())
         );
 
         // if new Post
-        if(postDto.getId() == null) {
+        if (postDto.getId() == null) {
             post.setCategory(postDto.getCategory());
             post.setOriginalPoster(
                 userRepository.findOneById(userId).orElseThrow(UserNotFoundException::new)
             );
         }
 
-        postRepository.save(post);
-        return true;
+        return PostViewDTO.fromPost(postRepository.save(post));
     }
 
     public Post getPostById(Long id) {
         return postRepository.findOneById(id)
-                .orElseThrow(PostNotFoundException::new);
+            .orElseThrow(PostNotFoundException::new);
     }
 
     public Post getPostByTitle(String title) {

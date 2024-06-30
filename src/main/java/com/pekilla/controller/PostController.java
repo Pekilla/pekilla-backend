@@ -29,13 +29,13 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Boolean> createPost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
+    public ResponseEntity<PostViewDTO> createPost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
         return new ResponseEntity<>(postService.createOrUpdate(postDTO, userId), HttpStatus.OK);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Boolean> updatePost(PostDTO postDTO, @RequestParam Long userId) {
-        return this.createPost(postDTO, userId);
+    public ResponseEntity<PostViewDTO> updatePost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
+        return new ResponseEntity<>(postService.createOrUpdate(postDTO, userId), HttpStatus.OK);
     }
 
 

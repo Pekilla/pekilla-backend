@@ -10,6 +10,7 @@ import lombok.*;
 import org.hibernate.annotations.Check;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Builder
@@ -18,6 +19,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Post extends ForumTable implements PostConstraint {
     @Size(min = TITLE_MIN_LENGTH, max = TITLE_MAX_LENGTH, message = TITLE_LENGTH_ERROR)
     @Check(constraints = "LENGTH(title) >= "+TITLE_MIN_LENGTH)
@@ -43,5 +45,5 @@ public class Post extends ForumTable implements PostConstraint {
 
     @ManyToMany
     @JoinTable(name = "rel_post_tag")
-    private List<Tag> tags;
+    private Set<Tag> tags;
 }

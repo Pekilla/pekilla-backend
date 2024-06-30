@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +27,7 @@ public class PostDTO {
     @NotBlank
     private String description;
 
-    private List<String> tags;
+    private Set<String> tags;
 
     @NotNull
     private Category category;
@@ -35,7 +37,7 @@ public class PostDTO {
             .id(post.getId())
             .title(post.getTitle())
             .description(post.getDescription())
-            .tags(post.getTags().stream().map(Tag::getContent).toList())
+            .tags(post.getTags().stream().map(Tag::getContent).collect(Collectors.toSet()))
             .category(post.getCategory())
             .build();
     }

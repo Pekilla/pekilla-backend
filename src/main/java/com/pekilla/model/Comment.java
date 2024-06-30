@@ -12,6 +12,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Comment extends ForumTable {
     @Column(nullable = false, length = 3000)
     private String message;
