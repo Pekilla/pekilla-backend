@@ -9,12 +9,15 @@ import com.pekilla.model.User;
 import com.pekilla.repository.CommentRepository;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class CommentService implements IService<CommentInfoDTO> {
 

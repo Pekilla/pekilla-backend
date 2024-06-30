@@ -36,8 +36,8 @@ public class CommentController {
     }
 
 
-    @PostMapping("/post/{postId}/add")
+    @PostMapping("/post/add")
     public ResponseEntity<String> addComment(CommentInfoDTO dto) {
-        return ResponseEntity.ok(commentService.create(dto));
+            return ResponseEntity.ok(commentService.create(dto));
     }
 }
