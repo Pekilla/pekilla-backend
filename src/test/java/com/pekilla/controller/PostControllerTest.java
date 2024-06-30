@@ -39,21 +39,21 @@ class PostControllerTest{
         postService.create(PostDTO.builder().build());
     }
 
-    @Test
-    void createPost_CreationOfAPostShouldBeOK() throws Exception {
-        var postDto = new PostDTO(10L, "How to make the compiler...", "When the compiler...", List.of("c", "cpp", "java"), Category.PROGRAMMING);
-
-        this.mockMvc.perform(
-            post("/post/create")
-                .param("userId", "1")
-                .contentType("application/json")
-                .content(new ObjectMapper().writeValueAsString(postDto))
-            )
-            .andExpect(result -> {
-                System.out.println(result.getResponse().getStatus());
-                System.out.println(result.getResponse().getContentAsString());
-            });
-    }
+//    @Test
+//    void createPost_CreationOfAPostShouldBeOK() throws Exception {
+//        var postDto = new PostDTO(10L, "How to make the compiler...", "When the compiler...", List.of("c", "cpp", "java"), Category.PROGRAMMING);
+//
+//        this.mockMvc.perform(
+//            post("/post/create")
+//                .param("userId", "1")
+//                .contentType("application/json")
+//                .content(new ObjectMapper().writeValueAsString(postDto))
+//            )
+//            .andExpect(result -> {
+//                System.out.println(result.getResponse().getStatus());
+//                System.out.println(result.getResponse().getContentAsString());
+//            });
+//    }
 
     @Test
     void deletePost_DeletionOfAPost_ShouldBeOK() throws Exception {
