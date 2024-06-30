@@ -1,6 +1,7 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.PostDTO;
+import com.pekilla.dto.PostViewDTO;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
@@ -24,8 +25,8 @@ public class PostService implements IService<PostDTO> {
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
-    public List<PostDTO> getAllPosts() {
-        return postRepository.findAll().stream().map(PostDTO::fromPost).toList();
+    public List<PostViewDTO> getAllPosts() {
+        return postRepository.findAll().stream().map(PostViewDTO::fromPost).toList();
     }
 
     @Override
@@ -52,21 +53,21 @@ public class PostService implements IService<PostDTO> {
 
     public boolean createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) {
         // Get post to update / or create new Post
-        Post post = (postDto.id() == null ? new Post() : postRepository.findOneById(postDto.id()).orElseThrow(PostNotFoundException::new));
+        Post post = (postDto.getId() == null ? new Post() : postRepository.findOneById(postDto.getId()).orElseThrow(PostNotFoundException::new));
 
-        post.setTitle(postDto.title());
-        post.setDescription(postDto.description());
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
 
         post.setTags(
-            postDto.tags()
+            postDto.getTags()
                 .stream()
                 .map(this::getTagFromContent)
                 .toList()
         );
 
         // if new Post
-        if(postDto.id() == null) {
-            post.setCategory(postDto.category());
+        if(postDto.getId() == null) {
+            post.setCategory(postDto.getCategory());
             post.setOriginalPoster(
                 userRepository.findOneById(userId).orElseThrow(UserNotFoundException::new)
             );

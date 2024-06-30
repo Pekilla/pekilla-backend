@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Check;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -35,6 +36,10 @@ public class Post extends ForumTable implements PostConstraint {
     @NotNull
     @ManyToOne
     private User originalPoster;
+
+    @NotNull
+    @Column(columnDefinition = "DATETIME DEFAULT NOW()")
+    private Date addedDate = new Date(System.currentTimeMillis());
 
     @ManyToMany
     @JoinTable(name = "rel_post_tag")

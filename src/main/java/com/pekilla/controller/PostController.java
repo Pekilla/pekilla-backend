@@ -1,9 +1,9 @@
 package com.pekilla.controller;
 
 import com.pekilla.dto.PostDTO;
+import com.pekilla.dto.PostViewDTO;
 import com.pekilla.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/all")
-    public List<PostDTO> getAllPosts() {
+    public List<PostViewDTO> getAllPostViews() {
         return postService.getAllPosts();
     }
 

@@ -5,24 +5,31 @@ import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public record PostDTO(
-    Long id,
+public class PostDTO {
+    private Long id;
 
     @NotBlank
-    String title,
+    private String title;
 
     @NotBlank
-    String description,
+    private String description;
 
-    List<String> tags,
+    private List<String> tags;
 
     @NotNull
-    Category category
-) {
+    private Category category;
+
     public static PostDTO fromPost(Post post) {
         return PostDTO.builder()
             .id(post.getId())
