@@ -19,5 +19,4 @@ buildNumber.properties
 .classpath
 
 # Added
-src/main/resources/
 .mvn
