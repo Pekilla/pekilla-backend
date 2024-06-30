@@ -79,8 +79,8 @@ public class PostService implements IService<PostDTO> {
         return PostViewDTO.fromPost(postRepository.save(post));
     }
 
-    public Post getPostById(Long id) {
-        return postRepository.findOneById(id)
+    public Post getPostById(Long postId) {
+        return postRepository.findOneById(postId)
             .orElseThrow(PostNotFoundException::new);
     }
 
