@@ -28,7 +28,10 @@ public class PostService implements IService<PostDTO> {
     private final TagRepository tagRepository;
 
     public List<PostViewDTO> getAllPosts() {
-        return postRepository.findAllByIsActiveTrueOrderByAddedDateDesc().stream().map(PostViewDTO::fromPost).toList();
+        return postRepository.findAllByIsActiveTrueOrderByAddedDateDesc()
+                .stream()
+                .map(PostViewDTO::fromPost)
+                .toList();
     }
 
     @Override

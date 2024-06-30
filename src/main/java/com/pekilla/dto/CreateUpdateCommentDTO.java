@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record CommentInfoDTO (
+public record CreateUpdateCommentDTO(
         @NotBlank
         @Size(min = 3, max = 1000)
         String message,

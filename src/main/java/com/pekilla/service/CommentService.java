@@ -1,16 +1,13 @@
 package com.pekilla.service;
 
-import com.pekilla.dto.CommentInfoDTO;
-import com.pekilla.dto.PostViewDTO;
+import com.pekilla.dto.CommentViewDTO;
+import com.pekilla.dto.CreateUpdateCommentDTO;
 import com.pekilla.exception.type.CommentNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.model.Comment;
 import com.pekilla.model.Post;
 import com.pekilla.model.User;
 import com.pekilla.repository.CommentRepository;
-import com.pekilla.repository.PostRepository;
-import com.pekilla.repository.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,16 +17,16 @@ import java.util.List;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class CommentService implements IService<CommentInfoDTO> {
+public class CommentService implements IService<CreateUpdateCommentDTO> {
 
     private final CommentRepository commentRepository;
     private final UserService userService;
     private final PostService postService;
 
-    public CommentInfoDTO getById(Long id) {
+    public CreateUpdateCommentDTO getById(Long id) {
         Comment comment = commentRepository.findOneById(id)
                 .orElseThrow(CommentNotFoundException::new);
-        return CommentInfoDTO
+        return CreateUpdateCommentDTO
                 .builder()
                     .message(comment.getMessage())
                     .postId(comment.getPost().getId())
@@ -42,8 +39,19 @@ public class CommentService implements IService<CommentInfoDTO> {
                 .orElseThrow(PostNotFoundException::new);
     }
 
+    public List<CommentViewDTO> getViewCommentsFromPost(long postId) {
+        return getAllCommentInPost(postId).stream().map(
+                comment -> CommentViewDTO
+                        .builder()
+                            .message(comment.getMessage())
+                            .username(comment.getAuthor().getUsername())
+                            .userLink(comment.getAuthor().getLink())
+                        .build()).toList();
+
+    }
+
     @Override
-    public String create(CommentInfoDTO comment) {
+    public String create(CreateUpdateCommentDTO comment) {
         Post post = postService.getPostById(comment.postId());
         User user = userService.getUserById(comment.userId());
         commentRepository.save(Comment
@@ -61,7 +69,7 @@ public class CommentService implements IService<CommentInfoDTO> {
     }
 
     @Override
-    public String update(long id, CommentInfoDTO ent) {
+    public String update(long id, CreateUpdateCommentDTO ent) {
         return "";
     }
 }
