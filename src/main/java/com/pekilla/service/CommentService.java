@@ -1,6 +1,7 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.CommentInfoDTO;
+import com.pekilla.dto.PostViewDTO;
 import com.pekilla.exception.type.CommentNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.model.Comment;

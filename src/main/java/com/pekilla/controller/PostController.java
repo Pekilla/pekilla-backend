@@ -2,6 +2,7 @@ package com.pekilla.controller;
 
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
+import com.pekilla.model.Post;
 import com.pekilla.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,8 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public String getPostById(@PathVariable long postId) {
-        return null;
+    public ResponseEntity<Post> getPostById(@PathVariable long postId) {
+        return ResponseEntity.ok(postService.getPostById(postId));
     }
 
     @PostMapping("/create")
