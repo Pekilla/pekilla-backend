@@ -15,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +28,7 @@ public class PostService implements IService<PostDTO> {
     private final TagRepository tagRepository;
 
     public List<PostViewDTO> getAllPosts() {
-        return postRepository.findAll().stream().map(PostViewDTO::fromPost).toList();
+        return postRepository.findAllByIsActiveTrueOrderByAddedDateDesc().stream().map(PostViewDTO::fromPost).toList();
     }
 
     @Override
