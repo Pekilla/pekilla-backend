@@ -29,3 +29,6 @@ INSERT INTO rel_post_tag (post_id, tags_id) VALUES (2, 6);
 INSERT INTO rel_post_tag (post_id, tags_id) VALUES (3, 7);
 INSERT INTO rel_post_tag (post_id, tags_id) VALUES (3, 8);
 INSERT INTO rel_post_tag (post_id, tags_id) VALUES (3, 9);
+
+INSERT INTO comment (message, post_id, author_id) VALUES ('Good post!', 1, 1);
+INSERT INTO comment (message, post_id, author_id) VALUES ('The best AI ever made!', 1, 1);

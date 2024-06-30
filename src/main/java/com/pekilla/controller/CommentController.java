@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("${ALLOWED_URL}")
 @RestController
 @RequestMapping(path = "/comment")
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class CommentController {
     public ResponseEntity<CommentInfoDTO> getComment(@PathVariable long commentId) {
         try {
             return ResponseEntity.ok(commentService.getById(commentId));
-        } catch (Exception e ) {
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -38,6 +39,6 @@ public class CommentController {
 
     @PostMapping("/post/add")
     public ResponseEntity<String> addComment(CommentInfoDTO dto) {
-            return ResponseEntity.ok(commentService.create(dto));
+        return ResponseEntity.ok(commentService.create(dto));
     }
 }
