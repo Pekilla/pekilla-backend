@@ -23,15 +23,9 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
     private final UserService userService;
     private final PostService postService;
 
-    public CreateUpdateCommentDTO getById(Long id) {
-        Comment comment = commentRepository.findOneById(id)
+    public Comment getById(Long id) {
+        return commentRepository.findOneById(id)
                 .orElseThrow(CommentNotFoundException::new);
-        return CreateUpdateCommentDTO
-                .builder()
-                    .message(comment.getMessage())
-                    .postId(comment.getPost().getId())
-                    .userId(comment.getAuthor().getId())
-                .build();
     }
 
     public List<Comment> getAllCommentInPost(long postId) {
@@ -43,6 +37,7 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
         return getAllCommentInPost(postId).stream().map(
                 comment -> CommentViewDTO
                         .builder()
+                            .id(comment.getId())
                             .message(comment.getMessage())
                             .username(comment.getAuthor().getUsername())
                             .userLink(comment.getAuthor().getLink())
@@ -65,7 +60,8 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
 
     @Override
     public String delete(long id) {
-        return "";
+        commentRepository.delete(this.getById(id));
+        return "This comment has been deleted";
     }
 
     @Override

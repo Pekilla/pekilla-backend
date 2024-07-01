@@ -18,15 +18,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/{commentId}")
-    public ResponseEntity<CreateUpdateCommentDTO> getComment(@PathVariable long commentId) {
-        try {
-            return ResponseEntity.ok(commentService.getById(commentId));
-        } catch (Exception e ) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @GetMapping("/post/{postId}/all")
     public ResponseEntity<List<CommentViewDTO>> getAllCommentsInPost(@PathVariable long postId) {
         try {
@@ -36,9 +27,14 @@ public class CommentController {
         }
     }
 
-
     @PostMapping("/post/add")
     public ResponseEntity<String> addComment(CreateUpdateCommentDTO dto) {
             return ResponseEntity.ok(commentService.create(dto));
     }
+
+    @DeleteMapping("/{postId")
+    public ResponseEntity<String> deleteComment(@PathVariable long postId) {
+        return ResponseEntity.ok(commentService.delete(postId));
+    }
+
 }
