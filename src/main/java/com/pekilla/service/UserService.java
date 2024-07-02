@@ -34,8 +34,8 @@ public class UserService implements IService<UserInfoDTO> {
     }
 
     @Override
-    public String delete(long id) {
-        return "";
+    public boolean delete(long id) {
+        return true;
     }
 
     @Override

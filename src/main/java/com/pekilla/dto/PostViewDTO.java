@@ -1,8 +1,6 @@
 package com.pekilla.dto;
 
 import com.pekilla.model.Post;
-import com.pekilla.model.Tag;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.Date;

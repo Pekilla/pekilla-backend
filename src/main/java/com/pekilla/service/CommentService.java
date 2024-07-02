@@ -42,7 +42,6 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
                             .username(comment.getAuthor().getUsername())
                             .userLink(comment.getAuthor().getLink())
                         .build()).toList();
-
     }
 
     @Override
@@ -59,9 +58,9 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
     }
 
     @Override
-    public String delete(long id) {
+    public boolean delete(long id) {
         commentRepository.delete(this.getById(id));
-        return "This comment has been deleted";
+        return true;
     }
 
     @Override

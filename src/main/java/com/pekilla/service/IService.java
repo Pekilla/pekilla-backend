@@ -8,7 +8,7 @@ public interface IService<T> {
     
     String create(@Valid T ent);
     
-    String delete(long id); 
+    boolean delete(long id);
 
     String update(long id, @Valid T ent);
 }

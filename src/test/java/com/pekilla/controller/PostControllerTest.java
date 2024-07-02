@@ -57,7 +57,7 @@ class PostControllerTest{
 
     @Test
     void deletePost_DeletionOfAPost_ShouldBeOK() throws Exception {
-        when(postService.delete(1)).thenReturn("Post deleted successfully");
+        when(postService.delete(1)).thenReturn(true);
         this.mockMvc.perform(delete("/posts/1"))
                 .andExpect(status().isOk());
     }

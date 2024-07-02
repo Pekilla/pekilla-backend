@@ -45,10 +45,10 @@ public class PostService implements IService<PostDTO> {
     }
 
     @Override
-    public String delete(long id) {
+    public boolean delete(long id) {
         Post post = this.getPostById(id);
         postRepository.deleteById(post.getId());
-        return "Post deleted successfully";
+        return true;
     }
 
     public Tag getTagFromContent(String content) {

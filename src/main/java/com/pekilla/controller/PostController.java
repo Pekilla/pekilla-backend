@@ -42,11 +42,11 @@ public class PostController {
 
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<String> deletePost(@PathVariable long postId) {
+    public ResponseEntity<Boolean> deletePost(@PathVariable long postId) {
         try {
             return ResponseEntity.ok(postService.delete(postId));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("This post cannot be deleted | " + e.getMessage());
+            return ResponseEntity.badRequest().body(false);
         }
     }
 }
