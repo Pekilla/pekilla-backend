@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface CommentRepository extends IRepository<Comment>, JpaRepository<Comment,Long>  {
     Optional<List<Comment>> findAllByPostId(long postId);
 
-    @Query(value = "DELETE c FROM Comment c where c.post_id =?1 ", nativeQuery = true)
+    @Query(value = "DELETE c FROM comment c where c.post_id = ?1 ", nativeQuery = true)
     void deleteCommentByPostId(long postId);
 }
