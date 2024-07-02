@@ -4,8 +4,10 @@ import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
+import com.pekilla.model.Comment;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
+import com.pekilla.repository.CommentRepository;
 import com.pekilla.repository.PostRepository;
 import com.pekilla.repository.TagRepository;
 import com.pekilla.repository.UserRepository;
@@ -26,6 +28,7 @@ public class PostService implements IService<PostDTO> {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
 
     public List<PostViewDTO> getAllPosts() {
         return postRepository.findAllByIsActiveTrueOrderByAddedDateDesc()
@@ -47,6 +50,8 @@ public class PostService implements IService<PostDTO> {
     @Override
     public boolean delete(long id) {
         Post post = this.getPostById(id);
+
+        commentRepository.deleteCommentByPostId(post.getId());
         postRepository.deleteById(post.getId());
         return true;
     }
@@ -54,7 +59,7 @@ public class PostService implements IService<PostDTO> {
     public Tag getTagFromContent(String content) {
         return tagRepository
             .findOneByContent(content)
-            .orElseGet(() -> tagRepository.save(new Tag(content)));
+                .orElseGet(() -> tagRepository.save(new Tag(content)));
     }
 
     public PostViewDTO createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) {
