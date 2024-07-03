@@ -14,7 +14,7 @@ public class PostViewDTO extends PostDTO {
     private Date addedDate;
 
     private PostViewDTO(String username, String userLink, Date addedDate, PostDTO postDTO) {
-        super(postDTO.getId(), postDTO.getTitle(), postDTO.getDescription(), postDTO.getTags(), postDTO.getCategory());
+        super(postDTO.getId(), postDTO.getTitle(), postDTO.getDescription(), postDTO.getTags(), postDTO.getCategory(), postDTO.getUserId());
         this.username = username;
         this.userLink = userLink;
         this.addedDate = addedDate;

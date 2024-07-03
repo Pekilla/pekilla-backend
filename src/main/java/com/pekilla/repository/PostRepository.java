@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PostRepository extends IRepository<Post>, JpaRepository<Post, Long> {
     List<Post> findAllByIsActiveTrueOrderByAddedDateDesc();
+
+    List<Post> findAllByIsActiveTrueAndDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCase(String input2, String input1);
 }

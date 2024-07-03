@@ -4,7 +4,6 @@ import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
-import com.pekilla.model.Comment;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
 import com.pekilla.repository.CommentRepository;
@@ -62,7 +61,7 @@ public class PostService implements IService<PostDTO> {
                 .orElseGet(() -> tagRepository.save(new Tag(content)));
     }
 
-    public PostViewDTO createOrUpdate(@Valid @NotNull PostDTO postDto, Long userId) {
+    public PostViewDTO createOrUpdate(@Valid @NotNull PostDTO postDto) {
         // Get post to update / or create new Post
         Post post = (postDto.getId() == null ? new Post() : postRepository.findOneById(postDto.getId()).orElseThrow(PostNotFoundException::new));
 
@@ -80,7 +79,7 @@ public class PostService implements IService<PostDTO> {
         if (postDto.getId() == null) {
             post.setCategory(postDto.getCategory());
             post.setOriginalPoster(
-                userRepository.findOneById(userId).orElseThrow(UserNotFoundException::new)
+                userRepository.findOneById(postDto.getUserId()).orElseThrow(UserNotFoundException::new)
             );
         }
 
@@ -92,7 +91,13 @@ public class PostService implements IService<PostDTO> {
             .orElseThrow(PostNotFoundException::new);
     }
 
-    public Post getPostByTitle(String title) {
-        return null;
+    /**
+     * Function that the description or the title contains the user input.
+     *
+     * @param input
+     * @return
+     */
+    public List<PostViewDTO> getAllPostsThatContain(String input) {
+        return postRepository.findAllByIsActiveTrueAndDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCase(input, input).stream().map(PostViewDTO::fromPost).toList();
     }
 }

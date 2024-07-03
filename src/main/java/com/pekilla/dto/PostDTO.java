@@ -32,6 +32,8 @@ public class PostDTO {
     @NotNull
     private Category category;
 
+    private Long userId;
+
     public static PostDTO fromPost(Post post) {
         return PostDTO.builder()
             .id(post.getId())
@@ -39,6 +41,7 @@ public class PostDTO {
             .description(post.getDescription())
             .tags(post.getTags().stream().map(Tag::getContent).collect(Collectors.toSet()))
             .category(post.getCategory())
+            .userId(post.getOriginalPoster().getId())
             .build();
     }
 }

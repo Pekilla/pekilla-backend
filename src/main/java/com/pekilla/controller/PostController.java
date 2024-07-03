@@ -31,13 +31,13 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PostViewDTO> createPost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
-        return new ResponseEntity<>(postService.createOrUpdate(postDTO, userId), HttpStatus.OK);
+    public ResponseEntity<PostViewDTO> createPost(@RequestBody PostDTO postDTO) {
+        return new ResponseEntity<>(postService.createOrUpdate(postDTO), HttpStatus.OK);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<PostViewDTO> updatePost(@RequestBody PostDTO postDTO, @RequestParam Long userId) {
-        return new ResponseEntity<>(postService.createOrUpdate(postDTO, userId), HttpStatus.OK);
+    public ResponseEntity<PostViewDTO> updatePost(@RequestBody PostDTO postDTO) {
+        return new ResponseEntity<>(postService.createOrUpdate(postDTO), HttpStatus.OK);
     }
 
 
@@ -48,5 +48,10 @@ public class PostController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(false);
         }
+    }
+
+    @GetMapping("/all/containing/{input}")
+    public ResponseEntity<List<PostViewDTO>> getAllPostsThatContain(@PathVariable String input) {
+        return new ResponseEntity<>(postService.getAllPostsThatContain(input), HttpStatus.OK);
     }
 }
