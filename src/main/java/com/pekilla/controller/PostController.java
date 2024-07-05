@@ -2,7 +2,9 @@ package com.pekilla.controller;
 
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
+import com.pekilla.enums.Category;
 import com.pekilla.model.Post;
+import com.pekilla.model.Tag;
 import com.pekilla.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @CrossOrigin("${ALLOWED_URL}")
@@ -19,6 +22,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+
 
     @GetMapping("/all")
     public List<PostViewDTO> getAllPostViews() {
@@ -50,8 +54,16 @@ public class PostController {
         }
     }
 
+    @Deprecated(forRemoval = true)
     @GetMapping("/all/containing/{input}")
     public ResponseEntity<List<PostViewDTO>> getAllPostsThatContain(@PathVariable String input) {
         return new ResponseEntity<>(postService.getAllPostsThatContain(input), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public List<Post> searchPosts(@RequestParam(required = false) String content,
+                                  @RequestParam(required = false) Category category,
+                                  @RequestParam(required = false) Set<String> tags) {
+        return postService.searchPosts(content, category, tags);
     }
 }

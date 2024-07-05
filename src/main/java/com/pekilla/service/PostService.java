@@ -2,6 +2,7 @@ package com.pekilla.service;
 
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
+import com.pekilla.enums.Category;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Post;
@@ -16,7 +17,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,7 +101,17 @@ public class PostService implements IService<PostDTO> {
      * @param input
      * @return
      */
+    @Deprecated(forRemoval = true)
     public List<PostViewDTO> getAllPostsThatContain(String input) {
         return postRepository.findAllByIsActiveTrueAndDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCase(input, input).stream().map(PostViewDTO::fromPost).toList();
+    }
+
+    public List<Post> searchPosts(String content, Category category, Set<String> tagContents) {
+        List<Post> posts = postRepository.searchPosts(category != null ? category.toString() : "", content != null ? content.toUpperCase() : "");
+
+        // need to handle tag.
+        // Maybe it will be a good idea to make 3 query, one for searching category, one for searching content and one for searching the two to do not do
+        // useless comparison like ?2 = ''.
+        return posts;
     }
 }

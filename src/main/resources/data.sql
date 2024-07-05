@@ -20,15 +20,15 @@ INSERT INTO tag (id, content) VALUES (7, 'ai');
 INSERT INTO tag (id, content) VALUES (8, 'tech');
 INSERT INTO tag (id, content) VALUES (9, 'gpt');
 
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (1, 1);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (1, 2);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (1, 3);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (2, 4);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (2, 5);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (2, 6);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (3, 7);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (3, 8);
-INSERT INTO rel_post_tag (post_id, tags_id) VALUES (3, 9);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (1, 1);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (1, 2);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (1, 3);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (2, 4);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (2, 5);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (2, 6);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (3, 7);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (3, 8);
+INSERT INTO rel_post_tag (post_id, tag_id) VALUES (3, 9);
 
 INSERT INTO comment (message, post_id, author_id) VALUES ('Good post!', 1, 1);
 INSERT INTO comment (message, post_id, author_id) VALUES ('The best AI ever made!', 1, 1);

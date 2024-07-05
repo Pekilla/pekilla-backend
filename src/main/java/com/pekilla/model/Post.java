@@ -44,6 +44,9 @@ public class Post extends ForumTable implements PostConstraint {
     private Date addedDate = new Date(System.currentTimeMillis());
 
     @ManyToMany
-    @JoinTable(name = "rel_post_tag")
+    @JoinTable(
+        name = "rel_post_tag",
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     private Set<Tag> tags;
 }
