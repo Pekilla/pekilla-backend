@@ -29,7 +29,11 @@ public class CommentController {
 
     @PostMapping("/post/add")
     public ResponseEntity<String> addComment(CreateUpdateCommentDTO dto) {
+        try {
             return ResponseEntity.ok(commentService.create(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Cannot Add this comment | " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
