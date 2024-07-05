@@ -106,12 +106,22 @@ public class PostService implements IService<PostDTO> {
         return postRepository.findAllByIsActiveTrueAndDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCase(input, input).stream().map(PostViewDTO::fromPost).toList();
     }
 
-    public List<Post> searchPosts(String content, Category category, Set<String> tagContents) {
-        List<Post> posts = postRepository.searchPosts(category != null ? category.toString() : "", content != null ? content.toUpperCase() : "");
+    public List<Post> searchPosts(String content, String category, Set<String> tags) {
+        try {
+            // To verify that the category does exist, if it do not, it will throw an Exception.
+            if(!category.isEmpty()) Category.valueOf(category);
 
-        // need to handle tag.
-        // Maybe it will be a good idea to make 3 query, one for searching category, one for searching content and one for searching the two to do not do
-        // useless comparison like ?2 = ''.
-        return posts;
+            List<Post> posts = postRepository.searchPosts(category, content);
+
+            // To verify the tags
+            if(!tags.isEmpty()) {
+                return posts.stream().filter(post -> post.getTagContents().containsAll(tags)).toList();
+            }
+
+            else return posts;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Category does not exist");
+            return List.of();
+        }
     }
 }

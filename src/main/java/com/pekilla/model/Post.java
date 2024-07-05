@@ -1,5 +1,6 @@
 package com.pekilla.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pekilla.enums.Category;
 import com.pekilla.model.constraint.PostConstraint;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.Check;
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Builder
@@ -49,4 +51,12 @@ public class Post extends ForumTable implements PostConstraint {
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags;
+
+    @JsonIgnore
+    public Set<String> getTagContents() {
+        return tags
+            .stream()
+            .map(Tag::getContent)
+            .collect(Collectors.toSet());
+    }
 }

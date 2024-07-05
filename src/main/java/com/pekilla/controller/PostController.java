@@ -61,9 +61,9 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public List<Post> searchPosts(@RequestParam(required = false) String content,
-                                  @RequestParam(required = false) Category category,
-                                  @RequestParam(required = false) Set<String> tags) {
+    public List<Post> searchPosts(@RequestParam(required = false, defaultValue = "") String content,
+                                  @RequestParam(required = false, defaultValue = "") String category,
+                                  @RequestParam(required = false, defaultValue = "") Set<String> tags) {
         return postService.searchPosts(content, category, tags);
     }
 }
