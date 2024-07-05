@@ -44,9 +44,9 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public List<PostViewDTO> searchPosts(@RequestParam(required = false, defaultValue = "") String content,
-                                         @RequestParam(required = false, defaultValue = "") String category,
-                                         @RequestParam(required = false, defaultValue = "") Set<String> tags) {
+    public List<PostViewDTO> search(@RequestParam(required = false, defaultValue = "") String content,
+                                    @RequestParam(required = false, defaultValue = "") String category,
+                                    @RequestParam(required = false, defaultValue = "") Set<String> tags) {
         if (content.isEmpty() && category.isEmpty() && tags.isEmpty()) {
             return postService.getAllPosts();
         }
