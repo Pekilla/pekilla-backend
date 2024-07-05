@@ -96,16 +96,12 @@ public class PostService implements IService<PostDTO> {
     }
 
     /**
-     * Function that the description or the title contains the user input.
+     * Function to research post by content, category and/or tags.
      *
-     * @param input
-     * @return
+     * @param content User input that will be searched in title and description of each post.
+     * @param category The category of the posts.
+     * @param tags The tags of the posts.
      */
-    @Deprecated(forRemoval = true)
-    public List<PostViewDTO> getAllPostsThatContain(String input) {
-        return postRepository.findAllByIsActiveTrueAndDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCase(input, input).stream().map(PostViewDTO::fromPost).toList();
-    }
-
     public List<PostViewDTO> searchPosts(String content, String category, Set<String> tags) {
         try {
             // To verify that the category does exist, if it do not, it will throw an Exception.

@@ -54,12 +54,6 @@ public class PostController {
         }
     }
 
-    @Deprecated(forRemoval = true)
-    @GetMapping("/all/containing/{input}")
-    public ResponseEntity<List<PostViewDTO>> getAllPostsThatContain(@PathVariable String input) {
-        return new ResponseEntity<>(postService.getAllPostsThatContain(input), HttpStatus.OK);
-    }
-
     @GetMapping("/search")
     public List<PostViewDTO> searchPosts(@RequestParam(required = false, defaultValue = "") String content,
                                   @RequestParam(required = false, defaultValue = "") String category,

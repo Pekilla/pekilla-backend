@@ -14,9 +14,6 @@ import java.util.List;
 public interface PostRepository extends IRepository<Post>, JpaRepository<Post, Long> {
     List<Post> findAllByIsActiveTrueOrderByAddedDateDesc();
 
-    @Deprecated(forRemoval = true)
-    List<Post> findAllByIsActiveTrueAndDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCase(String input2, String input1);
-
     @Query(value = """
     SELECT * FROM post p WHERE p.is_active = 1
     AND (?1 = '' OR ?1 = p.category) AND (?2 = '' OR UPPER(p.title) LIKE %?2% OR UPPER(p.description) LIKE %?2%)
