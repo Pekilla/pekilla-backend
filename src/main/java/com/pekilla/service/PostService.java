@@ -33,6 +33,15 @@ public class PostService implements IService<PostDTO> {
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
 
+    public Post getPostById(long postId) {
+        return postRepository.findOneById(postId)
+                .orElseThrow(PostNotFoundException::new);
+    }
+
+    public PostViewDTO getPostDTOById(long postId) {
+        return PostViewDTO.fromPost(getPostById(postId));
+    }
+
     public List<PostViewDTO> getAllPosts() {
         return postRepository.findAllByIsActiveTrueOrderByAddedDateDesc()
                 .stream()
@@ -90,10 +99,7 @@ public class PostService implements IService<PostDTO> {
         return PostViewDTO.fromPost(postRepository.save(post));
     }
 
-    public Post getPostById(Long postId) {
-        return postRepository.findOneById(postId)
-            .orElseThrow(PostNotFoundException::new);
-    }
+
 
     /**
      * Function to research post by content, category and/or tags.
@@ -104,7 +110,7 @@ public class PostService implements IService<PostDTO> {
      */
     public List<PostViewDTO> searchPosts(String content, String category, Set<String> tags) {
         try {
-            // To verify that the category does exist, if it do not, it will throw an Exception.
+            // To verify that the category exist, if it doesn't, it throws an Exception.
             if(!category.isEmpty()) Category.valueOf(category);
 
             List<Post> posts = postRepository.searchPosts(category, content);

@@ -30,8 +30,8 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Post> getPostById(@PathVariable long postId) {
-        return ResponseEntity.ok(postService.getPostById(postId));
+    public ResponseEntity<PostViewDTO> getPostById(@PathVariable long postId) {
+        return ResponseEntity.ok(postService.getPostDTOById(postId));
     }
 
     @PostMapping("/create")

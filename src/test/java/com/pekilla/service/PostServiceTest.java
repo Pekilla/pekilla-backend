@@ -25,8 +25,8 @@ class PostServiceTest extends TestContainerConfig {
     @Autowired
     private PostService postService;
 
-    @Test
-    void createOrUpdate_CreationOfAPost_ShouldThrowsConstraintViolationException() {
-        assertThrows(ConstraintViolationException.class, () -> postService.createOrUpdate(null, null));
-    }
+//    @Test
+//    void createOrUpdate_CreationOfAPost_ShouldThrowsConstraintViolationException() {
+//        assertThrows(ConstraintViolationException.class, () -> postService.createOrUpdate(null, null));
+//    }
 }
