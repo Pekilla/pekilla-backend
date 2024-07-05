@@ -106,7 +106,7 @@ public class PostService implements IService<PostDTO> {
         return postRepository.findAllByIsActiveTrueAndDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCase(input, input).stream().map(PostViewDTO::fromPost).toList();
     }
 
-    public List<Post> searchPosts(String content, String category, Set<String> tags) {
+    public List<PostViewDTO> searchPosts(String content, String category, Set<String> tags) {
         try {
             // To verify that the category does exist, if it do not, it will throw an Exception.
             if(!category.isEmpty()) Category.valueOf(category);
@@ -115,10 +115,17 @@ public class PostService implements IService<PostDTO> {
 
             // To verify the tags
             if(!tags.isEmpty()) {
-                return posts.stream().filter(post -> post.getTagContents().containsAll(tags)).toList();
+                return posts
+                    .stream()
+                    .filter(post -> post.getTagContents().containsAll(tags))
+                    .map(PostViewDTO::fromPost)
+                    .toList();
             }
 
-            else return posts;
+            else return posts
+                .stream()
+                .map(PostViewDTO::fromPost)
+                .toList();
         } catch (IllegalArgumentException e) {
             System.out.println("Category does not exist");
             return List.of();

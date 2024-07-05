@@ -17,7 +17,7 @@ import java.util.Set;
 
 @CrossOrigin("${ALLOWED_URL}")
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
 
@@ -61,7 +61,7 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public List<Post> searchPosts(@RequestParam(required = false, defaultValue = "") String content,
+    public List<PostViewDTO> searchPosts(@RequestParam(required = false, defaultValue = "") String content,
                                   @RequestParam(required = false, defaultValue = "") String category,
                                   @RequestParam(required = false, defaultValue = "") Set<String> tags) {
         return postService.searchPosts(content, category, tags);
