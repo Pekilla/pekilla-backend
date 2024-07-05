@@ -17,6 +17,7 @@ public interface PostRepository extends IRepository<Post>, JpaRepository<Post, L
     @Query(value = """
     SELECT * FROM post p WHERE p.is_active = 1
     AND (?1 = '' OR ?1 = p.category) AND (?2 = '' OR UPPER(p.title) LIKE %?2% OR UPPER(p.description) LIKE %?2%)
+    ORDER BY added_date DESC
     """, nativeQuery = true)
     List<Post> searchPosts(String category, String content);
 }

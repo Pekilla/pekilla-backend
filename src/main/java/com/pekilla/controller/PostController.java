@@ -2,32 +2,21 @@ package com.pekilla.controller;
 
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
-import com.pekilla.enums.Category;
 import com.pekilla.model.Post;
-import com.pekilla.model.Tag;
 import com.pekilla.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Set;
-
 
 @CrossOrigin("${ALLOWED_URL}")
 @RestController
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
-
     private final PostService postService;
-
-
-    @GetMapping("/all")
-    public List<PostViewDTO> getAllPostViews() {
-        return postService.getAllPosts();
-    }
 
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable long postId) {
@@ -56,8 +45,12 @@ public class PostController {
 
     @GetMapping("/search")
     public List<PostViewDTO> searchPosts(@RequestParam(required = false, defaultValue = "") String content,
-                                  @RequestParam(required = false, defaultValue = "") String category,
-                                  @RequestParam(required = false, defaultValue = "") Set<String> tags) {
+                                         @RequestParam(required = false, defaultValue = "") String category,
+                                         @RequestParam(required = false, defaultValue = "") Set<String> tags) {
+        if (content.isEmpty() && category.isEmpty() && tags.isEmpty()) {
+            return postService.getAllPosts();
+        }
+
         return postService.searchPosts(content, category, tags);
     }
 }
