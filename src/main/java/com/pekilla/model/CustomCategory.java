@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Category extends ForumTable {
+public class CustomCategory extends ForumTable {
 
     @Column(unique = true)
     private String name;

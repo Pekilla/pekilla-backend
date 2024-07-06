@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record CategoryViewDTO(
+public record CustomCategoryViewDTO(
 
         @Size(min = 3, max = 15)
         String name,

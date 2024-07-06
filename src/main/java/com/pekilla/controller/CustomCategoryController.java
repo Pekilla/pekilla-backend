@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("${ALLOWED_URL}")
 @RequestMapping("/category")
 @RestController()
-public class CategoryController {
+public class CustomCategoryController {
 
     @GetMapping("/{name}")
     public ResponseEntity<Object> getCategory(@PathVariable String name) {
