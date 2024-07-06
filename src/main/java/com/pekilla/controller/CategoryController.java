@@ -1,13 +1,11 @@
 package com.pekilla.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("${ALLOWED_URL}")
-@RestController("/category")
+@RequestMapping("/category")
+@RestController()
 public class CategoryController {
 
     @GetMapping("/{name}")
