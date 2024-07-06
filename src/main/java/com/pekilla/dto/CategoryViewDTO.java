@@ -1,13 +1,11 @@
 package com.pekilla.dto;
 
-
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record CreateUpdateCategoryDTO(
+public record CategoryViewDTO(
 
         @Size(min = 3, max = 15)
         String name,
@@ -17,5 +15,4 @@ public record CreateUpdateCategoryDTO(
 
         @Min(1)
         long creatorId
-
 ) { }
