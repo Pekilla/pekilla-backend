@@ -2,7 +2,6 @@ package com.pekilla.controller;
 
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
-import com.pekilla.model.Post;
 import com.pekilla.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
