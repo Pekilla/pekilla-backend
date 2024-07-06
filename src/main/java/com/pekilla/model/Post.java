@@ -9,7 +9,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.ColumnDefault;
+
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -41,9 +45,11 @@ public class Post extends ForumTable implements PostConstraint {
     @ManyToOne
     private User originalPoster;
 
-    @NotNull
-    @Column(columnDefinition = "DATETIME DEFAULT NOW()")
-    private Date addedDate = new Date(System.currentTimeMillis());
+    @Column(columnDefinition = "DATETIME DEFAULT NOW()", nullable = false)
+    private LocalDateTime addedDate = LocalDateTime.now();
+
+    @Column(columnDefinition = "DATETIME DEFAULT NOW()", nullable = false)
+    private LocalDateTime lastModifiedDate = addedDate;
 
     @ManyToMany
     @JoinTable(

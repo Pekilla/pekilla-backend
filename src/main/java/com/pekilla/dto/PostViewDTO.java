@@ -3,7 +3,7 @@ package com.pekilla.dto;
 import com.pekilla.model.Post;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -11,9 +11,9 @@ import java.util.Date;
 public class PostViewDTO extends PostDTO {
     private String username;
     private String userLink;
-    private Date addedDate;
+    private LocalDateTime addedDate;
 
-    private PostViewDTO(String username, String userLink, Date addedDate, PostDTO postDTO) {
+    private PostViewDTO(String username, String userLink, LocalDateTime addedDate, PostDTO postDTO) {
         super(postDTO.getId(), postDTO.getTitle(), postDTO.getDescription(), postDTO.getTags(), postDTO.getCategory(), postDTO.getUserId());
         this.username = username;
         this.userLink = userLink;

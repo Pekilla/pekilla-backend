@@ -17,5 +17,5 @@ public class ForumTable {
     private long id;
 
     @Column(columnDefinition = "BOOLEAN DEFAULT 1")
-    private boolean isActive;
+    private boolean isActive = true;
 }

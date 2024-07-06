@@ -17,8 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Validated
 public class PostService implements IService<PostDTO> {
-
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
@@ -43,7 +41,7 @@ public class PostService implements IService<PostDTO> {
     }
 
     public List<PostViewDTO> getAllPosts() {
-        return postRepository.findAllByIsActiveTrueOrderByAddedDateDesc()
+        return postRepository.findAllByIsActiveTrueOrderByLastModifiedDateDesc()
                 .stream()
                 .map(PostViewDTO::fromPost)
                 .toList();
@@ -75,8 +73,8 @@ public class PostService implements IService<PostDTO> {
     }
 
     public PostViewDTO createOrUpdate(@Valid @NotNull PostDTO postDto) {
-        // Get post to update / or create new Post
-        Post post = (postDto.getId() == null ? new Post() : postRepository.findOneById(postDto.getId()).orElseThrow(PostNotFoundException::new));
+        boolean isCreate = postDto.getId() == null;
+        Post post = (isCreate ? new Post() : postRepository.findOneById(postDto.getId()).orElseThrow(PostNotFoundException::new));
 
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
@@ -88,14 +86,18 @@ public class PostService implements IService<PostDTO> {
                 .collect(Collectors.toSet())
         );
 
-        // if new Post
-        if (postDto.getId() == null) {
+        if (isCreate) {
             post.setCategory(postDto.getCategory());
             post.setOriginalPoster(
                 userRepository.findOneById(postDto.getUserId()).orElseThrow(UserNotFoundException::new)
             );
         }
 
+        else {
+            post.setLastModifiedDate(LocalDateTime.now());
+        }
+
+        System.out.println("Created Post: " + post);
         return PostViewDTO.fromPost(postRepository.save(post));
     }
 
