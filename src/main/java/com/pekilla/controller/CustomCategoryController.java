@@ -9,10 +9,15 @@ import java.util.List;
 
 @CrossOrigin("${ALLOWED_URL}")
 @RequestMapping("/api/categories")
-@RestController()
+@RestController
 @RequiredArgsConstructor
 public class CustomCategoryController {
     private final CustomCategoryService customCategoryService;
+
+    @GetMapping("/names")
+    public ResponseEntity<List<String>> getAllNames() {
+        return ResponseEntity.ok(customCategoryService.getAllNames());
+    }
 
     @GetMapping
     public ResponseEntity<List<CustomCategoryViewDTO>> getAllCategories() {
@@ -24,7 +29,7 @@ public class CustomCategoryController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Object> getCategory(@PathVariable String name) {
+    public ResponseEntity<CustomCategoryViewDTO> getCategory(@PathVariable String name) {
         try {
             return ResponseEntity.ok(customCategoryService.getByName(name));
         } catch (Exception e) {

@@ -16,6 +16,12 @@ public class CustomCategoryService {
     private final CustomCategoryRepository categoryRepository;
     private final UserService userService;
 
+    public List<String> getAllNames() {
+        return categoryRepository.findAll().stream()
+            .map(CustomCategory::getName)
+            .toList();
+    }
+
     public List<CustomCategoryViewDTO> getAll() {
         return categoryRepository.findAll().stream()
             .map(CustomCategoryViewDTO::fromCategory)
