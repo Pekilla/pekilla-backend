@@ -3,12 +3,16 @@ package com.pekilla.controller;
 import com.pekilla.dto.CommentViewDTO;
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
+import com.pekilla.enums.Category;
+import com.pekilla.model.Post;
 import com.pekilla.service.CommentService;
 import com.pekilla.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,5 +66,16 @@ public class PostController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    @PostMapping("/builder")
+    public ResponseEntity<Post> postBuilder() {
+        return ResponseEntity.ok(
+            Post.builder()
+                .category(Category.DRAWING)
+                .title("adsfasdf")
+                .description("daffdafdads")
+                .build()
+        );
     }
 }

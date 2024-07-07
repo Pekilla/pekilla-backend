@@ -27,6 +27,7 @@ public class Comment extends ForumTable {
     @JoinColumn(nullable = false)
     private User author;
 
+    @Builder.Default
     @Column(nullable = false)
-    private LocalDateTime addedDate;
+    private LocalDateTime addedDate = LocalDateTime.now();
 }

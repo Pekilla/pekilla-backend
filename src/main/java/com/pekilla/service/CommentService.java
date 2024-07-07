@@ -55,7 +55,6 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
                     .message(comment.message())
                     .author(user)
                     .post(post)
-                    .addedDate(LocalDateTime.now())
                 .build());
         return "Comment has been published on the post";
     }

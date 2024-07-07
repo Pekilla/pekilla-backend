@@ -96,6 +96,7 @@ public class PostService implements IService<PostDTO> {
             post.setOriginalPoster(
                 userRepository.findOneById(postDto.getUserId()).orElseThrow(UserNotFoundException::new)
             );
+            post.setDatesForCreate();
         }
 
         else {

@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,10 +47,10 @@ public class Post extends ForumTable implements PostConstraint {
     private User originalPoster;
 
     @Column(columnDefinition = "DATETIME DEFAULT NOW()", nullable = false)
-    private LocalDateTime addedDate = LocalDateTime.now();
+    private LocalDateTime addedDate;
 
     @Column(columnDefinition = "DATETIME DEFAULT NOW()", nullable = false)
-    private LocalDateTime lastModifiedDate = addedDate;
+    private LocalDateTime lastModifiedDate;
 
     @ManyToMany
     @JoinTable(
@@ -64,5 +65,10 @@ public class Post extends ForumTable implements PostConstraint {
             .stream()
             .map(Tag::getContent)
             .collect(Collectors.toSet());
+    }
+
+    public void setDatesForCreate() {
+        this.addedDate = LocalDateTime.now();
+        this.lastModifiedDate = this.addedDate;
     }
 }
