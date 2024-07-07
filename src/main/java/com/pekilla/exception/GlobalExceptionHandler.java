@@ -1,5 +1,6 @@
 package com.pekilla.exception;
 
+import com.pekilla.exception.type.CategoryNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -48,6 +49,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Object handleException(Exception ex) {
+        log(ex.getMessage(), ex);
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object handleCategoryNotFoundException(CategoryNotFoundException ex) {
         log(ex.getMessage(), ex);
         return ex.getMessage();
     }
