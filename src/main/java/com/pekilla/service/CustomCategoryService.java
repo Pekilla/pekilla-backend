@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 @Service
 @Validated
 @RequiredArgsConstructor
@@ -16,7 +20,19 @@ public class CustomCategoryService {
 
     private final CustomCategoryRepository categoryRepository;
     private final UserService userService;
-    private final CustomCategoryRepository customCategoryRepository;
+
+    public List<CustomCategoryViewDTO> getAll() {
+        return categoryRepository
+                .findAll().stream().map(
+                        customCategory -> CustomCategoryViewDTO
+                            .builder()
+
+                                .name(customCategory.getName())
+                                .description(customCategory.getDescription())
+                                .creatorId(customCategory.getCreator().getId())
+
+                            .build()).collect(Collectors.toList());
+    }
 
     public CustomCategoryViewDTO getByName(String name) {
         CustomCategory category = categoryRepository.findByName(name)
