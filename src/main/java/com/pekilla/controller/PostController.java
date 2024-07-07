@@ -22,16 +22,15 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostDTOById(postId));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<PostViewDTO> createPost(@RequestBody PostDTO postDTO) {
         return new ResponseEntity<>(postService.createOrUpdate(postDTO), HttpStatus.OK);
     }
 
-    @PostMapping("/update")
+    @PatchMapping
     public ResponseEntity<PostViewDTO> updatePost(@RequestBody PostDTO postDTO) {
         return new ResponseEntity<>(postService.createOrUpdate(postDTO), HttpStatus.OK);
     }
-
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<Boolean> deletePost(@PathVariable long postId) {
