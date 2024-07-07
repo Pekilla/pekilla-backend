@@ -67,15 +67,4 @@ public class PostController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
-    @PostMapping("/builder")
-    public ResponseEntity<Post> postBuilder() {
-        return ResponseEntity.ok(
-            Post.builder()
-                .category(Category.DRAWING)
-                .title("adsfasdf")
-                .description("daffdafdads")
-                .build()
-        );
-    }
 }
