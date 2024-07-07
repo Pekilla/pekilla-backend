@@ -1,12 +1,18 @@
 package com.pekilla.dto;
 
+import com.pekilla.model.User;
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
-@Data
-public class UserInfoDTO {
-
-    private String password;
-    private String username;
+public record UserInfoDTO (
+        String username,
+        String link)
+{
+    public static UserInfoDTO from(User user) {
+        return UserInfoDTO
+                .builder()
+                    .username(user.getUsername())
+                    .link(user.getLink())
+                .build();
+    }
 }
