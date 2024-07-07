@@ -24,12 +24,13 @@ public class CustomCategoryService {
     public List<CustomCategoryViewDTO> getAll() {
         return categoryRepository
                 .findAll().stream().map(
-                        customCategory -> CustomCategoryViewDTO
-                            .builder()
-                                .name(customCategory.getName())
-                                .description(customCategory.getDescription())
-                                .creatorId(customCategory.getCreator().getId())
-                            .build()).collect(Collectors.toList());
+                    customCategory -> CustomCategoryViewDTO
+                        .builder()
+                            .name(customCategory.getName())
+                            .description(customCategory.getDescription())
+                            .creatorId(customCategory.getCreator().getId())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public CustomCategoryViewDTO getByName(String name) {

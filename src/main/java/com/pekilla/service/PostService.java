@@ -1,10 +1,12 @@
 package com.pekilla.service;
 
+import com.pekilla.dto.CustomCategoryViewDTO;
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
 import com.pekilla.enums.Category;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
+import com.pekilla.model.CustomCategory;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
 import com.pekilla.repository.CommentRepository;
@@ -26,9 +28,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Validated
 public class PostService implements IService<PostDTO> {
+
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
+    private final CustomCategoryService customCategoryService;
     private final CommentRepository commentRepository;
 
     public Post getPostById(long postId) {
@@ -65,6 +69,7 @@ public class PostService implements IService<PostDTO> {
         postRepository.deleteById(post.getId());
         return true;
     }
+
 
     public Tag getTagFromContent(String content) {
         return tagRepository
