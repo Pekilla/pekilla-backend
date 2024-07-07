@@ -51,9 +51,8 @@ public class CustomCategoryService {
                     .creator(userService.getUserById(dto.creatorId()))
                     .name(dto.name())
                     .description(dto.description())
-                    // DEFAULT ICON AND BANNER SHOULD BE THERE
-                    .banner(null)
-                    .icon(null)
+                    .banner(dto.banner())
+                    .icon(dto.icon())
                 .build());
         return "Category has been added with success";
     }
