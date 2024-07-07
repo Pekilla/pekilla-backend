@@ -1,12 +1,12 @@
 package com.pekilla.dto;
 
-import com.pekilla.model.CustomCategory;
+import com.pekilla.model.Category;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record CustomCategoryViewDTO(
+public record CategoryViewDTO(
     @Size(min = 3, max = 15)
     String name,
 
@@ -19,8 +19,8 @@ public record CustomCategoryViewDTO(
     String banner,
     String icon
 ) {
-    public static CustomCategoryViewDTO fromCategory(CustomCategory category) {
-        return new CustomCategoryViewDTO(
+    public static CategoryViewDTO fromCategory(Category category) {
+        return new CategoryViewDTO(
             category.getName(),
             category.getDescription(),
             category.getCreator().getId(),

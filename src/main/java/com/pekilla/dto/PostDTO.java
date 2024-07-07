@@ -1,6 +1,5 @@
 package com.pekilla.dto;
 
-import com.pekilla.enums.Category;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
 import jakarta.validation.constraints.NotBlank;
@@ -28,7 +27,7 @@ public class PostDTO {
     private Set<String> tags;
 
     @NotNull
-    private Category category;
+    private String category;
 
     private Long userId;
 
@@ -38,7 +37,7 @@ public class PostDTO {
             .title(post.getTitle())
             .description(post.getDescription())
             .tags(post.getTags().stream().map(Tag::getContent).collect(Collectors.toSet()))
-            .category(post.getCategory())
+            .category(post.getCategory().getName())
             .userId(post.getOriginalPoster().getId())
             .build();
     }

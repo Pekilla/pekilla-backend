@@ -1,6 +1,5 @@
 package com.pekilla.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -13,8 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class CustomCategory extends ForumTable {
-
+public class Category extends ForumTable {
     @Column(unique = true)
     private String name;
 
@@ -27,5 +25,4 @@ public class CustomCategory extends ForumTable {
     @ManyToOne
     @JoinColumn(nullable = false)
     private User creator;
-
 }

@@ -1,18 +1,14 @@
 package com.pekilla.service;
 
-import com.pekilla.dto.CustomCategoryViewDTO;
 import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
-import com.pekilla.enums.Category;
+import com.pekilla.exception.type.CategoryNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
-import com.pekilla.model.CustomCategory;
+import com.pekilla.model.Category;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
-import com.pekilla.repository.CommentRepository;
-import com.pekilla.repository.PostRepository;
-import com.pekilla.repository.TagRepository;
-import com.pekilla.repository.UserRepository;
+import com.pekilla.repository.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +28,13 @@ public class PostService implements IService<PostDTO> {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
-    private final CustomCategoryService customCategoryService;
+    private final CategoryService categoryService;
     private final CommentRepository commentRepository;
+    private final CategoryRepository categoryRepository;
+
+    public Category getCategoryByName(String category) {
+        return categoryRepository.findOneByName(category).orElseThrow(CategoryNotFoundException::new);
+    }
 
     public Post getPostById(long postId) {
         return postRepository.findOneById(postId)
@@ -92,7 +93,7 @@ public class PostService implements IService<PostDTO> {
         );
 
         if (isCreate) {
-            post.setCategory(postDto.getCategory());
+            post.setCategory(getCategoryByName(postDto.getCategory()));
             post.setOriginalPoster(
                 userRepository.findOneById(postDto.getUserId()).orElseThrow(UserNotFoundException::new)
             );
@@ -118,8 +119,8 @@ public class PostService implements IService<PostDTO> {
      */
     public List<PostViewDTO> searchPosts(String content, String category, Set<String> tags) {
         try {
-            // To verify that the category exist, if it doesn't, it throws an Exception.
-            if(!category.isEmpty()) Category.valueOf(category);
+            // To see if the category exist, else throw exception
+            getCategoryByName(category);
 
             List<Post> posts = postRepository.searchPosts(category, content);
 
@@ -136,8 +137,8 @@ public class PostService implements IService<PostDTO> {
                 .stream()
                 .map(PostViewDTO::fromPost)
                 .toList();
-        } catch (IllegalArgumentException e) {
-            System.out.println("Category does not exist");
+        } catch (CategoryNotFoundException e) {
+            System.out.println("Category does not exist.");
             return List.of();
         }
     }
