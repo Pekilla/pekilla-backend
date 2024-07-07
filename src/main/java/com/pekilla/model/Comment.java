@@ -6,6 +6,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +26,7 @@ public class Comment extends ForumTable {
     @ManyToOne
     @JoinColumn(nullable = false)
     private User author;
+
+    @Column(nullable = false)
+    private LocalDateTime addedDate;
 }

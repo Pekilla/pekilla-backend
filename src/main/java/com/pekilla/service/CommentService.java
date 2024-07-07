@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,6 +42,7 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
                             .message(comment.getMessage())
                             .username(comment.getAuthor().getUsername())
                             .userLink(comment.getAuthor().getLink())
+                            .addedDate(comment.getAddedDate())
                         .build()).toList();
     }
 
@@ -53,6 +55,7 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
                     .message(comment.message())
                     .author(user)
                     .post(post)
+                    .addedDate(LocalDateTime.now())
                 .build());
         return "Comment has been published on the post";
     }
