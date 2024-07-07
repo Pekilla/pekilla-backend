@@ -2,6 +2,7 @@ package com.pekilla.controller;
 
 import com.pekilla.dto.CommentViewDTO;
 import com.pekilla.dto.CreateUpdateCommentDTO;
+import com.pekilla.model.Comment;
 import com.pekilla.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin("${ALLOWED_URL}")
 @RestController
-@RequestMapping(path = "/comment")
+@RequestMapping(path = "/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
