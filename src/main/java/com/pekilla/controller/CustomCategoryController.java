@@ -5,7 +5,6 @@ import com.pekilla.service.CustomCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @CrossOrigin("${ALLOWED_URL}")
@@ -13,10 +12,9 @@ import java.util.List;
 @RestController()
 @RequiredArgsConstructor
 public class CustomCategoryController {
-
     private final CustomCategoryService customCategoryService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<CustomCategoryViewDTO>> getAllCategories() {
         try {
             return ResponseEntity.ok(customCategoryService.getAll());
@@ -34,7 +32,7 @@ public class CustomCategoryController {
         }
     }
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<String> createCategory(CustomCategoryViewDTO dto) {
         try {
             return ResponseEntity.ok(customCategoryService.createCategory(dto));
