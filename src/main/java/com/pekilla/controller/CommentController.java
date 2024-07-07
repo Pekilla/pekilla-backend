@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin("${ALLOWED_URL}")
 @RestController
-@RequestMapping(path = "/comments")
+@RequestMapping(path = "/api/comments")
 @RequiredArgsConstructor
 public class CommentController {
 

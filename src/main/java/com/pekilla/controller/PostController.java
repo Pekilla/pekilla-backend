@@ -12,7 +12,7 @@ import java.util.Set;
 
 @CrossOrigin("${ALLOWED_URL}")
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
