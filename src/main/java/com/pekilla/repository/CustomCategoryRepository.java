@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface CustomCategoryRepository extends IRepository<CustomCategory>, JpaRepository<CustomCategory, Long> {
 
     Optional<CustomCategory> findByName(String name);
-
 }

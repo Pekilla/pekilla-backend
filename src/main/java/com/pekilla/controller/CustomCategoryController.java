@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("${ALLOWED_URL}")
-@RequestMapping("/category")
+@RequestMapping("/categories")
 @RestController()
 public class CustomCategoryController {
 
