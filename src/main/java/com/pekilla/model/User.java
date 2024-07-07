@@ -20,6 +20,7 @@ import lombok.*;
 public class User extends ForumTable {
     @Size(max = 30)
     @NotBlank
+    @Column(unique = true)
     private String username;
 
     @NotBlank
