@@ -11,9 +11,9 @@ public interface PostRepository extends IRepository<Post>, JpaRepository<Post, L
     List<Post> findAllByIsActiveTrueOrderByLastModifiedDateDesc();
 
     @Query(value = """
-    SELECT * FROM post p WHERE p.is_active = 1
-    AND (?1 = '' OR ?1 = p.category) AND (?2 = '' OR UPPER(p.title) LIKE %?2% OR UPPER(p.description) LIKE %?2%)
-    ORDER BY last_modified_date DESC
-    """, nativeQuery = true)
+    SELECT p FROM Post p WHERE p.isActive = true
+    AND (?1 = '' OR ?1 = p.category.name) AND (?2 = '' OR UPPER(p.title) LIKE %?2% OR UPPER(p.description) LIKE %?2%)
+    ORDER BY p.lastModifiedDate DESC
+    """)
     List<Post> searchPosts(String category, String content);
 }
