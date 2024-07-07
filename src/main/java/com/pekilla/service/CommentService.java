@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -35,7 +37,8 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
     }
 
     public List<CommentViewDTO> getViewCommentsFromPost(long postId) {
-        return getAllCommentInPost(postId).stream().map(
+        // need to be mutable to be reversed with Collections.reverse so wrapped it on ArrayList
+        List<CommentViewDTO> list = new ArrayList<>(getAllCommentInPost(postId).stream().map(
                 comment -> CommentViewDTO
                         .builder()
                             .id(comment.getId())
@@ -43,7 +46,10 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
                             .username(comment.getAuthor().getUsername())
                             .userLink(comment.getAuthor().getLink())
                             .addedDate(comment.getAddedDate())
-                        .build()).toList();
+                        .build()).toList());
+
+        Collections.reverse(list);
+        return list;
     }
 
     @Override
