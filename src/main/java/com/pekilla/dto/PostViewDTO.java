@@ -2,7 +2,6 @@ package com.pekilla.dto;
 
 import com.pekilla.model.Post;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)

@@ -1,6 +1,5 @@
 package com.pekilla.dto;
 
-import com.pekilla.model.User;
 import lombok.Builder;
 
 @Builder

@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -24,11 +23,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Validated
 public class PostService implements IService<PostDTO> {
-
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
-    private final CategoryService categoryService;
     private final CommentRepository commentRepository;
     private final CategoryRepository categoryRepository;
 

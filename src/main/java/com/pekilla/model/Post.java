@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Check;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;

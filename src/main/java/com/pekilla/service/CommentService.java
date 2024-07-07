@@ -11,7 +11,6 @@ import com.pekilla.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
