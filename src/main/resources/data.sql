@@ -1,10 +1,10 @@
-INSERT INTO user(id, is_active, password, username, link) VALUES (1, true, 'sVAJjugOwwhJJSFdFRMa', 'Farid', '111111111');
-INSERT INTO user(id, is_active, password, username, link) VALUES (2, false, 'dYauqOCHNSFlNwSdHRQ', 'Maxime', '111111112');
-INSERT INTO user(id, is_active, password, username, link) VALUES (3, true, 'vHpNNigeBxwElLJnJrOO', 'Jacques', '111111113');
-INSERT INTO user(id, is_active, password, username, link) VALUES (4, true, 'JBCJKvKFQcIKuTotidly', 'Jean', '111111114');
-INSERT INTO user(id, is_active, password, username, link) VALUES (5, true, 'MXjdBWFLYYmAfvsWLrcz', 'Kim', '111111115');
-INSERT INTO user(id, is_active, password, username, link) VALUES (6, false, 'prpYFrOXbblPMazuaYc', 'Carl', '111111116');
-INSERT INTO user(id, is_active, password, username, link) VALUES (7, true, 'ShKYVcgJhPOsPGyTYNaW', 'Sam', '111111117');
+INSERT INTO user(id, is_active, password, username) VALUES (1, true, 'sVAJjugOwwhJJSFdFRMa', 'Farid');
+INSERT INTO user(id, is_active, password, username) VALUES (2, false, 'dYauqOCHNSFlNwSdHRQ', 'Maxime');
+INSERT INTO user(id, is_active, password, username) VALUES (3, true, 'vHpNNigeBxwElLJnJrOO', 'Jacques');
+INSERT INTO user(id, is_active, password, username) VALUES (4, true, 'JBCJKvKFQcIKuTotidly', 'Jean');
+INSERT INTO user(id, is_active, password, username) VALUES (5, true, 'MXjdBWFLYYmAfvsWLrcz', 'Kim');
+INSERT INTO user(id, is_active, password, username) VALUES (6, false, 'prpYFrOXbblPMazuaYc', 'Carl');
+INSERT INTO user(id, is_active, password, username) VALUES (7, true, 'ShKYVcgJhPOsPGyTYNaW', 'Sam');
 
 
 insert into post (id, title, added_date, original_poster_id, description, category) values (1, 'Let the Good Times Roll', '2023-04-28', 4, 'Fusion 2-6 C Jt w Intbd Fus Dev, Post Appr P Col, Perc', 'GAME');

@@ -44,7 +44,6 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
                             .id(comment.getId())
                             .message(comment.getMessage())
                             .username(comment.getAuthor().getUsername())
-                            .userLink(comment.getAuthor().getLink())
                             .addedDate(comment.getAddedDate())
                         .build()).toList());
 

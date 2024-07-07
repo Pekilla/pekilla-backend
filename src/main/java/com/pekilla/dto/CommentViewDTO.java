@@ -9,6 +9,5 @@ public record CommentViewDTO (
         long id,
         String message,
         String username,
-        String userLink,
         LocalDateTime addedDate
 ) {}

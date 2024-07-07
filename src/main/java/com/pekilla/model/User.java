@@ -25,10 +25,4 @@ public class User extends ForumTable {
 
     @NotBlank
     private String password;
-
-    // It will be a string of 9 char. Not the complete url.
-    @NotBlank
-    @Size(min = 9, max = 9)
-    @Column(unique = true)
-    private String link;
 }
