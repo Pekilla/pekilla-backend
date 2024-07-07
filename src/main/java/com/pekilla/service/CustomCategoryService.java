@@ -26,11 +26,9 @@ public class CustomCategoryService {
                 .findAll().stream().map(
                         customCategory -> CustomCategoryViewDTO
                             .builder()
-
                                 .name(customCategory.getName())
                                 .description(customCategory.getDescription())
                                 .creatorId(customCategory.getCreator().getId())
-
                             .build()).collect(Collectors.toList());
     }
 
