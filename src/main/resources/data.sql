@@ -1,10 +1,10 @@
-INSERT INTO user(id, is_active, password, username) VALUES (1, true, 'sVAJjugOwwhJJSFdFRMa', 'Farid');
-INSERT INTO user(id, is_active, password, username) VALUES (2, false, 'dYauqOCHNSFlNwSdHRQ', 'Maxime');
-INSERT INTO user(id, is_active, password, username) VALUES (3, true, 'vHpNNigeBxwElLJnJrOO', 'Jacques');
-INSERT INTO user(id, is_active, password, username) VALUES (4, true, 'JBCJKvKFQcIKuTotidly', 'Jean');
-INSERT INTO user(id, is_active, password, username) VALUES (5, true, 'MXjdBWFLYYmAfvsWLrcz', 'Kim');
-INSERT INTO user(id, is_active, password, username) VALUES (6, false, 'prpYFrOXbblPMazuaYc', 'Carl');
-INSERT INTO user(id, is_active, password, username) VALUES (7, true, 'ShKYVcgJhPOsPGyTYNaW', 'Sam');
+INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (1, true, 'sVAJjugOwwhJJSFdFRMa', 'Farid', 'farid@gdr.com', true);
+INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (2, false, 'dYauqOCHNSFlNwSdHRQ', 'Maxime', 'max@gm.com', true);
+INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (3, true, 'vHpNNigeBxwElLJnJrOO', 'Jacques', 'jacquesgpt@gmail.com', true);
+INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (4, true, 'JBCJKvKFQcIKuTotidly', 'Jean', 'jeandupont@mtl.com', true);
+INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (5, true, 'MXjdBWFLYYmAfvsWLrcz', 'Kim', 'kimthuy@vietnam.com', true);
+INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (6, false, 'prpYFrOXbblPMazuaYc', 'Carl', 'cj@rockstar.com', true);
+INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (7, true, 'ShKYVcgJhPOsPGyTYNaW', 'Sam', 'samaltman@openai.com', true);
 
 insert into category (id, name, banner, icon, description, creator_id) values (1, 'DRAWING', 'SedAugueAliquam.avi', 'JustoAliquam.tiff', 'Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros', 1);
 insert into category (id, name, banner, icon, description, creator_id) values (2, 'ANIME', 'VulputateJusto.xls', 'VehiculaCondimentumCurabitur.avi', 'Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien quis odio consequat varius. Integer ac leo.', 2);

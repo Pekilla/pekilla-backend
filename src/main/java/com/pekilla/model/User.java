@@ -36,7 +36,7 @@ public class User extends ForumTable {
     // For the future, to know if as user as entered a code that he received by email.
     @Builder.Default
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-    private Boolean isActivated = false;
+    private Boolean isValidated = false;
 
     @Builder.Default
     @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
