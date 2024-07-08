@@ -19,14 +19,16 @@ public class UserService implements IService<UserInfoDTO> {
         return null;
     }
 
-    public User getUserByUsername(String username) {
-        return null;
-    }
-
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
     }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
 
     @Override
     public String create(UserInfoDTO ent) {

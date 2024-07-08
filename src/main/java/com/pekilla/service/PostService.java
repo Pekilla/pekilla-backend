@@ -8,6 +8,7 @@ import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Category;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
+import com.pekilla.model.User;
 import com.pekilla.repository.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 @Validated
 public class PostService implements IService<PostDTO> {
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
     private final CategoryRepository categoryRepository;
@@ -92,7 +93,7 @@ public class PostService implements IService<PostDTO> {
         if (isCreate) {
             post.setCategory(getCategoryByName(postDto.getCategory()));
             post.setOriginalPoster(
-                userRepository.findOneById(postDto.getUserId()).orElseThrow(UserNotFoundException::new)
+                userService.getUserById(postDto.getUserId())
             );
             post.setDatesForCreate();
         }
@@ -138,5 +139,14 @@ public class PostService implements IService<PostDTO> {
             System.out.println("Category does not exist.");
             return List.of();
         }
+    }
+
+    public List<PostViewDTO> getAllPostsByUserName(String username) {
+        User user = userService.getUserByUsername(username);
+        return this.getAllPosts()
+                .stream().filter(
+                        post -> post.getUsername()
+                                .equals(user.getUsername()))
+                .toList();
     }
 }
