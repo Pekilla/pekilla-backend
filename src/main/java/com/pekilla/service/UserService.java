@@ -15,10 +15,6 @@ public class UserService implements IService<UserInfoDTO> {
         this.userRepository = userRepository;
     }
 
-    public User getUserByEmail(String email) {
-        return null;
-    }
-
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
@@ -28,7 +24,6 @@ public class UserService implements IService<UserInfoDTO> {
         return userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
     }
-
 
     @Override
     public String create(UserInfoDTO ent) {
