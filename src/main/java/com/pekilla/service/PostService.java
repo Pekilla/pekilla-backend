@@ -117,7 +117,7 @@ public class PostService implements IService<PostDTO> {
     public List<PostViewDTO> searchPosts(String content, String category, Set<String> tags) {
         try {
             // To see if the category exist, else throw exception
-            getCategoryByName(category);
+            if(!category.isEmpty()) getCategoryByName(category);
 
             List<Post> posts = postRepository.searchPosts(category, content);
 
