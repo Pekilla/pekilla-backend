@@ -5,6 +5,7 @@ import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
 import com.pekilla.service.CommentService;
 import com.pekilla.service.PostService;
+import com.pekilla.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class PostController {
     private final PostService postService;
     private final CommentService commentService;
+    private final UserService userService;
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostViewDTO> getPostById(@PathVariable long postId) {
@@ -61,6 +63,15 @@ public class PostController {
             return ResponseEntity.ok(commentService.getViewCommentsFromPost(postId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<List<PostViewDTO>> getAllPostsByUsername(@PathVariable String username) {
+        try {
+            return ResponseEntity.ok(postService.getAllPostsByUserName(username));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }

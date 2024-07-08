@@ -4,7 +4,6 @@ import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
 import com.pekilla.exception.type.CategoryNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
-import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Category;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
@@ -141,6 +140,12 @@ public class PostService implements IService<PostDTO> {
         }
     }
 
+    /**
+     * Method to retrieve all post related to a specific user using his username
+     *
+     * @param username The username of the user
+     * @return all posts related to the user with the specified username
+     */
     public List<PostViewDTO> getAllPostsByUserName(String username) {
         User user = userService.getUserByUsername(username);
         return this.getAllPosts()
