@@ -1,7 +1,7 @@
 package com.pekilla.dto;
 
 import com.pekilla.model.Category;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
@@ -13,7 +13,8 @@ public record CategoryViewDTO(
     @Size(min = 10, max = 100)
     String description,
 
-    @Positive
+    // DONT TOUCH IT >:(
+    @Min(1)
     long creatorId,
 
     String banner,
