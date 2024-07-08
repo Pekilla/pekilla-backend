@@ -66,7 +66,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/users/{username}")
     public ResponseEntity<List<PostViewDTO>> getAllPostsByUsername(@PathVariable String username) {
         try {
             return ResponseEntity.ok(postService.getAllPostsByUserName(username));
