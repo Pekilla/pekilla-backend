@@ -30,11 +30,7 @@ public class CategoryController {
 
     @GetMapping("/{name}")
     public ResponseEntity<CategoryViewDTO> getCategory(@PathVariable String name) {
-        try {
             return ResponseEntity.ok(categoryService.getByName(name));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping

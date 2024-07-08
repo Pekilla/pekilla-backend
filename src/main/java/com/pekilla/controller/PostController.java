@@ -53,7 +53,6 @@ public class PostController {
         if (content.isEmpty() && category.isEmpty() && tags.isEmpty()) {
             return postService.getAllPosts();
         }
-
         return postService.searchPosts(content, category, tags);
     }
 
@@ -68,10 +67,6 @@ public class PostController {
 
     @GetMapping("/users/{username}")
     public ResponseEntity<List<PostViewDTO>> getAllPostsByUsername(@PathVariable String username) {
-        try {
             return ResponseEntity.ok(postService.getAllPostsByUserName(username));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

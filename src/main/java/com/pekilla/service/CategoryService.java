@@ -30,18 +30,19 @@ public class CategoryService {
 
     public CategoryViewDTO getByName(String name) {
         return CategoryViewDTO.fromCategory(
-            categoryRepository.findOneByName(name).orElseThrow(CategoryNotFoundException::new)
+            categoryRepository.findOneByName(name)
+                    .orElseThrow(CategoryNotFoundException::new)
         );
     }
 
     public String createCategory(CategoryViewDTO dto) {
         categoryRepository.save(Category
             .builder()
-            .creator(userService.getUserById(dto.creatorId()))
-            .name(dto.name())
-            .description(dto.description())
-            .banner(dto.banner())
-            .icon(dto.icon())
+                .creator(userService.getUserById(dto.creatorId()))
+                .name(dto.name())
+                .description(dto.description())
+                .banner(dto.banner())
+                .icon(dto.icon())
             .build());
         return "Category has been added with success";
     }
