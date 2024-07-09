@@ -1,5 +1,6 @@
 package com.pekilla.controller;
 
+import com.pekilla.dto.UserSettingDTO;
 import com.pekilla.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +21,10 @@ public class UserController {
     @PostMapping("/banner")
     public void changeBanner(@RequestBody MultipartFile multipartFile, @RequestParam long userId) throws IOException {
         userService.changeBanner(multipartFile, userId);
+    }
+
+    @GetMapping("/setting")
+    public UserSettingDTO getUserSetting(@RequestParam long userId) {
+        return userService.getUserSetting(userId);
     }
 }

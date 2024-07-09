@@ -1,6 +1,7 @@
 package com.pekilla.service;
 
 import com.pekilla.dto.UserInfoDTO;
+import com.pekilla.dto.UserSettingDTO;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.User;
 import com.pekilla.repository.UserRepository;
@@ -51,5 +52,10 @@ public class UserService implements IService<UserInfoDTO> {
 
     public void changeBanner(MultipartFile multipartFile, long userId) throws IOException {
         userRepository.changeBanner(userId, fileService.saveFile(multipartFile, FileService.FileType.USER_BANNER));
+    }
+
+    public UserSettingDTO getUserSetting(long userId) {
+        User user = userRepository.findOneById(userId).orElse(null);
+        return user != null ? UserSettingDTO.from(user) : null;
     }
 }
