@@ -4,10 +4,10 @@ import com.pekilla.dto.PostDTO;
 import com.pekilla.dto.PostViewDTO;
 import com.pekilla.exception.type.CategoryNotFoundException;
 import com.pekilla.exception.type.PostNotFoundException;
-import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Category;
 import com.pekilla.model.Post;
 import com.pekilla.model.Tag;
+import com.pekilla.model.User;
 import com.pekilla.repository.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Validated
 public class PostService implements IService<PostDTO> {
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
     private final CategoryRepository categoryRepository;
@@ -92,7 +92,7 @@ public class PostService implements IService<PostDTO> {
         if (isCreate) {
             post.setCategory(getCategoryByName(postDto.getCategory()));
             post.setOriginalPoster(
-                userRepository.findOneById(postDto.getUserId()).orElseThrow(UserNotFoundException::new)
+                userService.getUserById(postDto.getUserId())
             );
             post.setDatesForCreate();
         }
@@ -138,5 +138,20 @@ public class PostService implements IService<PostDTO> {
             System.out.println("Category does not exist.");
             return List.of();
         }
+    }
+
+    /**
+     * Method to retrieve all post related to a specific user using his username
+     *
+     * @param username The username of the user
+     * @return all posts related to the user with the specified username
+     */
+    public List<PostViewDTO> getAllPostsByUserName(String username) {
+        User user = userService.getUserByUsername(username);
+        return this.getAllPosts()
+                .stream().filter(
+                        post -> post.getUsername()
+                                .equals(user.getUsername()))
+                .toList();
     }
 }
