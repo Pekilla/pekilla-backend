@@ -46,12 +46,12 @@ public class UserService implements IService<UserInfoDTO> {
         return "";
     }
 
-    public void changeIcon(MultipartFile multipartFile, long userId) throws IOException {
-        userRepository.changeIcon(userId, fileService.saveFile(multipartFile, FileService.FileType.USER_ICON));
+    public void changeIcon(MultipartFile multipartFile, long userId, boolean isDelete) throws IOException {
+        userRepository.changeIcon(userId, isDelete ? null : fileService.saveFile(multipartFile, FileService.FileType.USER_ICON));
     }
 
-    public void changeBanner(MultipartFile multipartFile, long userId) throws IOException {
-        userRepository.changeBanner(userId, fileService.saveFile(multipartFile, FileService.FileType.USER_BANNER));
+    public void changeBanner(MultipartFile multipartFile, long userId, boolean isDelete) throws IOException {
+        userRepository.changeBanner(userId, isDelete ? null : fileService.saveFile(multipartFile, FileService.FileType.USER_BANNER));
     }
 
     public UserSettingDTO getUserSetting(long userId) {

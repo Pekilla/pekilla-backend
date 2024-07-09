@@ -3,24 +3,28 @@ package com.pekilla.controller;
 import com.pekilla.dto.UserSettingDTO;
 import com.pekilla.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(path = "/api/users")
+@CrossOrigin("${ALLOWED_URL}")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
     @PostMapping("/icon")
-    public void changeIcon(@RequestBody MultipartFile multipartFile, @RequestParam long userId) throws IOException {
-        userService.changeIcon(multipartFile, userId);
+    public ResponseEntity<?> changeIcon(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam long userId, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {
+        userService.changeIcon(multipartFile, userId, isDelete);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/banner")
-    public void changeBanner(@RequestBody MultipartFile multipartFile, @RequestParam long userId) throws IOException {
-        userService.changeBanner(multipartFile, userId);
+    public ResponseEntity<?> changeBanner(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam long userId, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {
+        userService.changeBanner(multipartFile, userId, isDelete);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/setting")
