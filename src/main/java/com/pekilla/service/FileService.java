@@ -19,6 +19,10 @@ public class FileService {
     @Value("${UPLOAD_PATH}")
     public String uploadPath;
 
+    public String getImageUrl(String fileName, FileType fileType) {
+        return fileName != null ? imageServerUrl+fileType.folder+"/"+fileName : null;
+    }
+
     @RequiredArgsConstructor
     public enum FileType {
         USER_ICON("/users/icon"),

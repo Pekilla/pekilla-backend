@@ -56,6 +56,13 @@ public class UserService implements IService<UserInfoDTO> {
 
     public UserSettingDTO getUserSetting(long userId) {
         User user = userRepository.findOneById(userId).orElse(null);
-        return user != null ? UserSettingDTO.from(user) : null;
+        return (
+            user != null ? new UserSettingDTO(
+                user.getEmail(),
+                user.getUsername(),
+                fileService.getImageUrl(user.getIcon(), FileService.FileType.USER_ICON),
+                fileService.getImageUrl(user.getBanner(), FileService.FileType.USER_BANNER)
+            ) : null
+        );
     }
 }
