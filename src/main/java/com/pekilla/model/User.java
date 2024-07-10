@@ -34,8 +34,7 @@ public class User extends ForumTable {
     private String banner;
 
     @ManyToMany
-    @JoinTable(
-            name = "user_followers")
+    @JoinTable(name = "user_followers")
     private Set<User> followers;
 
     // For the future, to know if as user as entered a code that he received by email.
