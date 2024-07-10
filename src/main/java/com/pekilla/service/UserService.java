@@ -2,24 +2,23 @@ package com.pekilla.service;
 
 import com.pekilla.dto.UserInfoDTO;
 import com.pekilla.dto.UserSettingDTO;
+import com.pekilla.enums.FileType;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.User;
 import com.pekilla.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+
 @Service
+@RequiredArgsConstructor
 public class UserService implements IService<UserInfoDTO> {
 
     private final UserRepository userRepository;
     private final FileService fileService;
-
-    public UserService(UserRepository userRepository, FileService fileService) {
-        this.userRepository = userRepository;
-        this.fileService = fileService;
-    }
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
@@ -31,13 +30,14 @@ public class UserService implements IService<UserInfoDTO> {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+
     public UserInfoDTO getUserInfoByUsername(String username) {
         User user = getUserByUsername(username);
         return UserInfoDTO
                 .builder()
                     .username(user.getUsername())
-                    .icon(fileService.getImageUrl(user.getIcon(), FileService.FileType.USER_ICON))
-                    .banner(fileService.getImageUrl(user.getBanner(), FileService.FileType.USER_BANNER))
+                    .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
+                    .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
                 .build();
     }
 
@@ -57,11 +57,11 @@ public class UserService implements IService<UserInfoDTO> {
     }
 
     public void changeIcon(MultipartFile multipartFile, long userId, boolean isDelete) throws IOException {
-        userRepository.changeIcon(userId, isDelete ? null : fileService.saveFile(multipartFile, FileService.FileType.USER_ICON));
+        userRepository.changeIcon(userId, isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_ICON));
     }
 
     public void changeBanner(MultipartFile multipartFile, long userId, boolean isDelete) throws IOException {
-        userRepository.changeBanner(userId, isDelete ? null : fileService.saveFile(multipartFile, FileService.FileType.USER_BANNER));
+        userRepository.changeBanner(userId, isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_BANNER));
     }
 
     public UserSettingDTO getUserSetting(long userId) {
@@ -70,8 +70,8 @@ public class UserService implements IService<UserInfoDTO> {
             user != null ? new UserSettingDTO(
                 user.getEmail(),
                 user.getUsername(),
-                fileService.getImageUrl(user.getIcon(), FileService.FileType.USER_ICON),
-                fileService.getImageUrl(user.getBanner(), FileService.FileType.USER_BANNER)
+                fileService.getImageUrl(user.getIcon(), FileType.USER_ICON),
+                fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER)
             ) : null
         );
     }

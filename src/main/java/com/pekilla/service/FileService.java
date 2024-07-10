@@ -1,8 +1,8 @@
 package com.pekilla.service;
 
+import com.pekilla.enums.FileType;
 import com.pekilla.util.RandomUtil;
 import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -24,15 +24,7 @@ public class FileService {
         return fileName != null ? imageServerUrl+fileType.folder+"/"+fileName : null;
     }
 
-    @RequiredArgsConstructor
-    public enum FileType {
-        USER_ICON("/users/icon"),
-        USER_BANNER("/users/banner"),
-        CATEGORY_ICON("/categories/icon"),
-        CATEGORY_BANNER("/categories/banner");
 
-        private final String folder;
-    }
 
     public String getExtensionFromMultipartFile(MultipartFile multipartFile) {
         String[] seperatedFileName = Objects.requireNonNull(multipartFile.getOriginalFilename()).split("\\.");
