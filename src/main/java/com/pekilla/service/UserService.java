@@ -75,4 +75,8 @@ public class UserService implements IService<UserInfoDTO> {
             ) : null
         );
     }
+
+    public boolean isPasswordValid(long userId, String password) {
+        return userRepository.passwordAndUsername(userId, password) == 1;
+    }
 }

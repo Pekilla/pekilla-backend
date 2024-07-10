@@ -37,4 +37,9 @@ public class UserController {
     public UserSettingDTO getUserSetting(@RequestParam long userId) {
         return userService.getUserSetting(userId);
     }
+
+    @GetMapping("/{userId}/verify-password")
+    public boolean isPasswordValid(@PathVariable long userId, @RequestParam String password) {
+        return userService.isPasswordValid(userId, password);
+    }
 }

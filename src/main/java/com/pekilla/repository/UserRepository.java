@@ -20,4 +20,7 @@ public interface UserRepository extends IRepository<User>, JpaRepository<User, L
     @Modifying
     @Query(value = "UPDATE user u SET u.banner = ?2 WHERE u.id = ?1 LIMIT 1", nativeQuery = true)
     int changeBanner(long id, String banner);
+
+    @Query(value = "SELECT EXISTS(SELECT * FROM user u WHERE u.id = ?1 AND u.password = ?2 LIMIT 1)", nativeQuery = true)
+    int passwordAndUsername(long id, String password);
 }
