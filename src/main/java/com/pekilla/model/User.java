@@ -1,13 +1,14 @@
 package com.pekilla.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Builder
@@ -32,6 +33,11 @@ public class User extends ForumTable {
 
     private String icon;
     private String banner;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_followers")
+    private Set<User> followers;
 
     // For the future, to know if as user as entered a code that he received by email.
     @Builder.Default
