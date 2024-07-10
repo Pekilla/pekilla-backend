@@ -1,11 +1,11 @@
-package com.pekilla.service;
+package com.pekilla.util;
 
 import java.util.Random;
 
 /**
  * Forked from Opensell.
  */
-public class RandomService {
+public class RandomUtil {
     private static final Random RANDOM = new Random();
 
     public static int FILE_LENGTH = 10;

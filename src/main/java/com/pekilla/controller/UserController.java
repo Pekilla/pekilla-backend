@@ -1,5 +1,6 @@
 package com.pekilla.controller;
 
+import com.pekilla.dto.UserInfoDTO;
 import com.pekilla.dto.UserSettingDTO;
 import com.pekilla.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserInfoDTO> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserInfoByUsername(username));
+    }
 
     @PostMapping("/icon")
     public ResponseEntity<?> changeIcon(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam long userId, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {

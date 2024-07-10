@@ -1,9 +1,11 @@
 package com.pekilla.dto;
 
+import com.pekilla.model.User;
 import lombok.Builder;
 
 @Builder
 public record UserInfoDTO (
         String username,
-        String link
+        String icon,
+        String banner
 ) { }

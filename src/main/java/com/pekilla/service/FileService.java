@@ -1,5 +1,6 @@
 package com.pekilla.service;
 
+import com.pekilla.util.RandomUtil;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,10 +50,10 @@ public class FileService {
     public String saveFile(@NotNull MultipartFile multipartFile, FileType fileType) throws IOException {
         String extension = getExtensionFromMultipartFile(multipartFile);
 
-        File destinationFile = new File(RandomService.randFileName(uploadPath+fileType.folder, extension));
+        File destinationFile = new File(RandomUtil.randFileName(uploadPath+fileType.folder, extension));
 
         while (destinationFile.exists()) {
-            destinationFile.renameTo(new File(RandomService.randFileName(uploadPath+fileType.folder, extension)));
+            destinationFile.renameTo(new File(RandomUtil.randFileName(uploadPath+fileType.folder, extension)));
         }
 
         destinationFile.createNewFile();

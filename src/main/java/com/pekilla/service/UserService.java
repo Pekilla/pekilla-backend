@@ -31,6 +31,16 @@ public class UserService implements IService<UserInfoDTO> {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    public UserInfoDTO getUserInfoByUsername(String username) {
+        User user = getUserByUsername(username);
+        return UserInfoDTO
+                .builder()
+                    .username(user.getUsername())
+                    .icon(fileService.getImageUrl(user.getIcon(), FileService.FileType.USER_ICON))
+                    .banner(fileService.getImageUrl(user.getBanner(), FileService.FileType.USER_BANNER))
+                .build();
+    }
+
     @Override
     public String create(UserInfoDTO ent) {
         return "";
@@ -55,7 +65,7 @@ public class UserService implements IService<UserInfoDTO> {
     }
 
     public UserSettingDTO getUserSetting(long userId) {
-        User user = userRepository.findOneById(userId).orElse(null);
+        User user = this.getUserById(userId);
         return (
             user != null ? new UserSettingDTO(
                 user.getEmail(),
