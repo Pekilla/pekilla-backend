@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.Check;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -34,7 +35,8 @@ public class User extends ForumTable {
     private String banner;
 
     @ManyToMany
-    @JoinTable(name = "followers")
+    @Check(constraints = "follower_id != user_id")
+    @JoinTable(name = "rel_user_follower", inverseJoinColumns = @JoinColumn(name = "follower_id"))
     private Set<User> followers;
 
     // For the future, to know if as user as entered a code that he received by email.
@@ -43,6 +45,7 @@ public class User extends ForumTable {
     private Boolean isValidated = false;
 
     @Builder.Default
+
     @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
     private LocalDate joinedDate = LocalDate.now();
 }

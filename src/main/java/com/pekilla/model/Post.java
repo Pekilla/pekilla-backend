@@ -3,11 +3,14 @@ package com.pekilla.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pekilla.model.constraint.PostConstraint;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.Formula;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,6 +41,8 @@ public class Post extends ForumTable implements PostConstraint {
     @NotNull
     @ManyToOne
     private User originalPoster;
+
+    //private long likes = 1;
 
     @Column(columnDefinition = "DATETIME DEFAULT NOW()", nullable = false)
     private LocalDateTime addedDate;
