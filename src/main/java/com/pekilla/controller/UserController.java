@@ -21,13 +21,13 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfoByUsername(username));
     }
 
-    @PostMapping("/icon")
+    @PatchMapping("/icon")
     public ResponseEntity<?> changeIcon(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam long userId, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {
         userService.changeIcon(multipartFile, userId, isDelete);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/banner")
+    @PatchMapping("/banner")
     public ResponseEntity<?> changeBanner(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam long userId, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {
         userService.changeBanner(multipartFile, userId, isDelete);
         return ResponseEntity.ok().build();
