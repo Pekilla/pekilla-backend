@@ -45,7 +45,6 @@ public class User extends ForumTable {
     private Boolean isValidated = false;
 
     @Builder.Default
-
     @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
     private LocalDate joinedDate = LocalDate.now();
 }

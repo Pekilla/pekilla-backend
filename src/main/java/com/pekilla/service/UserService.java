@@ -76,6 +76,7 @@ public class UserService implements IService<UserInfoDTO> {
         );
     }
 
+    // Will change with Spring Security
     public boolean isPasswordValid(long userId, String password) {
         return userRepository.passwordAndUsername(userId, password) == 1;
     }
