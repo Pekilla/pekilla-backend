@@ -1,20 +1,18 @@
 package com.pekilla.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/follower")
 public class FollowerController {
 
-    @PostMapping("")
-    public void followUser() {
+    @PatchMapping("/{follower}/follow/{username}")
+    public void followUser(@PathVariable String follower, @PathVariable String username) {
 
     }
 
-    @PostMapping("")
-    public void unfollowUser(String userFollowedName, String followingUserName) {
+    @PatchMapping("/{follower}/unfollow/{username}")
+    public void unfollowUser(@PathVariable String follower, @PathVariable String username) {
 
     }
 }

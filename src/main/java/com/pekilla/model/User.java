@@ -35,7 +35,7 @@ public class User extends ForumTable {
     private String banner;
 
     @ManyToMany
-    @Check(constraints = "follower_id != user_id")
+    //@Check(constraints = "follower_id != user_id")
     @JoinTable(name = "rel_user_follower", inverseJoinColumns = @JoinColumn(name = "follower_id"))
     private Set<User> followers;
 
