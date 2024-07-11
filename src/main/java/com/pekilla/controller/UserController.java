@@ -42,4 +42,9 @@ public class UserController {
     public boolean isPasswordValid(@PathVariable long userId, @RequestParam String password) {
         return userService.isPasswordValid(userId, password);
     }
+
+    @PatchMapping("/{userId}/username/{username}")
+    public ResponseEntity<?> changeUsername(@PathVariable long userId, @PathVariable String username) {
+        return userService.changeUsername(userId, username);
+    }
 }

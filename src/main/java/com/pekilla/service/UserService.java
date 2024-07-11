@@ -7,6 +7,10 @@ import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.User;
 import com.pekilla.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,23 +26,23 @@ public class UserService implements IService<UserInfoDTO> {
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+            .orElseThrow(UserNotFoundException::new);
     }
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(UserNotFoundException::new);
+            .orElseThrow(UserNotFoundException::new);
     }
 
 
     public UserInfoDTO getUserInfoByUsername(String username) {
         User user = getUserByUsername(username);
         return UserInfoDTO
-                .builder()
-                    .username(user.getUsername())
-                    .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
-                    .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
-                .build();
+            .builder()
+            .username(user.getUsername())
+            .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
+            .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
+            .build();
     }
 
     @Override
@@ -79,5 +83,26 @@ public class UserService implements IService<UserInfoDTO> {
     // Will change with Spring Security
     public boolean isPasswordValid(long userId, String password) {
         return userRepository.passwordAndUsername(userId, password) == 1;
+    }
+
+    public ResponseEntity<?> changeUsername(long userId, String username) {
+        try {
+            User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+            if (!user.getUsername().equals(username)) {
+                user.setUsername(username);
+
+                userRepository.save(user);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            if(e instanceof DataIntegrityViolationException) return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            else if(e instanceof UserNotFoundException) return ResponseEntity.notFound().build();
+            else return ResponseEntity.internalServerError().build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 }
