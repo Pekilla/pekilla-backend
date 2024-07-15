@@ -47,4 +47,14 @@ public class UserController {
     public ResponseEntity<?> changeUsername(@PathVariable long userId, @PathVariable String username) {
         return userService.changeUsername(userId, username);
     }
+
+    @PatchMapping("/{userId}/password/{password}")
+    public ResponseEntity<?> changePassword(@PathVariable long userId, @PathVariable String password) {
+        return userService.changePassword(userId, password);
+    }
+
+    @PatchMapping("/{userId}/email/{email}")
+    public ResponseEntity<?> changeEmail(@PathVariable long userId, @PathVariable String email) {
+        return userService.changeEmail(userId, email);
+    }
 }

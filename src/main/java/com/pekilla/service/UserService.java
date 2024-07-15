@@ -9,11 +9,9 @@ import com.pekilla.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 
 
@@ -87,7 +85,7 @@ public class UserService implements IService<UserInfoDTO> {
 
     public ResponseEntity<?> changeUsername(long userId, String username) {
         try {
-            User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+            User user = this.getUserById(userId);
 
             if (!user.getUsername().equals(username)) {
                 user.setUsername(username);
@@ -104,5 +102,42 @@ public class UserService implements IService<UserInfoDTO> {
         }
 
         return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> changeEmail(long userId, String email) {
+        try {
+            User user = this.getUserById(userId);
+
+            if(!user.getEmail().equals(email)) {
+                user.setEmail(email);
+                userRepository.save(user);
+            }
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            if(e instanceof DataIntegrityViolationException) return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            else if(e instanceof UserNotFoundException) return ResponseEntity.notFound().build();
+            else return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    public ResponseEntity<?> changePassword(long userId, String password) {
+        try {
+            User user = this.getUserById(userId);
+
+            if(!user.getPassword().equals(password)) {
+                user.setEmail(password);
+                userRepository.save(user);
+            }
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            if(e instanceof UserNotFoundException) return ResponseEntity.notFound().build();
+            else return ResponseEntity.internalServerError().build();
+        }
     }
 }
