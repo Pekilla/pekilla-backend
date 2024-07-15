@@ -128,7 +128,7 @@ public class UserService implements IService<UserInfoDTO> {
             User user = this.getUserById(userId);
 
             if(!user.getPassword().equals(password)) {
-                user.setEmail(password);
+                user.setPassword(password);
                 userRepository.save(user);
             }
 

@@ -43,18 +43,18 @@ public class UserController {
         return userService.isPasswordValid(userId, password);
     }
 
-    @PatchMapping("/{userId}/username/{username}")
-    public ResponseEntity<?> changeUsername(@PathVariable long userId, @PathVariable String username) {
+    @PatchMapping("/{userId}/username")
+    public ResponseEntity<?> changeUsername(@PathVariable long userId, @RequestParam String username) {
         return userService.changeUsername(userId, username);
     }
 
-    @PatchMapping("/{userId}/password/{password}")
-    public ResponseEntity<?> changePassword(@PathVariable long userId, @PathVariable String password) {
+    @PatchMapping("/{userId}/password")
+    public ResponseEntity<?> changePassword(@PathVariable long userId, @RequestParam String password) {
         return userService.changePassword(userId, password);
     }
 
-    @PatchMapping("/{userId}/email/{email}")
-    public ResponseEntity<?> changeEmail(@PathVariable long userId, @PathVariable String email) {
+    @PatchMapping("/{userId}/email")
+    public ResponseEntity<?> changeEmail(@PathVariable long userId, @RequestParam String email) {
         return userService.changeEmail(userId, email);
     }
 }
