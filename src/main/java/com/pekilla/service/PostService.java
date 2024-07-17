@@ -105,8 +105,6 @@ public class PostService implements IService<PostDTO> {
         return PostViewDTO.fromPost(postRepository.save(post));
     }
 
-
-
     /**
      * Function to research post by content, category and/or tags.
      *
