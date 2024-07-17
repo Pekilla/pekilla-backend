@@ -7,6 +7,6 @@ public record EditCreateCategoryDTO(
     String banner,
     String icon,
     @NotNull String description,
-    @NotNull String creatorName
+    @NotNull long creatorId
 ) {
 }

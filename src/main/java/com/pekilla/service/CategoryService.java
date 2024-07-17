@@ -82,8 +82,8 @@ public class CategoryService {
             if(banner != null) category.setBanner(fileService.saveFile(icon, FileType.CATEGORY_BANNER));
 
             if (isCreate) {
-                category.setName(category.getName());
-                category.setCreator(userService.getUserByUsername(category.getName()));
+                category.setName(categoryDTO.name());
+                category.setCreator(userService.getUserById(categoryDTO.creatorId()));
             }
 
             categoryRepository.save(category);
@@ -91,7 +91,7 @@ public class CategoryService {
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Category already exists");
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User "+categoryDTO.creatorName()+" does not exist.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist.");
         } catch (IOException e) {
             return ResponseEntity.badRequest().body("Invalid image format.");
         }
