@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotNull;
 
 public record EditCreateCategoryDTO(
     @NotNull String name,
-    String banner,
-    String icon,
+    Object banner,
+    Object icon,
     @NotNull String description,
     @NotNull long creatorId
 ) {

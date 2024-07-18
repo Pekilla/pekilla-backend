@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Validated
@@ -47,19 +48,25 @@ public class CategoryService {
         );
     }
 
-    public ResponseEntity<?> createOrUpdate(
-        MultipartFile icon,
-        MultipartFile banner,
-        @Valid @NotNull EditCreateCategoryDTO categoryDTO,
-        boolean isCreate
-    ) {
+    public ResponseEntity<?> createOrUpdate(@Valid EditCreateCategoryDTO categoryDTO, boolean isCreate) {
         try {
             Category category = (isCreate ? new Category() : categoryRepository.findOneByName(categoryDTO.name())
                 .orElseThrow(CategoryNotFoundException::new));
             category.setDescription(categoryDTO.description());
 
-            if (icon != null) category.setIcon(fileService.saveFile(icon, FileType.CATEGORY_ICON));
-            if (banner != null) category.setBanner(fileService.saveFile(icon, FileType.CATEGORY_BANNER));
+            // Change the icon
+            if (categoryDTO.icon() == null) {
+                category.setIcon(null);
+            } else if(categoryDTO.icon() instanceof MultipartFile icon) {
+                category.setIcon(fileService.saveFile(icon, FileType.CATEGORY_ICON));
+            }
+
+            // Change the banner
+            if (categoryDTO.banner() == null) {
+                category.setBanner(null);
+            } else if(categoryDTO.banner() instanceof MultipartFile banner) {
+                category.setBanner(fileService.saveFile(banner, FileType.CATEGORY_BANNER));
+            }
 
             if (isCreate) {
                 category.setName(categoryDTO.name());

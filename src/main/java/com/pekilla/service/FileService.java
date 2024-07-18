@@ -24,8 +24,6 @@ public class FileService {
         return fileName != null ? imageServerUrl+fileType.folder+"/"+fileName : null;
     }
 
-
-
     public String getExtensionFromMultipartFile(MultipartFile multipartFile) {
         String[] seperatedFileName = Objects.requireNonNull(multipartFile.getOriginalFilename()).split("\\.");
         return seperatedFileName[seperatedFileName.length - 1];

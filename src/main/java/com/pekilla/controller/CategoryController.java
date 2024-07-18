@@ -2,12 +2,15 @@ package com.pekilla.controller;
 
 import com.pekilla.dto.CategoryViewDTO;
 import com.pekilla.dto.EditCreateCategoryDTO;
+import com.pekilla.enums.FileType;
 import com.pekilla.service.CategoryService;
+import com.pekilla.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
+import java.util.Objects;
 
 @CrossOrigin("${ALLOWED_URL}")
 @RequestMapping("/api/categories")
@@ -15,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
+    private final FileService fileService;
 
     @GetMapping("/names")
     public ResponseEntity<List<String>> getAllNames() {
@@ -37,24 +41,36 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<?> createCategory(
-        @RequestParam(required = false) MultipartFile banner,
-        @RequestParam(required = false) MultipartFile icon,
         EditCreateCategoryDTO dto
     ) {
-        return categoryService.createOrUpdate(icon, banner, dto,true);
+        return categoryService.createOrUpdate(dto,true);
     }
 
     @PatchMapping
     public ResponseEntity<?> updateCategory(
-        @RequestParam(required = false) MultipartFile banner,
-        @RequestParam(required = false) MultipartFile icon,
         EditCreateCategoryDTO dto
     ) {
-        return categoryService.createOrUpdate(icon, banner, dto,false);
+        return categoryService.createOrUpdate(dto, false);
     }
 
-    @GetMapping("/exists/{name}")
-    public boolean isExists(@PathVariable String name) {
+    @GetMapping("/exists")
+    public boolean isExists(@RequestParam String name) {
+        System.out.println(name);
         return categoryService.isExists(name);
+    }
+
+    // Separated method because this one will receive verification when Spring security is installed.
+    @GetMapping("/edit")
+    public EditCreateCategoryDTO getEditCategory(@RequestParam String name) {
+        var dto = categoryService.getByName(name);
+        System.out.println(dto);
+        System.out.println(name);
+        return new EditCreateCategoryDTO(
+            dto.name(),
+            fileService.getImageUrl(dto.banner(), FileType.CATEGORY_BANNER),
+            fileService.getImageUrl(dto.icon(), FileType.CATEGORY_ICON),
+            dto.description(),
+            dto.creatorId()
+        );
     }
 }
