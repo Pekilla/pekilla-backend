@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @CrossOrigin("${ALLOWED_URL}")
@@ -52,5 +51,10 @@ public class CategoryController {
         EditCreateCategoryDTO dto
     ) {
         return categoryService.createOrUpdate(icon, banner, dto,false);
+    }
+
+    @GetMapping("/exists/{name}")
+    public boolean isExists(@PathVariable String name) {
+        return categoryService.isExists(name);
     }
 }

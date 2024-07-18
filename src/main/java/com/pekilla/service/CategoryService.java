@@ -2,16 +2,11 @@ package com.pekilla.service;
 
 import com.pekilla.dto.CategoryViewDTO;
 import com.pekilla.dto.EditCreateCategoryDTO;
-import com.pekilla.dto.PostDTO;
-import com.pekilla.dto.PostViewDTO;
 import com.pekilla.enums.FileType;
 import com.pekilla.exception.type.CategoryNotFoundException;
-import com.pekilla.exception.type.PostNotFoundException;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.Category;
-import com.pekilla.model.Post;
 import com.pekilla.repository.CategoryRepository;
-import com.pekilla.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -33,7 +26,6 @@ import java.util.stream.Collectors;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final UserService userService;
-    private final UserRepository userRepository;
     private final FileService fileService;
 
     public List<String> getAllNames() {
@@ -51,20 +43,8 @@ public class CategoryService {
     public CategoryViewDTO getByName(String name) {
         return CategoryViewDTO.fromCategory(
             categoryRepository.findOneByName(name)
-                    .orElseThrow(CategoryNotFoundException::new)
+                .orElseThrow(CategoryNotFoundException::new)
         );
-    }
-
-    public String createCategory(CategoryViewDTO dto) {
-        categoryRepository.save(Category
-            .builder()
-                .creator(userService.getUserById(dto.creatorId()))
-                .name(dto.name())
-                .description(dto.description())
-                .banner(dto.banner())
-                .icon(dto.icon())
-            .build());
-        return "Category has been added with success";
     }
 
     public ResponseEntity<?> createOrUpdate(
@@ -78,8 +58,8 @@ public class CategoryService {
                 .orElseThrow(CategoryNotFoundException::new));
             category.setDescription(categoryDTO.description());
 
-            if(icon != null) category.setIcon(fileService.saveFile(icon, FileType.CATEGORY_ICON));
-            if(banner != null) category.setBanner(fileService.saveFile(icon, FileType.CATEGORY_BANNER));
+            if (icon != null) category.setIcon(fileService.saveFile(icon, FileType.CATEGORY_ICON));
+            if (banner != null) category.setBanner(fileService.saveFile(icon, FileType.CATEGORY_BANNER));
 
             if (isCreate) {
                 category.setName(categoryDTO.name());
@@ -95,5 +75,9 @@ public class CategoryService {
         } catch (IOException e) {
             return ResponseEntity.badRequest().body("Invalid image format.");
         }
+    }
+
+    public boolean isExists(String name) {
+        return categoryRepository.isExistsByName(name) == 1;
     }
 }
