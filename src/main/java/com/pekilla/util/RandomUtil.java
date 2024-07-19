@@ -19,8 +19,6 @@ public class RandomUtil {
     /**
      * Function that return a Random letter using the position of the ASCII table.
      * For example, 'a' is at position 97 in the ASCI table.
-     *
-     * @author Achraf
      */
     public static char randAsciiLetter() {
         // RANDOM to choose between upper(1) or lower(0).

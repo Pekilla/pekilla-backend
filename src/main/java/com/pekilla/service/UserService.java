@@ -1,21 +1,26 @@
 package com.pekilla.service;
 
+import com.pekilla.dto.FollowUserDTO;
 import com.pekilla.dto.UserInfoDTO;
 import com.pekilla.dto.UserSettingDTO;
 import com.pekilla.enums.FileType;
 import com.pekilla.exception.type.UserNotFoundException;
 import com.pekilla.model.User;
 import com.pekilla.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 
-
 @Service
+@Validated
 @RequiredArgsConstructor
 public class UserService implements IService<UserInfoDTO> {
 
@@ -56,6 +61,12 @@ public class UserService implements IService<UserInfoDTO> {
     @Override
     public String update(long id, UserInfoDTO ent) {
         return "";
+    }
+
+    public void followUser(FollowUserDTO dto) {
+        User followed = this.getUserByUsername(dto.followed());
+        followed.getFollowers().add(this.getUserByUsername(dto.follower()));
+        userRepository.save(followed);
     }
 
     public void changeIcon(MultipartFile multipartFile, long userId, boolean isDelete) throws IOException {

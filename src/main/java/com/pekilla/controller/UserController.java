@@ -1,5 +1,6 @@
 package com.pekilla.controller;
 
+import com.pekilla.dto.FollowUserDTO;
 import com.pekilla.dto.UserInfoDTO;
 import com.pekilla.dto.UserSettingDTO;
 import com.pekilla.service.UserService;
@@ -56,5 +57,15 @@ public class UserController {
     @PatchMapping("/{userId}/email")
     public ResponseEntity<?> changeEmail(@PathVariable long userId, @RequestParam String email) {
         return userService.changeEmail(userId, email);
+    }
+
+    @PatchMapping("/follow")
+    public ResponseEntity<?> followUser(FollowUserDTO dto) {
+        try {
+            userService.followUser(dto);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
