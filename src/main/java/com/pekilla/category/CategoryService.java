@@ -50,6 +50,8 @@ public class CategoryService {
 
     public ResponseEntity<?> createOrUpdate(@Valid EditCreateCategoryDTO categoryDTO, boolean isCreate) {
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
             Category category = (isCreate ? new Category() : categoryRepository.findOneByName(categoryDTO.name())
                 .orElseThrow(CategoryNotFoundException::new));
             category.setDescription(categoryDTO.description());
@@ -70,7 +72,7 @@ public class CategoryService {
 
             if (isCreate) {
                 category.setName(categoryDTO.name());
-                category.setCreator(userService.getUserById(categoryDTO.creatorId()));
+                category.setCreator(user);
             }
 
             categoryRepository.save(category);
@@ -106,8 +108,7 @@ public class CategoryService {
                     dto.name(),
                     fileService.getImageUrl(dto.banner(), FileType.CATEGORY_BANNER),
                     fileService.getImageUrl(dto.icon(), FileType.CATEGORY_ICON),
-                    dto.description(),
-                    dto.creatorId()
+                    dto.description()
                 )
             );
         }

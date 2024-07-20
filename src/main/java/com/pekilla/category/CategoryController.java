@@ -2,9 +2,7 @@ package com.pekilla.category;
 
 import com.pekilla.category.dto.CategoryViewDTO;
 import com.pekilla.category.dto.EditCreateCategoryDTO;
-import com.pekilla.upload.enums.FileType;
 import com.pekilla.upload.FileService;
-import com.pekilla.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
-    private final FileService fileService;
 
     @GetMapping("/names")
     public ResponseEntity<List<String>> getAllNames() {
@@ -58,7 +55,6 @@ public class CategoryController {
         return categoryService.isExists(name);
     }
 
-    // Separated method because this one will receive verification when Spring security is installed.
     @GetMapping("/edit")
     public ResponseEntity<?> getEditCategory(@RequestParam String name) {
         return categoryService.getEditCategory(name);

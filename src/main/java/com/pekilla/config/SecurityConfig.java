@@ -3,6 +3,7 @@ package com.pekilla.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,7 +27,6 @@ public class SecurityConfig {
         "/api/auth/**",
         "/api/categories/**",
         "/api/posts/**",
-        "/api/categories/**",
         "/api/users/exists/**"
     };
 
@@ -42,6 +42,9 @@ public class SecurityConfig {
                 authCustomizer -> authCustomizer
                     .requestMatchers(WHITE_LIST_URL).permitAll()
                     .requestMatchers(AUTH_LIST).authenticated()
+                    .requestMatchers(HttpMethod.POST, "/api/categories").authenticated()
+                    .requestMatchers(HttpMethod.PATCH, "/api/categories").authenticated()
+                    .requestMatchers("/api/categories/edit").authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)

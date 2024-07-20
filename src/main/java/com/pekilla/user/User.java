@@ -1,5 +1,6 @@
 package com.pekilla.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pekilla.global.ForumTable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -38,6 +39,8 @@ public class User extends ForumTable implements UserDetails {
     private String icon;
     private String banner;
 
+    @JsonIgnore
+    @ToString.Exclude
     @ManyToMany
     @Check(constraints = "follower_id != user_id")
     @JoinTable(name = "rel_user_follower", inverseJoinColumns = @JoinColumn(name = "follower_id"))
