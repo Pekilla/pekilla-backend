@@ -1,14 +1,14 @@
 package com.pekilla.post;
 
+import com.pekilla.category.Category;
 import com.pekilla.category.CategoryRepository;
+import com.pekilla.category.exception.CategoryNotFoundException;
 import com.pekilla.comment.CommentRepository;
+import com.pekilla.global.interfaces.IService;
 import com.pekilla.post.dto.PostDTO;
 import com.pekilla.post.dto.PostViewDTO;
-import com.pekilla.category.exception.CategoryNotFoundException;
 import com.pekilla.post.exception.PostNotFoundException;
-import com.pekilla.category.Category;
 import com.pekilla.tag.Tag;
-import com.pekilla.global.interfaces.IService;
 import com.pekilla.tag.TagRepository;
 import com.pekilla.user.User;
 import com.pekilla.user.UserService;
@@ -17,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class PostService implements IService<PostDTO> {
 
     public Post getPostById(long postId) {
         return postRepository.findOneById(postId)
-                .orElseThrow(PostNotFoundException::new);
+            .orElseThrow(PostNotFoundException::new);
     }
 
     public PostViewDTO getPostDTOById(long postId) {
@@ -47,9 +48,9 @@ public class PostService implements IService<PostDTO> {
 
     public List<PostViewDTO> getAllPosts() {
         return postRepository.findAllByIsActiveTrueOrderByLastModifiedDateDesc()
-                .stream()
-                .map(PostViewDTO::fromPost)
-                .toList();
+            .stream()
+            .map(PostViewDTO::fromPost)
+            .toList();
     }
 
     @Override
@@ -75,7 +76,7 @@ public class PostService implements IService<PostDTO> {
     public Tag getTagFromContent(String content) {
         return tagRepository
             .findOneByContent(content)
-                .orElseGet(() -> tagRepository.save(new Tag(content)));
+            .orElseGet(() -> tagRepository.save(new Tag(content)));
     }
 
     public PostViewDTO createOrUpdate(@Valid @NotNull PostDTO postDto) {
@@ -98,9 +99,7 @@ public class PostService implements IService<PostDTO> {
                 userService.getUserById(postDto.getUserId())
             );
             post.setDatesForCreate();
-        }
-
-        else {
+        } else {
             post.setLastModifiedDate(LocalDateTime.now());
         }
 
@@ -111,27 +110,25 @@ public class PostService implements IService<PostDTO> {
     /**
      * Function to research post by content, category and/or tags.
      *
-     * @param content User input that will be searched in title and description of each post.
+     * @param content  User input that will be searched in title and description of each post.
      * @param category The category of the posts.
-     * @param tags The tags of the posts.
+     * @param tags     The tags of the posts.
      */
     public List<PostViewDTO> searchPosts(String content, String category, Set<String> tags) {
         try {
             // To see if the category exist, else throw exception
-            if(!category.isEmpty()) getCategoryByName(category);
+            if (!category.isEmpty()) getCategoryByName(category);
 
             List<Post> posts = postRepository.searchPosts(category, content);
 
             // To verify the tags
-            if(!tags.isEmpty()) {
+            if (!tags.isEmpty()) {
                 return posts
                     .stream()
                     .filter(post -> post.getTagContents().containsAll(tags))
                     .map(PostViewDTO::fromPost)
                     .toList();
-            }
-
-            else return posts
+            } else return posts
                 .stream()
                 .map(PostViewDTO::fromPost)
                 .toList();
@@ -148,11 +145,8 @@ public class PostService implements IService<PostDTO> {
      * @return all posts related to the user with the specified username
      */
     public List<PostViewDTO> getAllPostsByUserName(String username) {
-        User user = userService.getUserByUsername(username);
-        return this.getAllPosts()
-                .stream().filter(
-                        post -> post.getUsername()
-                                .equals(user.getUsername()))
-                .toList();
+        return this.getAllPosts().stream()
+            .filter(post -> post.getUsername().equals(username))
+            .toList();
     }
 }

@@ -20,11 +20,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfoByUsername(username));
     }
 
-    @GetMapping("/setting")
-    public UserSettingDTO getUserSetting() {
-        return userService.getUserSetting();
-    }
-
     @GetMapping("/followers")
     public ResponseEntity<Set<String>> getFollowers(@RequestParam String username) {
         return ResponseEntity.ok(userService.getFollowers(username));
