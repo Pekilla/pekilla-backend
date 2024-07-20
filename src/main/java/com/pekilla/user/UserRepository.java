@@ -11,19 +11,21 @@ import java.util.Optional;
 @Transactional
 @Repository
 public interface UserRepository extends IRepository<User>, JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
+
+    @Deprecated(forRemoval = true)
     @Modifying
     @Query(value = "UPDATE user u SET u.icon = ?2 WHERE u.id = ?1 LIMIT 1", nativeQuery = true)
     int changeIcon(long id, String icon);
 
-    Optional<User> findByUsername(String username);
-    
+    @Deprecated(forRemoval = true)
     @Modifying
     @Query(value = "UPDATE user u SET u.banner = ?2 WHERE u.id = ?1 LIMIT 1", nativeQuery = true)
     int changeBanner(long id, String banner);
 
-    @Query(value = "SELECT EXISTS(SELECT * FROM user u WHERE u.id = ?1 AND u.password = ?2 LIMIT 1)", nativeQuery = true)
-    int passwordAndUsername(long id, String password);
-
+    @Deprecated(forRemoval = true)
     @Modifying
     @Query(value = "UPDATE user u SET u.password = ?2 WHERE u.id = ?1 LIMIT 1", nativeQuery = true)
     int changePassword(long id, String password);

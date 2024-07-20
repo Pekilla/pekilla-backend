@@ -1,4 +1,4 @@
-package com.pekilla.user.dto;
+package com.pekilla.setting;
 
 public record UserSettingDTO (
     String email,

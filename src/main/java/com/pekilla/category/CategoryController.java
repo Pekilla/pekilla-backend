@@ -4,10 +4,11 @@ import com.pekilla.category.dto.CategoryViewDTO;
 import com.pekilla.category.dto.EditCreateCategoryDTO;
 import com.pekilla.upload.enums.FileType;
 import com.pekilla.upload.FileService;
+import com.pekilla.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @CrossOrigin("${ALLOWED_URL}")
@@ -59,16 +60,7 @@ public class CategoryController {
 
     // Separated method because this one will receive verification when Spring security is installed.
     @GetMapping("/edit")
-    public EditCreateCategoryDTO getEditCategory(@RequestParam String name) {
-        var dto = categoryService.getByName(name);
-        System.out.println(dto);
-        System.out.println(name);
-        return new EditCreateCategoryDTO(
-            dto.name(),
-            fileService.getImageUrl(dto.banner(), FileType.CATEGORY_BANNER),
-            fileService.getImageUrl(dto.icon(), FileType.CATEGORY_ICON),
-            dto.description(),
-            dto.creatorId()
-        );
+    public ResponseEntity<?> getEditCategory(@RequestParam String name) {
+        return categoryService.getEditCategory(name);
     }
 }

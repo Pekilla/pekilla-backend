@@ -23,3 +23,9 @@ spring:
       enabled: always
   config:
     import: file:env.properties
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

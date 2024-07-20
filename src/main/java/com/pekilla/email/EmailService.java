@@ -32,6 +32,7 @@ public class EmailService {
         var message = new SimpleMailMessage();
         message.setFrom(appEmail);
         message.setTo(to);
+        message.setSubject(subject);
         message.setText(body);
         mailSender.send(message);
     }

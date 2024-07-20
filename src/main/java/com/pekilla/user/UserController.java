@@ -2,12 +2,10 @@ package com.pekilla.user;
 
 import com.pekilla.user.dto.FollowUserDTO;
 import com.pekilla.user.dto.UserInfoDTO;
-import com.pekilla.user.dto.UserSettingDTO;
+import com.pekilla.setting.UserSettingDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
 import java.util.Set;
 
 @RestController
@@ -23,45 +21,13 @@ public class UserController {
     }
 
     @GetMapping("/setting")
-    public UserSettingDTO getUserSetting(@RequestParam long userId) {
-        return userService.getUserSetting(userId);
+    public UserSettingDTO getUserSetting() {
+        return userService.getUserSetting();
     }
 
-    @GetMapping("/{userId}/verify-password")
-    public boolean isPasswordValid(@PathVariable long userId, @RequestParam String password) {
-        return userService.isPasswordValid(userId, password);
-    }
-
-    @GetMapping("/{username}/followers")
+    @GetMapping("/followers")
     public ResponseEntity<Set<String>> getFollowers(@PathVariable String username) {
         return ResponseEntity.ok(userService.getFollowers(username));
-    }
-
-    @PatchMapping("/icon")
-    public ResponseEntity<?> changeIcon(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam long userId, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {
-        userService.changeIcon(multipartFile, userId, isDelete );
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/banner")
-    public ResponseEntity<?> changeBanner(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam long userId, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {
-        userService.changeBanner(multipartFile, userId, isDelete);
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/{userId}/username")
-    public ResponseEntity<?> changeUsername(@PathVariable long userId, @RequestParam String username) {
-        return userService.changeUsername(userId, username);
-    }
-
-    @PatchMapping("/{userId}/password")
-    public ResponseEntity<?> changePassword(@PathVariable long userId, @RequestParam String password) {
-        return userService.changePassword(userId, password);
-    }
-
-    @PatchMapping("/{userId}/email")
-    public ResponseEntity<?> changeEmail(@PathVariable long userId, @RequestParam String email) {
-        return userService.changeEmail(userId, email);
     }
 
     @PatchMapping("/follow")
@@ -72,5 +38,16 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+    }
+
+    // NEED TO MOVE THESE two in auth
+    @GetMapping("/exists/username")
+    public ResponseEntity<?> existsUsername(@RequestParam String username) {
+        return ResponseEntity.ok(userService.existsUsername(username));
+    }
+
+    @GetMapping("/exists/email")
+    public ResponseEntity<?> existsEmail(@RequestParam String email) {
+        return ResponseEntity.ok(userService.existsEmail(email));
     }
 }

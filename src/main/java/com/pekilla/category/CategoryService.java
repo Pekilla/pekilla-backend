@@ -4,6 +4,7 @@ import com.pekilla.category.dto.CategoryViewDTO;
 import com.pekilla.category.dto.EditCreateCategoryDTO;
 import com.pekilla.upload.enums.FileType;
 import com.pekilla.category.exception.CategoryNotFoundException;
+import com.pekilla.user.User;
 import com.pekilla.user.exception.UserNotFoundException;
 import com.pekilla.upload.FileService;
 import com.pekilla.user.UserService;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,5 +86,30 @@ public class CategoryService {
 
     public boolean isExists(String name) {
         return categoryRepository.isExistsByName(name) == 1;
+    }
+
+    public ResponseEntity<?> getEditCategory(String name) {
+        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var dto = this.getByName(name);
+
+        if(dto == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found.");
+        }
+
+        if(user.getId() != dto.creatorId()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to edit this category.");
+        }
+
+        else {
+            return ResponseEntity.ok().body(
+                new EditCreateCategoryDTO(
+                    dto.name(),
+                    fileService.getImageUrl(dto.banner(), FileType.CATEGORY_BANNER),
+                    fileService.getImageUrl(dto.icon(), FileType.CATEGORY_ICON),
+                    dto.description(),
+                    dto.creatorId()
+                )
+            );
+        }
     }
 }
