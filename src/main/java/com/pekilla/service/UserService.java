@@ -18,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -25,6 +27,7 @@ import java.io.IOException;
 public class UserService implements IService<UserInfoDTO> {
 
     private final UserRepository userRepository;
+
     private final FileService fileService;
 
     public User getUserById(Long id) {
@@ -37,15 +40,19 @@ public class UserService implements IService<UserInfoDTO> {
             .orElseThrow(UserNotFoundException::new);
     }
 
-
     public UserInfoDTO getUserInfoByUsername(String username) {
         User user = getUserByUsername(username);
         return UserInfoDTO
             .builder()
-            .username(user.getUsername())
-            .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
-            .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
+                .username(user.getUsername())
+                .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
+                .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
             .build();
+    }
+
+    public Set<String> getFollowers(String username) {
+        return this.getUserByUsername(username).getFollowers()
+                .stream().map(User::getUsername).collect(Collectors.toSet());
     }
 
     @Override
@@ -65,7 +72,7 @@ public class UserService implements IService<UserInfoDTO> {
 
     public void followUser(FollowUserDTO dto) {
         User followed = this.getUserByUsername(dto.followed());
-        followed.getFollowers().add(this.getUserByUsername(dto.follower()));
+        followed.getFollowers().add(this.getUserById(dto.follower()));
         userRepository.save(followed);
     }
 
