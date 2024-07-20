@@ -1,8 +1,9 @@
 package com.pekilla.service;
 
 import com.pekilla.TestContainerConfig;
-import com.pekilla.repository.PostRepository;
-import com.pekilla.repository.UserRepository;
+import com.pekilla.post.PostRepository;
+import com.pekilla.post.PostService;
+import com.pekilla.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

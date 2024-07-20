@@ -1,7 +1,8 @@
 package com.pekilla.controller;
 
-import com.pekilla.dto.PostDTO;
-import com.pekilla.service.PostService;
+import com.pekilla.post.PostController;
+import com.pekilla.post.dto.PostDTO;
+import com.pekilla.post.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
