@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/followers")
-    public ResponseEntity<Set<String>> getFollowers(@PathVariable String username) {
+    public ResponseEntity<Set<String>> getFollowers(@RequestParam String username) {
         return ResponseEntity.ok(userService.getFollowers(username));
     }
 
@@ -38,16 +38,5 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
-    }
-
-    // NEED TO MOVE THESE two in auth
-    @GetMapping("/exists/username")
-    public ResponseEntity<?> existsUsername(@RequestParam String username) {
-        return ResponseEntity.ok(userService.existsUsername(username));
-    }
-
-    @GetMapping("/exists/email")
-    public ResponseEntity<?> existsEmail(@RequestParam String email) {
-        return ResponseEntity.ok(userService.existsEmail(email));
     }
 }

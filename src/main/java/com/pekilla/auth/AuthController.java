@@ -1,5 +1,6 @@
 package com.pekilla.auth;
 
+import com.pekilla.user.UserService;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,15 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
         System.out.println(username+" and password : "+password);
         return authService.login(username, password);
+    }
+
+    @GetMapping("/exists/username")
+    public ResponseEntity<?> existsUsername(@RequestParam String username) {
+        return ResponseEntity.ok(authService.existsUsername(username));
+    }
+
+    @GetMapping("/exists/email")
+    public ResponseEntity<?> existsEmail(@RequestParam String email) {
+        return ResponseEntity.ok(authService.existsEmail(email));
     }
 }

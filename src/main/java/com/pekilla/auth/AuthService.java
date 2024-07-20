@@ -63,4 +63,12 @@ public class AuthService {
         UserDetails user = userDetailsService.loadUserByUsername(username);
         return jwtService.isTokenValid(token, user);
     }
+
+    public boolean existsUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null) != null;
+    }
+
+    public boolean existsEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null) != null;
+    }
 }
