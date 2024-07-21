@@ -19,7 +19,6 @@ import java.util.Set;
 public class PostController {
     private final PostService postService;
     private final CommentService commentService;
-    private final UserService userService;
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostViewDTO> getPostById(@PathVariable long postId) {
@@ -27,13 +26,13 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostViewDTO> createPost(@RequestBody PostDTO postDTO) {
-        return new ResponseEntity<>(postService.createOrUpdate(postDTO), HttpStatus.OK);
+    public ResponseEntity<?> createPost(@RequestBody PostDTO postDTO) {
+        return postService.createOrUpdate(postDTO, true);
     }
 
     @PatchMapping
-    public ResponseEntity<PostViewDTO> updatePost(@RequestBody PostDTO postDTO) {
-        return new ResponseEntity<>(postService.createOrUpdate(postDTO), HttpStatus.OK);
+    public ResponseEntity<?> updatePost(@RequestBody PostDTO postDTO) {
+        return postService.createOrUpdate(postDTO, false);
     }
 
     @DeleteMapping("/{postId}")
@@ -62,10 +61,5 @@ public class PostController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
-    }
-
-    @GetMapping("/users/{username}")
-    public ResponseEntity<List<PostViewDTO>> getAllPostsByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(postService.getAllPostsByUserName(username));
     }
 }

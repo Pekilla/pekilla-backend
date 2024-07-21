@@ -1,14 +1,20 @@
 package com.pekilla.user;
 
+import com.pekilla.comment.CommentRepository;
 import com.pekilla.global.interfaces.IService;
+import com.pekilla.post.PostRepository;
+import com.pekilla.post.PostService;
+import com.pekilla.post.dto.PostViewDTO;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
 import com.pekilla.user.dto.FollowUserDTO;
 import com.pekilla.user.dto.UserInfoDTO;
+import com.pekilla.user.dto.UserProfileDTO;
 import com.pekilla.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,6 +24,18 @@ import java.util.stream.Collectors;
 public class UserService implements IService<UserInfoDTO> {
     private final UserRepository userRepository;
     private final FileService fileService;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+
+    /**
+     * Method to retrieve all post related to a specific user using his username
+     *
+     * @param username The username of the user
+     * @return all posts related to the user with the specified username
+     */
+    public Set<PostViewDTO> getAllPostsByUsername(String username) {
+        return postRepository.findAllByOriginalPosterUsername(username);
+    }
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
@@ -29,15 +47,22 @@ public class UserService implements IService<UserInfoDTO> {
             .orElseThrow(UserNotFoundException::new);
     }
 
-    public UserInfoDTO getUserInfoByUsername(String username) {
+    public UserProfileDTO getProfile(String username) {
         User user = getUserByUsername(username);
+        System.out.println(user);
 
-        return UserInfoDTO
-            .builder()
-            .username(user.getUsername())
-            .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
-            .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
-            .build();
+        return user != null ?
+            (
+                UserProfileDTO
+                    .builder()
+                    .commentsNumber(commentRepository.countCommentByAuthorId(user.getId()))
+                    .friendNumber(user.getFollowers().size())
+                    .posts(this.getAllPostsByUsername(username))
+                    .username(user.getUsername())
+                    .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
+                    .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
+                    .build()
+            ) : (null);
     }
 
     public Set<String> getFollowers(String username) {

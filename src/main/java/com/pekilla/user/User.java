@@ -47,9 +47,6 @@ public class User extends ForumTable implements UserDetails {
     @JoinTable(name = "rel_user_follower", inverseJoinColumns = @JoinColumn(name = "follower_id"))
     private Set<User> followers;
 
-    @OneToMany(mappedBy = "originalPoster")
-    private Set<Post> posts;
-
     // For the future, to know if as user as entered a code that he received by email.
     @Builder.Default
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT false")

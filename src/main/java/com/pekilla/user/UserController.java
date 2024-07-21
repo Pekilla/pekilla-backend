@@ -2,7 +2,7 @@ package com.pekilla.user;
 
 import com.pekilla.user.dto.FollowUserDTO;
 import com.pekilla.user.dto.UserInfoDTO;
-import com.pekilla.setting.UserSettingDTO;
+import com.pekilla.user.dto.UserProfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,9 @@ import java.util.Set;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{username}")
-    public ResponseEntity<UserInfoDTO> getUserInfo(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserInfoByUsername(username));
+    @GetMapping("/{username}/profile")
+    public ResponseEntity<UserProfileDTO> getProfile(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getProfile(username));
     }
 
     @GetMapping("/followers")

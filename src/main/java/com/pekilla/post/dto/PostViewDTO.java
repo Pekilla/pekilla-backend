@@ -1,8 +1,10 @@
 package com.pekilla.post.dto;
 
 import com.pekilla.post.Post;
+import com.pekilla.tag.Tag;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,5 +25,19 @@ public class PostViewDTO extends PostDTO {
             post.getAddedDate(),
             PostDTO.fromPost(post)
         );
+    }
+
+    public PostViewDTO(Post post) {
+        super(
+            post.getId(),
+            post.getTitle(),
+            post.getDescription(),
+            post.getTags().stream().map(Tag::getContent).collect(Collectors.toSet()),
+            post.getCategory().getName(),
+            post.getOriginalPoster().getId()
+        );
+
+        this.username = post.getOriginalPoster().getUsername();
+        this.addedDate = post.getAddedDate();
     }
 }

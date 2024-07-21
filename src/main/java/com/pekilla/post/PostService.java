@@ -15,6 +15,10 @@ import com.pekilla.user.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -79,9 +83,13 @@ public class PostService implements IService<PostDTO> {
             .orElseGet(() -> tagRepository.save(new Tag(content)));
     }
 
-    public PostViewDTO createOrUpdate(@Valid @NotNull PostDTO postDto) {
-        boolean isCreate = postDto.getId() == null;
+    public ResponseEntity<?> createOrUpdate(@Valid @NotNull PostDTO postDto, boolean isCreate) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Post post = (isCreate ? new Post() : postRepository.findOneById(postDto.getId()).orElseThrow(PostNotFoundException::new));
+
+        if(!isCreate && user.getId() != post.getOriginalPoster().getId()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You cannot edit this post because it is not yours.");
+        }
 
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
@@ -95,16 +103,13 @@ public class PostService implements IService<PostDTO> {
 
         if (isCreate) {
             post.setCategory(getCategoryByName(postDto.getCategory()));
-            post.setOriginalPoster(
-                userService.getUserById(postDto.getUserId())
-            );
+            post.setOriginalPoster(user);
             post.setDatesForCreate();
         } else {
             post.setLastModifiedDate(LocalDateTime.now());
         }
 
-        System.out.println("Created Post: " + post);
-        return PostViewDTO.fromPost(postRepository.save(post));
+        return ResponseEntity.ok(PostViewDTO.fromPost(postRepository.save(post)));
     }
 
     /**
@@ -136,17 +141,5 @@ public class PostService implements IService<PostDTO> {
             System.out.println("Category does not exist.");
             return List.of();
         }
-    }
-
-    /**
-     * Method to retrieve all post related to a specific user using his username
-     *
-     * @param username The username of the user
-     * @return all posts related to the user with the specified username
-     */
-    public List<PostViewDTO> getAllPostsByUserName(String username) {
-        return this.getAllPosts().stream()
-            .filter(post -> post.getUsername().equals(username))
-            .toList();
     }
 }
