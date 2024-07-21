@@ -4,8 +4,11 @@ import com.pekilla.category.Category;
 import com.pekilla.category.CategoryRepository;
 import com.pekilla.category.exception.CategoryNotFoundException;
 import com.pekilla.comment.CommentRepository;
+import com.pekilla.comment.CommentService;
+import com.pekilla.comment.dto.CommentViewDTO;
 import com.pekilla.global.interfaces.IService;
 import com.pekilla.post.dto.PostDTO;
+import com.pekilla.post.dto.PostFullViewDTO;
 import com.pekilla.post.dto.PostViewDTO;
 import com.pekilla.post.exception.PostNotFoundException;
 import com.pekilla.tag.Tag;
@@ -36,6 +39,7 @@ public class PostService implements IService<PostDTO> {
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
     private final CategoryRepository categoryRepository;
+    private final CommentService commentService;
 
     public Category getCategoryByName(String category) {
         return categoryRepository.findOneByName(category).orElseThrow(CategoryNotFoundException::new);
@@ -140,6 +144,19 @@ public class PostService implements IService<PostDTO> {
         } catch (CategoryNotFoundException e) {
             System.out.println("Category does not exist.");
             return List.of();
+        }
+    }
+
+    public ResponseEntity<?> getPostFullView(long postId) {
+        try {
+            return ResponseEntity.ok(
+                new PostFullViewDTO(
+                    this.getPostDTOById(postId),
+                    commentService.getViewCommentsFromPost(postId)
+                )
+            );
+        } catch (PostNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found.");
         }
     }
 }

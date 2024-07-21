@@ -28,6 +28,7 @@ public class SecurityConfig {
         "/api/categories/**",
         "/api/posts/**",
         "/api/users/{username}/profile",
+        "/api/posts/{postId}/comments"
     };
 
     private final String[] AUTH_LIST = {

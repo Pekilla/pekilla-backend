@@ -3,15 +3,16 @@ package com.pekilla.comment;
 import com.pekilla.comment.dto.CommentViewDTO;
 import com.pekilla.comment.dto.CreateUpdateCommentDTO;
 import com.pekilla.comment.exception.CommentNotFoundException;
-import com.pekilla.post.exception.PostNotFoundException;
-import com.pekilla.post.Post;
-import com.pekilla.user.User;
 import com.pekilla.global.interfaces.IService;
-import com.pekilla.post.PostService;
+import com.pekilla.post.Post;
+import com.pekilla.post.PostRepository;
+import com.pekilla.post.exception.PostNotFoundException;
+import com.pekilla.user.User;
 import com.pekilla.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,10 +21,9 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 public class CommentService implements IService<CreateUpdateCommentDTO> {
-
     private final CommentRepository commentRepository;
     private final UserService userService;
-    private final PostService postService;
+    private final PostRepository postRepository;
 
     public Comment getById(Long id) {
         return commentRepository.findOneById(id)
@@ -52,8 +52,9 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
 
     @Override
     public String create(CreateUpdateCommentDTO comment) {
-        Post post = postService.getPostById(comment.postId());
+        Post post = postRepository.findOneById(comment.postId()).orElseThrow(PostNotFoundException::new);
         User user = userService.getUserById(comment.userId());
+
         commentRepository.save(Comment
                 .builder()
                     .message(comment.message())

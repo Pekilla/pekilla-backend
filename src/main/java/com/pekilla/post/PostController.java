@@ -18,12 +18,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final CommentService commentService;
-
-    @GetMapping("/{postId}")
-    public ResponseEntity<PostViewDTO> getPostById(@PathVariable long postId) {
-        return ResponseEntity.ok(postService.getPostDTOById(postId));
-    }
 
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody PostDTO postDTO) {
@@ -54,12 +48,8 @@ public class PostController {
         return postService.searchPosts(content, category, tags);
     }
 
-    @GetMapping("/{postId}/comments")
-    public ResponseEntity<List<CommentViewDTO>> getAllCommentsInPost(@PathVariable long postId) {
-        try {
-            return ResponseEntity.ok(commentService.getViewCommentsFromPost(postId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    @GetMapping("/{postId}/full-view")
+    public ResponseEntity<?> getPostFullView(@PathVariable long postId) {
+        return postService.getPostFullView(postId);
     }
 }
