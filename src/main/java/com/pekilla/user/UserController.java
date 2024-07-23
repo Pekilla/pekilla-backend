@@ -1,15 +1,14 @@
 package com.pekilla.user;
 
 import com.pekilla.user.dto.FollowUserDTO;
-import com.pekilla.user.dto.UserInfoDTO;
 import com.pekilla.user.dto.UserProfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Set;
 
 @RestController
-@CrossOrigin("${ALLOWED_URL}")
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {

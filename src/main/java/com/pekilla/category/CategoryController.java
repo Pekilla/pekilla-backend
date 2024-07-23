@@ -2,14 +2,12 @@ package com.pekilla.category;
 
 import com.pekilla.category.dto.CategoryViewDTO;
 import com.pekilla.category.dto.EditCreateCategoryDTO;
-import com.pekilla.upload.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@CrossOrigin("${ALLOWED_URL}")
 @RequestMapping("/api/categories")
 @RestController
 @RequiredArgsConstructor

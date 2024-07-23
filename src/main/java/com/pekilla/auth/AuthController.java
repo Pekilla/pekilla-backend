@@ -1,6 +1,5 @@
 package com.pekilla.auth;
 
-import com.pekilla.user.UserService;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

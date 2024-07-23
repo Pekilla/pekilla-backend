@@ -2,7 +2,10 @@ package com.pekilla.post.dto;
 
 import com.pekilla.post.Post;
 import com.pekilla.tag.Tag;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 

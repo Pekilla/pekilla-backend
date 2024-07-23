@@ -6,8 +6,6 @@ import com.pekilla.post.PostService;
 import com.pekilla.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 class PostServiceTest extends TestContainerConfig {
     @Autowired
     private PostRepository postRepository;

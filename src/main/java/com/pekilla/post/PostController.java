@@ -1,18 +1,14 @@
 package com.pekilla.post;
 
-import com.pekilla.comment.dto.CommentViewDTO;
 import com.pekilla.post.dto.PostDTO;
 import com.pekilla.post.dto.PostViewDTO;
-import com.pekilla.comment.CommentService;
-import com.pekilla.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Set;
 
-@CrossOrigin("${ALLOWED_URL}")
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor

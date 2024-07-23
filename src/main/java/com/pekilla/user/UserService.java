@@ -3,7 +3,6 @@ package com.pekilla.user;
 import com.pekilla.comment.CommentRepository;
 import com.pekilla.global.interfaces.IService;
 import com.pekilla.post.PostRepository;
-import com.pekilla.post.PostService;
 import com.pekilla.post.dto.PostViewDTO;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
