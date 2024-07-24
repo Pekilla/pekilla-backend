@@ -82,7 +82,7 @@ public class CategoryService {
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist.");
         } catch (IOException e) {
-            return ResponseEntity.badRequest().body("Invalid image format.");
+            return ResponseEntity.badRequest().body("Invalid icon format.");
         }
     }
 

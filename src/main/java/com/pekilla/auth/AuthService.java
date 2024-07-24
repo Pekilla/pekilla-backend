@@ -2,6 +2,8 @@ package com.pekilla.auth;
 
 import com.pekilla.category.exception.InvalidPasswordOrUsername;
 import com.pekilla.config.JwtService;
+import com.pekilla.upload.FileService;
+import com.pekilla.upload.enums.FileType;
 import com.pekilla.user.User;
 import com.pekilla.user.UserRepository;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final FileService fileService;
 
     public ResponseEntity<?> login(String username, String password) {
         try {
@@ -36,7 +39,7 @@ public class AuthService {
                 );
 
                 return ResponseEntity.ok(
-                    new AuthResponse(jwtService.generateToken(user))
+                    new AuthResponse(username, fileService.getImageUrl(user.getIcon(), FileType.USER_ICON), jwtService.generateToken(user))
                 );
             }
 
@@ -46,8 +49,10 @@ public class AuthService {
         }
     }
 
-    public String signUp(@NotNull String username, @NotNull String password, @NotNull String email) {
-        User user = userRepository.save(
+    public ResponseEntity<?> signUp(@NotNull String username, @NotNull String password, @NotNull String email) {
+        // Need to handle if username already exists
+
+        userRepository.save(
             User.builder()
                 .password(passwordEncoder.encode(password))
                 .username(username)
@@ -55,7 +60,7 @@ public class AuthService {
                 .build()
         );
 
-        return jwtService.generateToken(user);
+        return ResponseEntity.ok("Account successfully created!");
     }
 
     public boolean validateToken(String token) {

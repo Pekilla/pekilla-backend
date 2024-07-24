@@ -18,7 +18,7 @@ public class Category extends ForumTable {
     @Column(unique = true)
     private String name;
 
-    // File name of the image stored in the FileSystemStorage
+    // File name of the icon stored in the FileSystemStorage
     private String banner;
     private String icon;
 

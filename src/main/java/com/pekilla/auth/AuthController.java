@@ -20,12 +20,12 @@ public class AuthController {
         }
     }
     @PostMapping("/sign-up")
-    public ResponseEntity<AuthResponse> signUp(
+    public ResponseEntity<?> signUp(
         @RequestParam String username,
         @RequestParam String password,
         @RequestParam String email
     ) {
-        return ResponseEntity.ok(new AuthResponse(authService.signUp(username, password, email)));
+        return authService.signUp(username, password, email);
     }
 
     @PostMapping("/login")
