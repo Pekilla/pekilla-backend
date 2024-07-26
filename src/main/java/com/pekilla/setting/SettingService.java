@@ -1,5 +1,6 @@
 package com.pekilla.setting;
 
+import com.pekilla.config.JwtService;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
 import com.pekilla.user.User;
@@ -13,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 
 @Service
@@ -22,6 +22,7 @@ public class SettingService {
     private final PasswordEncoder passwordEncoder;
     private final FileService fileService;
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     public UserSettingDTO getUserSetting() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,7 +50,7 @@ public class SettingService {
                 user.setUsername(username);
 
                 userRepository.save(user);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok(jwtService.generateToken(user));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -99,10 +100,12 @@ public class SettingService {
         }
     }
 
-    public void changeIcon(MultipartFile multipartFile, boolean isDelete) throws IOException {
+    public String changeIcon(MultipartFile multipartFile, boolean isDelete) throws IOException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user.setIcon(isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_ICON));
+        String fileName = isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_ICON);
+        user.setIcon(fileName);
         userRepository.save(user);
+        return fileName != null ? fileService.getImageUrl(fileName, FileType.USER_ICON) : null;
     }
 
     public void changeBanner(MultipartFile multipartFile, boolean isDelete) throws IOException {

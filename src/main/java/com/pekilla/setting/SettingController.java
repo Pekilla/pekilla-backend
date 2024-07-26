@@ -25,8 +25,7 @@ public class SettingController {
 
     @PatchMapping("/icon")
     public ResponseEntity<?> changeIcon(@RequestBody(required = false) MultipartFile multipartFile, @RequestParam(required = false, defaultValue = "false") boolean isDelete) throws IOException {
-        settingService.changeIcon(multipartFile, isDelete);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(settingService.changeIcon(multipartFile, isDelete));
     }
 
     @PatchMapping("/banner")
