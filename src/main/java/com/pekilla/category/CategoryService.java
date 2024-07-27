@@ -3,6 +3,7 @@ package com.pekilla.category;
 import com.pekilla.category.dto.CategoryViewDTO;
 import com.pekilla.category.dto.EditCreateCategoryDTO;
 import com.pekilla.category.exception.CategoryNotFoundException;
+import com.pekilla.post.PostRepository;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
 import com.pekilla.user.User;
@@ -26,8 +27,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    private final UserService userService;
     private final FileService fileService;
+    private final PostRepository postRepository;
+
+    public CategoryViewDTO categoryToCategoryViewDTO(Category category) {
+        return new CategoryViewDTO(
+            category.getName(),
+            category.getDescription(),
+            category.getCreator().getId(),
+            fileService.getImageUrl(category.getBanner(), FileType.CATEGORY_BANNER),
+            fileService.getImageUrl(category.getIcon(), FileType.CATEGORY_ICON),
+            postRepository.findAllByCategoryAndIsActiveTrue(category.getName())
+        );
+    }
 
     public List<String> getAllNames() {
         return categoryRepository.findAll().stream()
@@ -37,12 +49,14 @@ public class CategoryService {
 
     public List<CategoryViewDTO> getAll() {
         return categoryRepository.findAll().stream()
-            .map(CategoryViewDTO::fromCategory)
+            .map(this::categoryToCategoryViewDTO)
             .toList();
     }
 
     public CategoryViewDTO getByName(String name) {
-        return CategoryViewDTO.fromCategory(
+        postRepository.searchPosts(name, "");
+
+        return this.categoryToCategoryViewDTO(
             categoryRepository.findOneByName(name)
                 .orElseThrow(CategoryNotFoundException::new)
         );

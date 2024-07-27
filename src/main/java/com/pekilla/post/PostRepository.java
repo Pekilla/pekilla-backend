@@ -22,4 +22,7 @@ public interface PostRepository extends IRepository<Post>, JpaRepository<Post, L
 
     @Query("SELECT new com.pekilla.post.dto.PostViewDTO(p) FROM Post p WHERE p.originalPoster.username = ?1")
     Set<PostViewDTO> findAllByOriginalPosterUsername(String username);
+
+    @Query("SELECT new com.pekilla.post.dto.PostViewDTO(p) FROM Post p WHERE p.category.name = ?1 and p.isActive = true")
+    Set<PostViewDTO> findAllByCategoryAndIsActiveTrue(String category);
 }

@@ -6,11 +6,11 @@ INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES 
 INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (6, false, 'prpYFrOXbblPMazuaYc', 'Carl', 'cj@rockstar.com', true);
 INSERT INTO user(id, is_active, password, username, email, is_validated) VALUES (7, true, 'ShKYVcgJhPOsPGyTYNaW', 'Sam', 'samaltman@openai.com', true);
 
-insert into category (id, name, banner, icon, description, creator_id) values (1, 'DRAWING', 'SedAugueAliquam.avi', 'JustoAliquam.tiff', 'Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros', 1);
-insert into category (id, name, banner, icon, description, creator_id) values (2, 'ANIME', 'VulputateJusto.xls', 'VehiculaCondimentumCurabitur.avi', 'Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien quis odio consequat varius. Integer ac leo.', 2);
-insert into category (id, name, banner, icon, description, creator_id) values (3, 'OTHER', 'SapienNonMi.mp3', 'VestibulumAliquet.mpeg', 'Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo.', 3);
-insert into category (id, name, banner, icon, description, creator_id) values (4, 'PROGRAMMING', 'Eget.png', 'InHac.mp3', 'Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augu.', 4);
-insert into category (id, name, banner, icon, description, creator_id) values (5, 'GAME', 'game.png', 'game.mp3', 'The better the CPU, the better the game experience.', 4);
+insert into category (id, name, banner, icon, description, creator_id) values (1, 'DRAWING', 'drawing.webp', 'drawing.webp', 'Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros', 1);
+insert into category (id, name, banner, icon, description, creator_id) values (2, 'ANIME', 'anime.webp', 'anime.jpg', 'Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien quis odio consequat varius. Integer ac leo.', 2);
+insert into category (id, name, banner, icon, description, creator_id) values (3, 'OTHER', 'other.jpg', 'other.jpg', 'Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo.', 3);
+insert into category (id, name, banner, icon, description, creator_id) values (4, 'PROGRAMMING', 'programming.jpg', 'programming.png', 'Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augu.', 4);
+insert into category (id, name, banner, icon, description, creator_id) values (5, 'GAME', 'game.png', 'game.jpg', 'The better the CPU, the better the game experience.', 4);
 
 
 insert into post (id, title, added_date, original_poster_id, description, category_id) values (1, 'Let the Good Times Roll', '2023-04-28', 4, 'Fusion 2-6 C Jt w Intbd Fus Dev, Post Appr P Col, Perc', 5);

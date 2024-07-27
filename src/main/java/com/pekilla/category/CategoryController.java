@@ -30,14 +30,14 @@ public class CategoryController {
 
     @GetMapping("/{name}")
     public ResponseEntity<CategoryViewDTO> getCategory(@PathVariable String name) {
-            return ResponseEntity.ok(categoryService.getByName(name));
+        return ResponseEntity.ok(categoryService.getByName(name));
     }
 
     @PostMapping
     public ResponseEntity<?> createCategory(
         EditCreateCategoryDTO dto
     ) {
-        return categoryService.createOrUpdate(dto,true);
+        return categoryService.createOrUpdate(dto, true);
     }
 
     @PatchMapping

@@ -1,9 +1,10 @@
 package com.pekilla.category.dto;
 
-import com.pekilla.category.Category;
+import com.pekilla.post.dto.PostViewDTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import java.util.Set;
 
 @Builder
 public record CategoryViewDTO(
@@ -18,16 +19,8 @@ public record CategoryViewDTO(
     long creatorId,
 
     String banner,
-    String icon
+    String icon,
+    Set<PostViewDTO> posts
 ) {
-    public static CategoryViewDTO fromCategory(Category category) {
-        return new CategoryViewDTO(
-            category.getName(),
-            category.getDescription(),
-            category.getCreator().getId(),
-            category.getBanner(),
-            category.getIcon()
-        );
-    }
 
 }
