@@ -6,8 +6,7 @@ import com.pekilla.category.exception.CategoryNotFoundException;
 import com.pekilla.post.PostRepository;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
-import com.pekilla.user.User;
-import com.pekilla.user.UserService;
+import com.pekilla.user.Customer;
 import com.pekilla.user.exception.UserNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -64,7 +63,7 @@ public class CategoryService {
 
     public ResponseEntity<?> createOrUpdate(@Valid EditCreateCategoryDTO categoryDTO, boolean isCreate) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
             Category category = (isCreate ? new Category() : categoryRepository.findOneByName(categoryDTO.name())
                 .orElseThrow(CategoryNotFoundException::new));
@@ -86,7 +85,7 @@ public class CategoryService {
 
             if (isCreate) {
                 category.setName(categoryDTO.name());
-                category.setCreator(user);
+                category.setCreator(customer);
             }
 
             categoryRepository.save(category);
@@ -105,7 +104,7 @@ public class CategoryService {
     }
 
     public ResponseEntity<?> getEditCategory(String name) {
-        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var dto = this.getByName(name);
 
         if(dto == null) {

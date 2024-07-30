@@ -1,7 +1,7 @@
 package com.pekilla.category;
 
 import com.pekilla.global.ForumTable;
-import com.pekilla.user.User;
+import com.pekilla.user.Customer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -26,5 +26,5 @@ public class Category extends ForumTable {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private User creator;
+    private Customer creator;
 }

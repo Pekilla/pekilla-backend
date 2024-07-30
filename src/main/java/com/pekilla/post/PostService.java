@@ -12,7 +12,7 @@ import com.pekilla.post.dto.PostViewDTO;
 import com.pekilla.post.exception.PostNotFoundException;
 import com.pekilla.tag.Tag;
 import com.pekilla.tag.TagRepository;
-import com.pekilla.user.User;
+import com.pekilla.user.Customer;
 import com.pekilla.user.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -86,10 +86,10 @@ public class PostService implements IService<PostDTO> {
     }
 
     public ResponseEntity<?> createOrUpdate(@Valid @NotNull PostDTO postDto, boolean isCreate) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Post post = (isCreate ? new Post() : postRepository.findOneById(postDto.getId()).orElseThrow(PostNotFoundException::new));
 
-        if(!isCreate && user.getId() != post.getOriginalPoster().getId()) {
+        if(!isCreate && customer.getId() != post.getOriginalPoster().getId()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You cannot edit this post because it is not yours.");
         }
 
@@ -105,7 +105,7 @@ public class PostService implements IService<PostDTO> {
 
         if (isCreate) {
             post.setCategory(getCategoryByName(postDto.getCategory()));
-            post.setOriginalPoster(user);
+            post.setOriginalPoster(customer);
             post.setDatesForCreate();
         } else {
             post.setLastModifiedDate(LocalDateTime.now());

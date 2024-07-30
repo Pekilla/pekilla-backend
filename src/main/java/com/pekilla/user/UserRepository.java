@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public interface UserRepository extends IRepository<User>, JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+public interface UserRepository extends IRepository<Customer>, JpaRepository<Customer, Long> {
+    Optional<Customer> findByUsername(String username);
 
-    Optional<User> findByEmail(String email);
+    Optional<Customer> findByEmail(String email);
 
     @Deprecated(forRemoval = true)
     @Modifying

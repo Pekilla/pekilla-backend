@@ -2,7 +2,7 @@ package com.pekilla.comment;
 
 import com.pekilla.global.ForumTable;
 import com.pekilla.post.Post;
-import com.pekilla.user.User;
+import com.pekilla.user.Customer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -28,7 +28,7 @@ public class Comment extends ForumTable {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private User author;
+    private Customer author;
 
     @Builder.Default
     @Column(nullable = false)

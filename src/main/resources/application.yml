@@ -1,18 +1,18 @@
 server:
   port: ${PORT}
 spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1500MB
   docker:
     compose:
       lifecycle-management: start_only
   mail:
-    host: localhost
-    port: 1025
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
-  datasource:
-    url: ${URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -26,7 +26,6 @@ spring:
       enabled: always
   config:
     import: file:env.properties
-
 logging:
   level:
     org:

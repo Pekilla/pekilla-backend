@@ -4,7 +4,7 @@ import com.pekilla.category.exception.InvalidPasswordOrUsername;
 import com.pekilla.config.JwtService;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
-import com.pekilla.user.User;
+import com.pekilla.user.Customer;
 import com.pekilla.user.UserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,9 @@ public class AuthService {
 
     public ResponseEntity<?> login(String username, String password) {
         try {
-            User user = userRepository.findByUsername(username).orElseThrow(InvalidPasswordOrUsername::new);
+            Customer customer = userRepository.findByUsername(username).orElseThrow(InvalidPasswordOrUsername::new);
 
-            if(passwordEncoder.matches(password, user.getPassword())) {
+            if(passwordEncoder.matches(password, customer.getPassword())) {
                 authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                         username,
@@ -39,7 +39,7 @@ public class AuthService {
                 );
 
                 return ResponseEntity.ok(
-                    new AuthResponse(username, fileService.getImageUrl(user.getIcon(), FileType.USER_ICON), jwtService.generateToken(user))
+                    new AuthResponse(username, fileService.getImageUrl(customer.getIcon(), FileType.USER_ICON), jwtService.generateToken(customer))
                 );
             }
 
@@ -53,7 +53,7 @@ public class AuthService {
         // Need to handle if username already exists
 
         userRepository.save(
-            User.builder()
+            Customer.builder()
                 .password(passwordEncoder.encode(password))
                 .username(username)
                 .email(email)

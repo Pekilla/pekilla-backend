@@ -5,7 +5,7 @@ import com.pekilla.category.Category;
 import com.pekilla.global.ForumTable;
 import com.pekilla.post.constraint.PostConstraint;
 import com.pekilla.tag.Tag;
-import com.pekilla.user.User;
+import com.pekilla.user.Customer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,14 +42,14 @@ public class Post extends ForumTable implements PostConstraint {
 
     @NotNull
     @ManyToOne
-    private User originalPoster;
+    private Customer originalPoster;
 
     //private long likes = 1;
 
-    @Column(columnDefinition = "DATETIME DEFAULT NOW()", nullable = false)
+    @Column(columnDefinition = "TIMESTAMP DEFAULT NOW()", nullable = false)
     private LocalDateTime addedDate;
 
-    @Column(columnDefinition = "DATETIME DEFAULT NOW()", nullable = false)
+    @Column(columnDefinition = "TIMESTAMP DEFAULT NOW()", nullable = false)
     private LocalDateTime lastModifiedDate;
 
     @ManyToMany

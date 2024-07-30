@@ -3,7 +3,7 @@ package com.pekilla.setting;
 import com.pekilla.config.JwtService;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
-import com.pekilla.user.User;
+import com.pekilla.user.Customer;
 import com.pekilla.user.UserRepository;
 import com.pekilla.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,32 +25,32 @@ public class SettingService {
     private final JwtService jwtService;
 
     public UserSettingDTO getUserSetting() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return (
-            user != null ? new UserSettingDTO(
-                user.getEmail(),
-                user.getUsername(),
-                fileService.getImageUrl(user.getIcon(), FileType.USER_ICON),
-                fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER)
+            customer != null ? new UserSettingDTO(
+                customer.getEmail(),
+                customer.getUsername(),
+                fileService.getImageUrl(customer.getIcon(), FileType.USER_ICON),
+                fileService.getImageUrl(customer.getBanner(), FileType.USER_BANNER)
             ) : null
         );
     }
 
     public boolean isPasswordValid(String password) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return passwordEncoder.matches(password, user.getPassword());
+        Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return passwordEncoder.matches(password, customer.getPassword());
     }
 
     public ResponseEntity<?> changeUsername(String username) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            if (!user.getUsername().equals(username)) {
-                user.setUsername(username);
+            if (!customer.getUsername().equals(username)) {
+                customer.setUsername(username);
 
-                userRepository.save(user);
-                return ResponseEntity.ok(jwtService.generateToken(user));
+                userRepository.save(customer);
+                return ResponseEntity.ok(jwtService.generateToken(customer));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -65,11 +65,11 @@ public class SettingService {
 
     public ResponseEntity<?> changeEmail(String email) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            if (!user.getEmail().equals(email)) {
-                user.setEmail(email);
-                userRepository.save(user);
+            if (!customer.getEmail().equals(email)) {
+                customer.setEmail(email);
+                userRepository.save(customer);
             }
 
             return ResponseEntity.ok().build();
@@ -84,11 +84,11 @@ public class SettingService {
 
     public ResponseEntity<?> changePassword(String password) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            if (!passwordEncoder.matches(password, user.getPassword())) {
-                user.setPassword(passwordEncoder.encode(password));
-                userRepository.save(user);
+            if (!passwordEncoder.matches(password, customer.getPassword())) {
+                customer.setPassword(passwordEncoder.encode(password));
+                userRepository.save(customer);
             }
 
             return ResponseEntity.ok().build();
@@ -101,16 +101,16 @@ public class SettingService {
     }
 
     public String changeIcon(MultipartFile multipartFile, boolean isDelete) throws IOException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String fileName = isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_ICON);
-        user.setIcon(fileName);
-        userRepository.save(user);
+        customer.setIcon(fileName);
+        userRepository.save(customer);
         return fileName != null ? fileService.getImageUrl(fileName, FileType.USER_ICON) : null;
     }
 
     public void changeBanner(MultipartFile multipartFile, boolean isDelete) throws IOException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user.setBanner(isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_BANNER));
-        userRepository.save(user);
+        Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        customer.setBanner(isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_BANNER));
+        userRepository.save(customer);
     }
 }

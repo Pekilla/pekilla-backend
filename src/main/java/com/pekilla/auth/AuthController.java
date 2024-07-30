@@ -1,6 +1,8 @@
 package com.pekilla.auth;
 
+import com.pekilla.email.EmailService;
 import io.jsonwebtoken.JwtException;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +44,15 @@ public class AuthController {
     @GetMapping("/exists/email")
     public ResponseEntity<?> existsEmail(@RequestParam String email) {
         return ResponseEntity.ok(authService.existsEmail(email));
+    }
+
+    private final EmailService emailService;
+
+    @GetMapping("/welcome-back")
+    public void welcomeBack() throws MessagingException {
+        emailService.sendHtmlEmail(new String[]{
+            "jacksonville@gmail.com",
+            "terner@gmail.com",
+        }, "Welcome to pekilla pekilla!", "<button>press it</button>");
     }
 }

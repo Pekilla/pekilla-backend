@@ -23,7 +23,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class User extends ForumTable implements UserDetails {
+public class Customer extends ForumTable implements UserDetails {
     @Size(max = 30)
     @NotBlank
     @Column(unique = true)
@@ -42,9 +42,9 @@ public class User extends ForumTable implements UserDetails {
     @JsonIgnore
     @ToString.Exclude
     @ManyToMany
-    @Check(constraints = "follower_id != user_id")
-    @JoinTable(name = "rel_user_follower", inverseJoinColumns = @JoinColumn(name = "follower_id"))
-    private Set<User> followers;
+    @Check(constraints = "follower_id != customer_id")
+    @JoinTable(name = "rel_customer_follower", inverseJoinColumns = @JoinColumn(name = "follower_id"))
+    private Set<Customer> followers;
 
     // For the future, to know if as user as entered a code that he received by email.
     @Builder.Default
@@ -52,7 +52,7 @@ public class User extends ForumTable implements UserDetails {
     private Boolean isValidated = false;
 
     @Builder.Default
-    @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     private LocalDate joinedDate = LocalDate.now();
 
     @Override

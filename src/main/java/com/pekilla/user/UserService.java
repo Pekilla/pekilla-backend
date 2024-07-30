@@ -36,37 +36,37 @@ public class UserService implements IService<UserInfoDTO> {
         return postRepository.findAllByOriginalPosterUsername(username);
     }
 
-    public User getUserById(Long id) {
+    public Customer getUserById(Long id) {
         return userRepository.findById(id)
             .orElseThrow(UserNotFoundException::new);
     }
 
-    public User getUserByUsername(String username) {
+    public Customer getUserByUsername(String username) {
         return userRepository.findByUsername(username)
             .orElseThrow(UserNotFoundException::new);
     }
 
     public UserProfileDTO getProfile(String username) {
-        User user = getUserByUsername(username);
-        System.out.println(user);
+        Customer customer = getUserByUsername(username);
+        System.out.println(customer);
 
-        return user != null ?
+        return customer != null ?
             (
                 UserProfileDTO
                     .builder()
-                    .commentsNumber(commentRepository.countCommentByAuthorId(user.getId()))
-                    .friendNumber(user.getFollowers().size())
+                    .commentsNumber(commentRepository.countCommentByAuthorId(customer.getId()))
+                    .friendNumber(customer.getFollowers().size())
                     .posts(this.getAllPostsByUsername(username))
-                    .username(user.getUsername())
-                    .icon(fileService.getImageUrl(user.getIcon(), FileType.USER_ICON))
-                    .banner(fileService.getImageUrl(user.getBanner(), FileType.USER_BANNER))
+                    .username(customer.getUsername())
+                    .icon(fileService.getImageUrl(customer.getIcon(), FileType.USER_ICON))
+                    .banner(fileService.getImageUrl(customer.getBanner(), FileType.USER_BANNER))
                     .build()
             ) : (null);
     }
 
     public Set<String> getFollowers(String username) {
         return this.getUserByUsername(username).getFollowers()
-            .stream().map(User::getUsername).collect(Collectors.toSet());
+            .stream().map(Customer::getUsername).collect(Collectors.toSet());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class UserService implements IService<UserInfoDTO> {
     }
 
     public void followUser(FollowUserDTO dto) {
-        User followed = this.getUserByUsername(dto.followed());
+        Customer followed = this.getUserByUsername(dto.followed());
         followed.getFollowers().add(this.getUserById(dto.follower()));
         userRepository.save(followed);
     }

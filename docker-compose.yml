@@ -1,8 +1,16 @@
 version: "3.8"
 services:
-  mailpit:
+  db:
+    image: postgres
+    container_name: pekilla_db
+    ports:
+      - "5000:5432"
+    env_file:
+      - "./env.properties"
+
+  mail_server:
     image: axllent/mailpit
-    container_name: mailpit
+    container_name: pekilla_mailpit
     ports:
       - "8025:8025"
       - "1025:1025"

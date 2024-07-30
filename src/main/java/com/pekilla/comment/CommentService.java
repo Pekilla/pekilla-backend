@@ -7,7 +7,7 @@ import com.pekilla.global.interfaces.IService;
 import com.pekilla.post.Post;
 import com.pekilla.post.PostRepository;
 import com.pekilla.post.exception.PostNotFoundException;
-import com.pekilla.user.User;
+import com.pekilla.user.Customer;
 import com.pekilla.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,12 +53,12 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
     @Override
     public String create(CreateUpdateCommentDTO comment) {
         Post post = postRepository.findOneById(comment.postId()).orElseThrow(PostNotFoundException::new);
-        User user = userService.getUserById(comment.userId());
+        Customer customer = userService.getUserById(comment.userId());
 
         commentRepository.save(Comment
                 .builder()
                     .message(comment.message())
-                    .author(user)
+                    .author(customer)
                     .post(post)
                 .build());
         return "Comment has been published on the post";
