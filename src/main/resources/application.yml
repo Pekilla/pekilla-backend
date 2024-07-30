@@ -1,6 +1,9 @@
 server:
   port: ${PORT}
 spring:
+  docker:
+    compose:
+      lifecycle-management: start_only
   mail:
     host: localhost
     port: 1025
