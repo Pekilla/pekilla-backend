@@ -18,6 +18,8 @@ import com.pekilla.user.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,11 +54,8 @@ public class PostService implements IService<PostDTO> {
         return PostViewDTO.fromPost(getPostById(postId));
     }
 
-    public List<PostViewDTO> getAllPosts() {
-        return postRepository.findAllByIsActiveTrueOrderByLastModifiedDateDesc()
-            .stream()
-            .map(PostViewDTO::fromPost)
-            .toList();
+    public Page<PostViewDTO> getAllPosts(Pageable pageable) {
+        return postRepository.findAllByIsActiveTrueOrderByLastModifiedDateDesc(pageable);
     }
 
     @Override
@@ -121,14 +120,14 @@ public class PostService implements IService<PostDTO> {
      * @param category The category of the posts.
      * @param tags     The tags of the posts.
      */
-    public List<PostViewSqlNativeDto> searchPosts(String content, String category, String[] tags) {
+    public Page<PostViewSqlNativeDto> searchPosts(String content, String category, String[] tags, Pageable pageable) {
         try {
             if (!category.isEmpty()) getCategoryByName(category);
 
-            return postRepository.searchPosts(category.trim(), content.trim(), tags, tags.length);
+            return postRepository.searchPosts(category.trim(), content.trim(), tags, tags.length, pageable);
         } catch (CategoryNotFoundException e) {
             System.out.println("Category does not exist.");
-            return List.of();
+            return Page.empty();
         }
     }
 

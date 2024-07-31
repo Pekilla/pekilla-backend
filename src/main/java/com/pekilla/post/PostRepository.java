@@ -3,6 +3,8 @@ package com.pekilla.post;
 import com.pekilla.global.interfaces.IRepository;
 import com.pekilla.post.dto.PostViewDTO;
 import com.pekilla.post.dto.PostViewSqlNativeDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,7 +14,8 @@ import java.util.Set;
 
 @Repository
 public interface PostRepository extends IRepository<Post>, JpaRepository<Post, Long> {
-    List<Post> findAllByIsActiveTrueOrderByLastModifiedDateDesc();
+    @Query("SELECT new com.pekilla.post.dto.PostViewDTO(p) FROM Post p")
+    Page<PostViewDTO> findAllByIsActiveTrueOrderByLastModifiedDateDesc(Pageable pageable);
 
     /**
      * The query to get the tags of an ad is duplicated because I didn't find a
@@ -37,7 +40,7 @@ public interface PostRepository extends IRepository<Post>, JpaRepository<Post, L
     AND (?4 = 0 OR array(SELECT t.content FROM tag t JOIN rel_post_tag rpt ON rpt.tag_id = t.id AND rpt.post_id = post.id) @> ?3)
     ORDER BY post.last_modified_date DESC
     """, nativeQuery = true)
-    List<PostViewSqlNativeDto> searchPosts(String category, String content, String[] tags, int tagsLength);
+    Page<PostViewSqlNativeDto> searchPosts(String category, String content, String[] tags, int tagsLength, Pageable pageable);
 
     @Query("SELECT new com.pekilla.post.dto.PostViewDTO(p) FROM Post p WHERE p.originalPoster.username = ?1")
     Set<PostViewDTO> findAllByOriginalPosterUsername(String username);

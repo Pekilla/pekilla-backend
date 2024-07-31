@@ -1,13 +1,12 @@
 package com.pekilla.post;
 
 import com.pekilla.post.dto.PostDTO;
-import com.pekilla.post.dto.PostViewDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -36,14 +35,17 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public List<?> search(@RequestParam(required = false, defaultValue = "") String content,
-                                    @RequestParam(required = false, defaultValue = "") String category,
-                                    @RequestParam(required = false, defaultValue = "") String[] tags) {
+    public Page<?> search(@RequestParam(required = false, defaultValue = "") String content,
+                          @RequestParam(required = false, defaultValue = "") String category,
+                          @RequestParam(required = false, defaultValue = "") String[] tags,
+                          @RequestParam(required = false, defaultValue = "0") int pageNumber
+    ) {
+        Pageable pageable = PageRequest.of(pageNumber, 10);
         if (content.isEmpty() && category.isEmpty() && tags.length == 0) {
-            return postService.getAllPosts();
+            return postService.getAllPosts(pageable);
         }
 
-        return postService.searchPosts(content, category, tags);
+        return postService.searchPosts(content, category, tags, pageable);
     }
 
     @GetMapping("/{postId}/full-view")
