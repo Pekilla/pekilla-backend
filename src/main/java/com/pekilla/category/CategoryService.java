@@ -53,8 +53,6 @@ public class CategoryService {
     }
 
     public CategoryViewDTO getByName(String name) {
-        postRepository.searchPosts(name, "");
-
         return this.categoryToCategoryViewDTO(
             categoryRepository.findOneByName(name)
                 .orElseThrow(CategoryNotFoundException::new)

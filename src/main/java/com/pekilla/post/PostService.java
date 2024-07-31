@@ -121,24 +121,13 @@ public class PostService implements IService<PostDTO> {
      * @param category The category of the posts.
      * @param tags     The tags of the posts.
      */
-    public List<PostViewDTO> searchPosts(String content, String category, Set<String> tags) {
+    public List<PostViewDTO> searchPosts(String content, String category, String[] tags) {
         try {
-            // To see if the category exist, else throw exception
             if (!category.isEmpty()) getCategoryByName(category);
 
-            List<Post> posts = postRepository.searchPosts(category, content);
+            List<Post> posts = postRepository.searchPosts(category.trim(), content.trim(), tags, tags.length);
 
-            // To verify the tags
-            if (!tags.isEmpty()) {
-                return posts
-                    .stream()
-                    .filter(post -> post.getTagContents().containsAll(tags))
-                    .map(PostViewDTO::fromPost)
-                    .toList();
-            } else return posts
-                .stream()
-                .map(PostViewDTO::fromPost)
-                .toList();
+            return posts.stream().map(PostViewDTO::fromPost).toList();
         } catch (CategoryNotFoundException e) {
             System.out.println("Category does not exist.");
             return List.of();
