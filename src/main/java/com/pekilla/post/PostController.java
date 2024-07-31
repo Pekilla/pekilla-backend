@@ -6,15 +6,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final PostRepository postRepository;
 
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody PostDTO postDTO) {
@@ -36,7 +36,7 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public List<PostViewDTO> search(@RequestParam(required = false, defaultValue = "") String content,
+    public List<?> search(@RequestParam(required = false, defaultValue = "") String content,
                                     @RequestParam(required = false, defaultValue = "") String category,
                                     @RequestParam(required = false, defaultValue = "") String[] tags) {
         if (content.isEmpty() && category.isEmpty() && tags.length == 0) {

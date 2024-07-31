@@ -9,6 +9,7 @@ import com.pekilla.global.interfaces.IService;
 import com.pekilla.post.dto.PostDTO;
 import com.pekilla.post.dto.PostFullViewDTO;
 import com.pekilla.post.dto.PostViewDTO;
+import com.pekilla.post.dto.PostViewSqlNativeDto;
 import com.pekilla.post.exception.PostNotFoundException;
 import com.pekilla.tag.Tag;
 import com.pekilla.tag.TagRepository;
@@ -25,7 +26,6 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -121,13 +121,11 @@ public class PostService implements IService<PostDTO> {
      * @param category The category of the posts.
      * @param tags     The tags of the posts.
      */
-    public List<PostViewDTO> searchPosts(String content, String category, String[] tags) {
+    public List<PostViewSqlNativeDto> searchPosts(String content, String category, String[] tags) {
         try {
             if (!category.isEmpty()) getCategoryByName(category);
 
-            List<Post> posts = postRepository.searchPosts(category.trim(), content.trim(), tags, tags.length);
-
-            return posts.stream().map(PostViewDTO::fromPost).toList();
+            return postRepository.searchPosts(category.trim(), content.trim(), tags, tags.length);
         } catch (CategoryNotFoundException e) {
             System.out.println("Category does not exist.");
             return List.of();
