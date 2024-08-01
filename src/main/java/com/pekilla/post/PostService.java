@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Service
@@ -120,19 +121,39 @@ public class PostService implements IService<PostDTO> {
      * @param category The category of the posts.
      * @param tags     The tags of the posts.
      */
-    public Page<PostViewSqlNativeDto> searchPosts(String content, String category, String[] tags, Pageable pageable) {
+    public Page<?> searchPosts(String content, String category, String[] tags, Pageable pageable) {
         try {
-            return postRepository.searchPosts(category.isBlank() ? "" : getCategoryByName(category.trim()).getName(), content.trim(), tags, tags.length, pageable);
+            category = category.trim();
+            content = content.trim();
+
+            if (content.isEmpty() && category.isEmpty() && tags.length == 0) {
+                return this.getAllPosts(pageable);
+            }
+
+            /*
+                There is a bug if the user give only one char that is a letter it crashes.
+                This happens only if the user give content alone.
+                But if the user give content(just a letter) with either tag or category it won't crash.
+                But if we just make a query like the postRepository.isLike() that to the same thing
+                related to content it do not crash if we give a letter.
+
+                Other bug is that if we give an invalid page number in the pageable
+                the code crash, but it does not do it with the non-native query.
+            */
+            return postRepository.searchPosts(category.isEmpty() ? "" : getCategoryByName(category).getName(), content.isEmpty() ? "" : content.toLowerCase(), tags, pageable);
         } catch (CategoryNotFoundException e) {
             System.out.println("Category does not exist.");
             return Page.empty();
         }
-        /*
-        When the query as invalid parameter, and we give a page number that does not exist it throws this exception.
-        */
-        catch (InvalidDataAccessResourceUsageException e) {
-            System.out.println(e.getMessage());
+        catch (Exception e) {
+            System.out.println("WARNING IT CRASHED");
             return Page.empty();
+        }
+        finally {
+            System.out.println("CONTENT "+content+" and length : "+content.length());
+            System.out.println("CATEGORY "+category+" and length : "+category.length());
+            System.out.println("TAGS "+ Arrays.toString(tags)+" and length : "+tags.length);
+            //System.out.println("The likeable : "+postRepository.isLike(content));
         }
     }
 

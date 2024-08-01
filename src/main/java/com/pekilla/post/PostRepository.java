@@ -7,8 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -34,12 +36,16 @@ public interface PostRepository extends IRepository<Post>, JpaRepository<Post, L
     JOIN category ON post.category_id = category.id
     JOIN customer ON post.original_poster_id = customer.id
     WHERE post.is_active = true
-    AND (?1 = '' OR ?1 = category.name)
-    AND (?2 = '' OR (post.title ILIKE CONCAT('%', ?2, '%') OR post.description ILIKE CONCAT('%', ?2, '%')))
-    AND (?4 = 0 OR array(SELECT t.content FROM tag t JOIN rel_post_tag rpt ON rpt.tag_id = t.id AND rpt.post_id = post.id) @> ?3)
+    AND (:#{#content.empty} OR (POSITION(:content IN LOWER(post.title)) > 0 OR POSITION(:content IN LOWER(post.description)) > 0))
+    AND (:#{#category.empty} OR category.name = :category)
+    AND (:#{#tags.length} = 0 OR array(SELECT t.content FROM tag t JOIN rel_post_tag rpt ON rpt.tag_id = t.id AND rpt.post_id = post.id) @> :tags)
     ORDER BY post.added_date DESC
     """, nativeQuery = true)
-    Page<PostViewSqlNativeDto> searchPosts(String category, String content, String[] tags, int tagsLength, Pageable pageable);
+    Page<PostViewSqlNativeDto> searchPosts(@Param("category") String category, @Param("content") String content, @Param("tags") String[] tags, Pageable pageable);
+
+    // For testing
+    @Query(value = "SELECT post.title FROM post WHERE POSITION(:content IN LOWER(post.title)) > 0 OR POSITION(:content IN LOWER(post.description)) > 0", nativeQuery = true)
+    List<String> isLike(@Param("content") String content);
 
     @Query("SELECT new com.pekilla.post.dto.PostViewDTO(p) FROM Post p WHERE p.originalPoster.username = ?1")
     Set<PostViewDTO> findAllByOriginalPosterUsername(String username);
