@@ -77,7 +77,7 @@ public interface PostRepository extends IRepository<Post>, JpaRepository<Post, L
     AND array(SELECT t.content FROM tag t JOIN rel_post_tag rpt ON rpt.tag_id = t.id AND rpt.post_id = post.id) @> :tags
     ORDER BY post.added_date DESC
     """, nativeQuery = true)
-    Page<PostViewDTO> searchPostByTags(@Param("tags") String[] tags, Pageable pageable);
+    Page<PostViewSqlNativeDto> searchPostByTags(@Param("tags") String[] tags, Pageable pageable);
 
     @Query("SELECT new com.pekilla.post.dto.PostViewDTO(p) FROM Post p WHERE p.originalPoster.username = ?1")
     Set<PostViewDTO> findAllByOriginalPosterUsername(String username);
