@@ -38,9 +38,10 @@ public class PostController {
     public Page<?> search(@RequestParam(required = false, defaultValue = "") String content,
                           @RequestParam(required = false, defaultValue = "") String category,
                           @RequestParam(required = false, defaultValue = "") String[] tags,
-                          @RequestParam(required = false, defaultValue = "0") int pageNumber
+                          @RequestParam(required = false, defaultValue = "0") int page
     ) {
-        Pageable pageable = PageRequest.of(pageNumber, 10);
+        // -1 because for the user the page start at 1.
+        Pageable pageable = PageRequest.of(page > 0 ? page - 1 : 0, 10);
         if (content.isEmpty() && category.isEmpty() && tags.length == 0) {
             return postService.getAllPosts(pageable);
         }

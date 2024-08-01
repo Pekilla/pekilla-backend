@@ -122,9 +122,11 @@ public class PostService implements IService<PostDTO> {
      */
     public Page<PostViewSqlNativeDto> searchPosts(String content, String category, String[] tags, Pageable pageable) {
         try {
-            if (!category.isEmpty()) getCategoryByName(category);
+            if(category.isEmpty()) {
+                return Page.empty();
+            }
 
-            return postRepository.searchPosts(category.trim(), content.trim(), tags, tags.length, pageable);
+            return postRepository.searchPosts(getCategoryByName(category.trim()).getName(), content.trim(), tags, tags.length, pageable);
         } catch (CategoryNotFoundException e) {
             System.out.println("Category does not exist.");
             return Page.empty();
