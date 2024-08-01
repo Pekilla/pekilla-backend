@@ -5,7 +5,7 @@ import com.pekilla.category.Category;
 import com.pekilla.global.ForumTable;
 import com.pekilla.post.constraint.PostConstraint;
 import com.pekilla.tag.Tag;
-import com.pekilla.user.Customer;
+import com.pekilla.customer.Customer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

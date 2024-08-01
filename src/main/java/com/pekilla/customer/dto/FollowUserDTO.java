@@ -1,4 +1,4 @@
-package com.pekilla.user.dto;
+package com.pekilla.customer.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

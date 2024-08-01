@@ -4,8 +4,8 @@ import com.pekilla.category.exception.InvalidPasswordOrUsername;
 import com.pekilla.config.JwtService;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
-import com.pekilla.user.Customer;
-import com.pekilla.user.UserRepository;
+import com.pekilla.customer.Customer;
+import com.pekilla.customer.CustomerRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -28,7 +28,7 @@ public class AuthService {
 
     public ResponseEntity<?> login(String username, String password) {
         try {
-            Customer customer = userRepository.findByUsername(username).orElseThrow(InvalidPasswordOrUsername::new);
+            Customer customer = customerRepository.findByUsername(username).orElseThrow(InvalidPasswordOrUsername::new);
 
             if(passwordEncoder.matches(password, customer.getPassword())) {
                 authenticationManager.authenticate(
@@ -52,7 +52,7 @@ public class AuthService {
     public ResponseEntity<?> signUp(@NotNull String username, @NotNull String password, @NotNull String email) {
         // Need to handle if username already exists
 
-        userRepository.save(
+        customerRepository.save(
             Customer.builder()
                 .password(passwordEncoder.encode(password))
                 .username(username)
@@ -70,10 +70,10 @@ public class AuthService {
     }
 
     public boolean existsUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null) != null;
+        return customerRepository.findByUsername(username).orElse(null) != null;
     }
 
     public boolean existsEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null) != null;
+        return customerRepository.findByEmail(email).orElse(null) != null;
     }
 }

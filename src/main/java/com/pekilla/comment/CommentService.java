@@ -7,8 +7,8 @@ import com.pekilla.global.interfaces.IService;
 import com.pekilla.post.Post;
 import com.pekilla.post.PostRepository;
 import com.pekilla.post.exception.PostNotFoundException;
-import com.pekilla.user.Customer;
-import com.pekilla.user.UserService;
+import com.pekilla.customer.Customer;
+import com.pekilla.customer.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentService implements IService<CreateUpdateCommentDTO> {
     private final CommentRepository commentRepository;
-    private final UserService userService;
+    private final CustomerService customerService;
     private final PostRepository postRepository;
 
     public Comment getById(Long id) {
@@ -53,7 +53,7 @@ public class CommentService implements IService<CreateUpdateCommentDTO> {
     @Override
     public String create(CreateUpdateCommentDTO comment) {
         Post post = postRepository.findOneById(comment.postId()).orElseThrow(PostNotFoundException::new);
-        Customer customer = userService.getUserById(comment.userId());
+        Customer customer = customerService.getUserById(comment.userId());
 
         commentRepository.save(Comment
                 .builder()

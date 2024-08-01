@@ -6,8 +6,8 @@ import com.pekilla.category.exception.CategoryNotFoundException;
 import com.pekilla.post.PostRepository;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
-import com.pekilla.user.Customer;
-import com.pekilla.user.exception.UserNotFoundException;
+import com.pekilla.customer.Customer;
+import com.pekilla.customer.exception.CustomerNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -90,7 +90,7 @@ public class CategoryService {
             return ResponseEntity.ok().build();
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Category already exists");
-        } catch (UserNotFoundException e) {
+        } catch (CustomerNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist.");
         } catch (IOException e) {
             return ResponseEntity.badRequest().body("Invalid icon format.");

@@ -12,8 +12,8 @@ import com.pekilla.post.dto.PostViewDTO;
 import com.pekilla.post.exception.PostNotFoundException;
 import com.pekilla.tag.Tag;
 import com.pekilla.tag.TagRepository;
-import com.pekilla.user.Customer;
-import com.pekilla.user.UserService;
+import com.pekilla.customer.Customer;
+import com.pekilla.customer.CustomerService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
 @Validated
 public class PostService implements IService<PostDTO> {
     private final PostRepository postRepository;
-    private final UserService userService;
+    private final CustomerService customerService;
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
     private final CategoryRepository categoryRepository;

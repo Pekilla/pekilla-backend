@@ -1,4 +1,4 @@
-package com.pekilla.user;
+package com.pekilla.customer;
 
 import com.pekilla.comment.CommentRepository;
 import com.pekilla.global.interfaces.IService;
@@ -6,10 +6,10 @@ import com.pekilla.post.PostRepository;
 import com.pekilla.post.dto.PostViewDTO;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
-import com.pekilla.user.dto.FollowUserDTO;
-import com.pekilla.user.dto.UserInfoDTO;
-import com.pekilla.user.dto.UserProfileDTO;
-import com.pekilla.user.exception.UserNotFoundException;
+import com.pekilla.customer.dto.FollowUserDTO;
+import com.pekilla.customer.dto.UserInfoDTO;
+import com.pekilla.customer.dto.UserProfileDTO;
+import com.pekilla.customer.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class UserService implements IService<UserInfoDTO> {
-    private final UserRepository userRepository;
+public class CustomerService implements IService<UserInfoDTO> {
+    private final CustomerRepository customerRepository;
     private final FileService fileService;
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
@@ -37,13 +37,13 @@ public class UserService implements IService<UserInfoDTO> {
     }
 
     public Customer getUserById(Long id) {
-        return userRepository.findById(id)
-            .orElseThrow(UserNotFoundException::new);
+        return customerRepository.findById(id)
+            .orElseThrow(CustomerNotFoundException::new);
     }
 
     public Customer getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-            .orElseThrow(UserNotFoundException::new);
+        return customerRepository.findByUsername(username)
+            .orElseThrow(CustomerNotFoundException::new);
     }
 
     public UserProfileDTO getProfile(String username) {
@@ -87,6 +87,6 @@ public class UserService implements IService<UserInfoDTO> {
     public void followUser(FollowUserDTO dto) {
         Customer followed = this.getUserByUsername(dto.followed());
         followed.getFollowers().add(this.getUserById(dto.follower()));
-        userRepository.save(followed);
+        customerRepository.save(followed);
     }
 }

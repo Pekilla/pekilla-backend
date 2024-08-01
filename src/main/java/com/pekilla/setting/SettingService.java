@@ -3,9 +3,9 @@ package com.pekilla.setting;
 import com.pekilla.config.JwtService;
 import com.pekilla.upload.FileService;
 import com.pekilla.upload.enums.FileType;
-import com.pekilla.user.Customer;
-import com.pekilla.user.UserRepository;
-import com.pekilla.user.exception.UserNotFoundException;
+import com.pekilla.customer.Customer;
+import com.pekilla.customer.CustomerRepository;
+import com.pekilla.customer.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class SettingService {
     private final PasswordEncoder passwordEncoder;
     private final FileService fileService;
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final JwtService jwtService;
 
     public UserSettingDTO getUserSetting() {
@@ -49,14 +49,14 @@ public class SettingService {
             if (!customer.getUsername().equals(username)) {
                 customer.setUsername(username);
 
-                userRepository.save(customer);
+                customerRepository.save(customer);
                 return ResponseEntity.ok(jwtService.generateToken(customer));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
             if (e instanceof DataIntegrityViolationException) return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            else if (e instanceof UserNotFoundException) return ResponseEntity.notFound().build();
+            else if (e instanceof CustomerNotFoundException) return ResponseEntity.notFound().build();
             else return ResponseEntity.internalServerError().build();
         }
 
@@ -69,7 +69,7 @@ public class SettingService {
 
             if (!customer.getEmail().equals(email)) {
                 customer.setEmail(email);
-                userRepository.save(customer);
+                customerRepository.save(customer);
             }
 
             return ResponseEntity.ok().build();
@@ -77,7 +77,7 @@ public class SettingService {
             System.out.println(e.getMessage());
 
             if (e instanceof DataIntegrityViolationException) return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            else if (e instanceof UserNotFoundException) return ResponseEntity.notFound().build();
+            else if (e instanceof CustomerNotFoundException) return ResponseEntity.notFound().build();
             else return ResponseEntity.internalServerError().build();
         }
     }
@@ -88,14 +88,14 @@ public class SettingService {
 
             if (!passwordEncoder.matches(password, customer.getPassword())) {
                 customer.setPassword(passwordEncoder.encode(password));
-                userRepository.save(customer);
+                customerRepository.save(customer);
             }
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
-            if (e instanceof UserNotFoundException) return ResponseEntity.notFound().build();
+            if (e instanceof CustomerNotFoundException) return ResponseEntity.notFound().build();
             else return ResponseEntity.internalServerError().build();
         }
     }
@@ -104,13 +104,13 @@ public class SettingService {
         Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String fileName = isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_ICON);
         customer.setIcon(fileName);
-        userRepository.save(customer);
+        customerRepository.save(customer);
         return fileName != null ? fileService.getImageUrl(fileName, FileType.USER_ICON) : null;
     }
 
     public void changeBanner(MultipartFile multipartFile, boolean isDelete) throws IOException {
         Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         customer.setBanner(isDelete ? null : fileService.saveFile(multipartFile, FileType.USER_BANNER));
-        userRepository.save(customer);
+        customerRepository.save(customer);
     }
 }

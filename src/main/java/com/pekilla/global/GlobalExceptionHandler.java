@@ -2,7 +2,7 @@ package com.pekilla.global;
 
 import com.pekilla.category.exception.CategoryNotFoundException;
 import com.pekilla.post.exception.PostNotFoundException;
-import com.pekilla.user.exception.UserNotFoundException;
+import com.pekilla.customer.exception.CustomerNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,9 +31,9 @@ public class GlobalExceptionHandler {
         return ex.getMessage();
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(CustomerNotFoundException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "User not found")
-    public Object handleUserNotFoundException(UserNotFoundException ex) {
+    public Object handleUserNotFoundException(CustomerNotFoundException ex) {
         log(ex.getMessage(), ex);
         return "User not found";
     }

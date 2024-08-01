@@ -2,7 +2,7 @@ package com.pekilla.comment;
 
 import com.pekilla.global.ForumTable;
 import com.pekilla.post.Post;
-import com.pekilla.user.Customer;
+import com.pekilla.customer.Customer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

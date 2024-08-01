@@ -1,6 +1,6 @@
 package com.pekilla.config;
 
-import com.pekilla.user.UserRepository;
+import com.pekilla.customer.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,11 +34,11 @@ public class AppConfig {
         };
     }
 
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username).orElse(null);
+        return username -> customerRepository.findByUsername(username).orElse(null);
     }
 
     @Bean

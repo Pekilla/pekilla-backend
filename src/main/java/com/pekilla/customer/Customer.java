@@ -1,4 +1,4 @@
-package com.pekilla.user;
+package com.pekilla.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pekilla.global.ForumTable;
