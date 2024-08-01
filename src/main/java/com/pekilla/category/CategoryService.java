@@ -98,7 +98,7 @@ public class CategoryService {
     }
 
     public boolean isExists(String name) {
-        return categoryRepository.isExistsByName(name) == 1;
+        return categoryRepository.isExistsByName(name);
     }
 
     public ResponseEntity<?> getEditCategory(String name) {

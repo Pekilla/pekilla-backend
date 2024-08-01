@@ -12,5 +12,5 @@ public interface CategoryRepository extends IRepository<Category>, JpaRepository
     Optional<Category> findOneByName(String name);
 
     @Query(value = "SELECT EXISTS(SELECT * FROM category c WHERE c.name = ?1)", nativeQuery = true)
-    int isExistsByName(String name);
+    boolean isExistsByName(String name);
 }
