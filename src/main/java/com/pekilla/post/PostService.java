@@ -18,6 +18,7 @@ import com.pekilla.user.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,7 +55,7 @@ public class PostService implements IService<PostDTO> {
     }
 
     public Page<PostViewDTO> getAllPosts(Pageable pageable) {
-        return postRepository.findAllByIsActiveTrueOrderByLastModifiedDateDesc(pageable);
+        return postRepository.findAllByIsActiveTrueOrderByAddedDateDesc(pageable);
     }
 
     @Override
@@ -122,13 +122,16 @@ public class PostService implements IService<PostDTO> {
      */
     public Page<PostViewSqlNativeDto> searchPosts(String content, String category, String[] tags, Pageable pageable) {
         try {
-            if(category.isEmpty()) {
-                return Page.empty();
-            }
-
-            return postRepository.searchPosts(getCategoryByName(category.trim()).getName(), content.trim(), tags, tags.length, pageable);
+            return postRepository.searchPosts(category.isBlank() ? "" : getCategoryByName(category.trim()).getName(), content.trim(), tags, tags.length, pageable);
         } catch (CategoryNotFoundException e) {
             System.out.println("Category does not exist.");
+            return Page.empty();
+        }
+        /*
+        When the query as invalid parameter, and we give a page number that does not exist it throws this exception.
+        */
+        catch (InvalidDataAccessResourceUsageException e) {
+            System.out.println(e.getMessage());
             return Page.empty();
         }
     }

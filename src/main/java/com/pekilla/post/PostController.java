@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final PostRepository postRepository;
 
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody PostDTO postDTO) {
@@ -42,7 +42,8 @@ public class PostController {
     ) {
         // -1 because for the user the page start at 1.
         Pageable pageable = PageRequest.of(page > 0 ? page - 1 : 0, 10);
-        if (content.isEmpty() && category.isEmpty() && tags.length == 0) {
+
+        if (content.isBlank() && category.isBlank() && tags.length == 0) {
             return postService.getAllPosts(pageable);
         }
 
