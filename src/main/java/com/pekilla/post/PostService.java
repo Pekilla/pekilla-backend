@@ -9,7 +9,6 @@ import com.pekilla.global.interfaces.IService;
 import com.pekilla.post.dto.PostDTO;
 import com.pekilla.post.dto.PostFullViewDTO;
 import com.pekilla.post.dto.PostViewDTO;
-import com.pekilla.post.dto.PostViewSqlNativeDto;
 import com.pekilla.post.exception.PostNotFoundException;
 import com.pekilla.tag.Tag;
 import com.pekilla.tag.TagRepository;
@@ -18,7 +17,6 @@ import com.pekilla.user.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -126,34 +124,38 @@ public class PostService implements IService<PostDTO> {
             category = category.trim();
             content = content.trim();
 
-            if (content.isEmpty() && category.isEmpty() && tags.length == 0) {
+            boolean isContentEmpty = content.isEmpty();
+            boolean isCategoryEmpty = category.isEmpty();
+            boolean isTagsEmpty = tags.length == 0;
+
+            // If every criterion are empty return all post.
+            if (isContentEmpty && isCategoryEmpty && isTagsEmpty) {
                 return this.getAllPosts(pageable);
             }
 
-            /*
-                There is a bug if the user give only one char that is a letter it crashes.
-                This happens only if the user give content alone.
-                But if the user give content(just a letter) with either tag or category it won't crash.
-                But if we just make a query like the postRepository.isLike() that to the same thing
-                related to content it do not crash if we give a letter.
+            // If only content is not empty
+            else if(!isContentEmpty && isCategoryEmpty && isTagsEmpty) {
+                return postRepository.searchPostByContent(content, pageable);
+            }
+            // If only category is not empty
+            else if(!isCategoryEmpty && isContentEmpty && isTagsEmpty) {
+                return postRepository.searchPostByCategoryId(getCategoryByName(category).getId(), pageable);
+            }
 
-                Other bug is that if we give an invalid page number in the pageable
-                the code crash, but it does not do it with the non-native query.
-            */
-            return postRepository.searchPosts(category.isEmpty() ? "" : getCategoryByName(category).getName(), content.isEmpty() ? "" : content.toLowerCase(), tags, pageable);
-        } catch (CategoryNotFoundException e) {
-            System.out.println("Category does not exist.");
-            return Page.empty();
+            // If only tags are not empty
+            else if(!isTagsEmpty && isContentEmpty && isCategoryEmpty) {
+                return postRepository.searchPostByTags(tags, pageable);
+            }
+
+            else {
+                return postRepository.searchPostsByAllCriteria(isCategoryEmpty ? "" : getCategoryByName(category).getName(), isContentEmpty ? "" : content.toLowerCase(), tags, pageable);
+            }
         }
         catch (Exception e) {
-            System.out.println("WARNING IT CRASHED");
+            if(e instanceof CategoryNotFoundException) System.out.println("Category does not exist.");
+            else System.out.println("WARNING IT CRASHED");
+
             return Page.empty();
-        }
-        finally {
-            System.out.println("CONTENT "+content+" and length : "+content.length());
-            System.out.println("CATEGORY "+category+" and length : "+category.length());
-            System.out.println("TAGS "+ Arrays.toString(tags)+" and length : "+tags.length);
-            //System.out.println("The likeable : "+postRepository.isLike(content));
         }
     }
 
