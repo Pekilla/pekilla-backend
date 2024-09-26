@@ -1,12 +1,30 @@
+
+
 # Pekilla
 
-Pekilla is a forum that we made in the summer of 2024.
+Pekilla is a project we made during the summer of 2024.
 
 ![Home](./src/main/resources/markdown-images/main.png)
 
+## Authors
+
+- [@guettafa](https://www.github.com/guettafa)
+- [@AchrafGroiez](https://github.com/AchrafGroiez)
+
+## Important links
+
+- [Frontend](https://github.com/2GTM/workshare-frontend)
+
 ## Features
 
-- TO DO
+- Adding Post
+- Remove Post
+- Edit Profile
+- View User Profil
+- View Post
+- View Categories
+- Filter By Categories
+- Filter by Name
 
 ## Technologies
 
@@ -14,6 +32,7 @@ Pekilla is a forum that we made in the summer of 2024.
 
 - Java
 - Spring Boot
+- Maven
 - Lombok
 
 ### Frontend
@@ -23,6 +42,7 @@ Pekilla is a forum that we made in the summer of 2024.
 - NextJS
 - Axios
 - MUI
+
 
 ## Installation
 <!-- Dependencies -->
@@ -38,7 +58,6 @@ Pekilla is a forum that we made in the summer of 2024.
 <!-- Images section -->
 <details open><summary><b>Images Server</b></summary>
 
-Setup :
 ```shell
 git clone https://github.com/Pekilla/temporary-serve-project
 cd temporary-serve-project/
@@ -51,7 +70,6 @@ bun install
 <!-- Backend section -->
 <details open><summary><b>Backend</b></summary>
 
-Setup :
 ```
 git clone https://github.com/Pekilla/pekilla-backend
 ```
@@ -93,8 +111,7 @@ POSTGRES_DB=
 <!-- Frontend section -->
 <details open><summary><b>Frontend</b></summary>
 
-Setup :
-```
+```sh
 git clone https://github.com/Pekilla/pekilla-frontend
 cd pekilla-frontend/
 bun install
@@ -120,16 +137,20 @@ bun run dev
 bun start
 ```
 
-## Preview
-
+## Login
 ![Login](./src/main/resources/markdown-images/login.png)
 
+## Trend
 ![Trend](./src/main/resources/markdown-images/trend.png)
 
+## Communities
 ![Communities](./src/main/resources/markdown-images/communities.png)
 
+## Category
 ![Category View](./src/main/resources/markdown-images/category_view.png)
 
+## Edit Profile
 ![Setting](./src/main/resources/markdown-images/setting.png)
 
+## User Profile
 ![My Profile](./src/main/resources/markdown-images/my_profile.png)
