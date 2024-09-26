@@ -1,5 +1,3 @@
-
-
 # Pekilla
 
 Pekilla is a project we made during the summer of 2024.
@@ -13,7 +11,7 @@ Pekilla is a project we made during the summer of 2024.
 
 ## Important links
 
-- [Frontend](https://github.com/2GTM/workshare-frontend)
+- [Frontend](https://github.com/Pekilla/pekilla-frontend)
 
 ## Features
 
