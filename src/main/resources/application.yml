@@ -1,0 +1,33 @@
+server:
+  port: ${PORT}
+spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1500MB
+  docker:
+    compose:
+      lifecycle-management: start_only
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  output:
+    ansi:
+      enabled: always
+  config:
+    import: file:env.properties
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
